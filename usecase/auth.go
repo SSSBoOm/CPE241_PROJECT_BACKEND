@@ -20,7 +20,7 @@ func NewAuthUsecase(
 	}
 }
 
-func (u *authUsecase) GoogleLogin(c *fiber.Ctx) (*domain.User, *fiber.Cookie, error) {
+func (u *authUsecase) SignInWithGoogle(c *fiber.Ctx) (*domain.User, *fiber.Cookie, error) {
 	token, err := u.googleUsecase.GetToken(c)
 	if err != nil {
 		return nil, nil, err
