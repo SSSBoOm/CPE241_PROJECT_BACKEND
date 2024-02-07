@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/SSSBoOm/github.com/SSSBoOm/CPE241_Project_Backend/domain"
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/joho/godotenv"
 )
 

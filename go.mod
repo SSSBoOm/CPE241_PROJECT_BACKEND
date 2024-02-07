@@ -1,4 +1,4 @@
-module github.com/SSSBoOm/github.com/SSSBoOm/CPE241_Project_Backend
+module github.com/SSSBoOm/CPE241_Project_Backend
 
 go 1.21.6
 

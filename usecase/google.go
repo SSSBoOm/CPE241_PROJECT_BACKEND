@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/SSSBoOm/github.com/SSSBoOm/CPE241_Project_Backend/domain"
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"

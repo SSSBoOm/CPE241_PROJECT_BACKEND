@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	"github.com/SSSBoOm/github.com/SSSBoOm/CPE241_Project_Backend/domain"
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
 )
 
