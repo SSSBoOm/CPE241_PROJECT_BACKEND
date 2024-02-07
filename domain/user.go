@@ -8,9 +8,9 @@ type User struct {
 	Prefix     string    `json:"prefix" db:"prefix"`
 	FirstName  string    `json:"firstName" db:"first_name"`
 	LastName   string    `json:"lastName" db:"last_name"`
-	ProfileUrl string    `json:"profileUrl" db:"profile_url"`
 	Phone      string    `json:"phone" db:"phone"`
-	CreatedAt  time.Time `json:"created_at" db:"created_at"`
+	ProfileUrl string    `json:"profileUrl" db:"profile_url"`
+	CreatedAt  time.Time `json:"createdAt" db:"created_at"`
 }
 
 type UserRepository interface {
