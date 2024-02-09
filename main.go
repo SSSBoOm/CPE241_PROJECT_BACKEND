@@ -4,28 +4,52 @@ import (
 	"log"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/db"
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/config"
-	"github.com/SSSBoOm/CPE241_Project_Backend/route"
-	"github.com/gofiber/fiber/v2"
+	"github.com/SSSBoOm/CPE241_Project_Backend/repository"
+	"github.com/SSSBoOm/CPE241_Project_Backend/server"
+	"github.com/SSSBoOm/CPE241_Project_Backend/usecase"
+	"github.com/jmoiron/sqlx"
 )
 
 func main() {
-	app := fiber.New()
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatal("Cant Load Config : ", err)
+	}
 
-	env := config.LoadEnv()
-
-	db, err := db.NewMySQLConnect(env.MYSQL_URI)
+	db, err := db.NewMySQLConnect(cfg.MYSQL_URI)
 	if err != nil {
 		log.Fatal("Cant Connect To Mysql : ", err)
 	}
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(&fiber.Map{
-			"massage": "API sBay Data",
-		})
-	})
+	repository := initRepository(db)
+	usecase := initUsecase(cfg, repository)
 
-	route.MainRoute(app, db, env)
+	fiber := server.NewFiberServer(usecase, repository)
 
-	app.Listen(":8080")
+	fiber.Start()
+}
+
+func initRepository(
+	mysql *sqlx.DB,
+) *domain.Repository {
+	return &domain.Repository{
+		User: repository.NewUserRepository(mysql),
+	}
+}
+
+func initUsecase(
+	cfg *config.Config,
+	repository *domain.Repository,
+) *domain.Usecase {
+	googleUsecase := usecase.NewGoogleUsecase(cfg)
+	userUsecase := usecase.NewUserUsecase(repository.User)
+	authUsecase := usecase.NewAuthUsecase(googleUsecase, userUsecase)
+
+	return &domain.Usecase{
+		AuthUsecase:   authUsecase,
+		GoogleUsecase: googleUsecase,
+		UserUsecase:   userUsecase,
+	}
 }

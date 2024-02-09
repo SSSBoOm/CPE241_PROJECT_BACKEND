@@ -8,15 +8,13 @@ import (
 )
 
 type AuthController struct {
-	env           *domain.Env
 	authUsecase   domain.AuthUsecase
 	googleUsecase domain.GoogleUsecase
 	userUsecase   domain.UserUsecase
 }
 
-func NewAuthController(env *domain.Env, authUsecase domain.AuthUsecase, googleUsecase domain.GoogleUsecase, userUsecase domain.UserUsecase) *AuthController {
+func NewAuthController(authUsecase domain.AuthUsecase, googleUsecase domain.GoogleUsecase, userUsecase domain.UserUsecase) *AuthController {
 	return &AuthController{
-		env:           env,
 		authUsecase:   authUsecase,
 		googleUsecase: googleUsecase,
 		userUsecase:   userUsecase}

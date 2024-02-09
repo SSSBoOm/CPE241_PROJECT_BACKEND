@@ -8,24 +8,25 @@ import (
 	"net/url"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
+	"github.com/SSSBoOm/CPE241_Project_Backend/internal/config"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
 
 type googleUsecase struct {
-	env *domain.Env
+	cfg *config.Config
 }
 
-func NewGoogleUsecase(env *domain.Env) domain.GoogleUsecase {
-	return &googleUsecase{env: env}
+func NewGoogleUsecase(cfg *config.Config) domain.GoogleUsecase {
+	return &googleUsecase{cfg: cfg}
 }
 
 func (u *googleUsecase) GoogleConfig() *oauth2.Config {
 	config := &oauth2.Config{
-		ClientID:     u.env.GOOGLE_CLIENT_ID,
-		ClientSecret: u.env.GOOGLE_CLIENT_SECRET,
-		RedirectURL:  u.env.GOOGLE_REDIRECT,
+		ClientID:     u.cfg.GOOGLE_CLIENT_ID,
+		ClientSecret: u.cfg.GOOGLE_CLIENT_SECRET,
+		RedirectURL:  u.cfg.GOOGLE_REDIRECT,
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"},
 		Endpoint:     google.Endpoint,
 	}

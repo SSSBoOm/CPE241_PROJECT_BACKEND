@@ -3,11 +3,17 @@ package config
 import (
 	"os"
 
-	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/joho/godotenv"
 )
 
-func LoadEnv() *domain.Env {
+type Config struct {
+	GOOGLE_CLIENT_ID     string
+	GOOGLE_CLIENT_SECRET string
+	GOOGLE_REDIRECT      string
+	MYSQL_URI            string
+}
+
+func Load() (*Config, error) {
 	err := godotenv.Load(".env")
 
 	if err != nil {
@@ -19,10 +25,10 @@ func LoadEnv() *domain.Env {
 	GOOGLE_REDIRECT := os.Getenv("GOOGLE_REDIRECT")
 	MYSQL_URI := os.Getenv("MYSQL_URI")
 
-	return &domain.Env{
+	return &Config{
 		GOOGLE_CLIENT_ID:     GOOGLE_CLIENT_ID,
 		GOOGLE_CLIENT_SECRET: GOOGLE_CLIENT_SECRET,
 		GOOGLE_REDIRECT:      GOOGLE_REDIRECT,
 		MYSQL_URI:            MYSQL_URI,
-	}
+	}, nil
 }
