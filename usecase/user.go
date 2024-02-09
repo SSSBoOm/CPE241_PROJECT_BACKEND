@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"strings"
 	"time"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
@@ -15,21 +16,25 @@ func NewUserUsecase(userRepository domain.UserRepository) domain.UserUsecase {
 	return &UserUsecase{userRepository: userRepository}
 }
 
-func (u *UserUsecase) CreateFromGoogle(profile *domain.GoogleResponse) (*domain.User, error) {
-	id := uuid.NewString()
+func (u *UserUsecase) CreateFromGoogle(name string, email string, picture string) (*domain.User, error) {
+	FirstName := ""
+	LastName := ""
+	result := strings.Split(name, " ")
+	if len(result) == 2 {
+		FirstName = result[0]
+		LastName = result[1]
+	}
 
 	user := &domain.User{
-		Id:         id,
-		Email:      profile.Email,
-		Prefix:     "",
-		FirstName:  "",
-		LastName:   "",
-		ProfileUrl: profile.Picture,
-		Phone:      "",
+		Id:         uuid.NewString(),
+		Email:      email,
+		FirstName:  FirstName,
+		LastName:   LastName,
+		ProfileUrl: picture,
 		CreatedAt:  time.Now(),
 	}
 
-	err := u.userRepository.Create(user)
+	err := u.userRepository.CreateFromGoogle(user)
 	if err != nil {
 		return nil, err
 	}
