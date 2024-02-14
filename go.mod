@@ -3,6 +3,7 @@ module github.com/SSSBoOm/CPE241_Project_Backend
 go 1.21.6
 
 require (
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gofiber/fiber/v2 v2.52.0
 	github.com/google/uuid v1.5.0
 	github.com/jmoiron/sqlx v1.3.5
@@ -14,7 +15,6 @@ require (
 	cloud.google.com/go/compute v1.20.1 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

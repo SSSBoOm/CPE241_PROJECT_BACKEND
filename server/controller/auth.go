@@ -28,11 +28,11 @@ func (auth *AuthController) GetUrl(c *fiber.Ctx) error {
 }
 
 func (auth *AuthController) SignInWithGoogle(c *fiber.Ctx) error {
-	_, _, err := auth.authUsecase.SignInWithGoogle(c)
+	cookie, err := auth.authUsecase.SignInWithGoogle(c)
 	if err != nil {
-		fmt.Println("SignIn ", err)
+		fmt.Println("SignIn :", err)
 	}
 
-	// c.Cookie(cookie)
+	c.Cookie(cookie)
 	return c.Redirect("http://localhost:8080/")
 }

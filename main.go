@@ -35,17 +35,19 @@ func initRepository(
 	mysql *sqlx.DB,
 ) *domain.Repository {
 	return &domain.Repository{
-		User: repository.NewUserRepository(mysql),
+		UserRepository:    repository.NewUserRepository(mysql),
+		SessionRepository: repository.NewSessionRepository(mysql),
 	}
 }
 
 func initUsecase(
 	cfg *config.Config,
-	repository *domain.Repository,
+	repo *domain.Repository,
 ) *domain.Usecase {
 	googleUsecase := usecase.NewGoogleUsecase(cfg)
-	userUsecase := usecase.NewUserUsecase(repository.User)
-	authUsecase := usecase.NewAuthUsecase(googleUsecase, userUsecase)
+	userUsecase := usecase.NewUserUsecase(repo.UserRepository)
+	sessionUsecase := usecase.NewSessionUsecase(repo.SessionRepository)
+	authUsecase := usecase.NewAuthUsecase(googleUsecase, userUsecase, sessionUsecase)
 
 	return &domain.Usecase{
 		AuthUsecase:   authUsecase,

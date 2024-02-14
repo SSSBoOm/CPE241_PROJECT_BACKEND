@@ -1,51 +1,54 @@
 package usecase
 
 import (
+	"fmt"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/gofiber/fiber/v2"
 )
 
 type authUsecase struct {
-	googleUsecase domain.GoogleUsecase
-	userUsecase   domain.UserUsecase
+	googleUsecase  domain.GoogleUsecase
+	userUsecase    domain.UserUsecase
+	sessionUsecase domain.SessionUsecase
 }
 
 func NewAuthUsecase(
 	googleUsecase domain.GoogleUsecase,
 	userUsecase domain.UserUsecase,
+	sessionUsecase domain.SessionUsecase,
 ) domain.AuthUsecase {
 	return &authUsecase{
-		googleUsecase: googleUsecase,
-		userUsecase:   userUsecase,
+		googleUsecase:  googleUsecase,
+		userUsecase:    userUsecase,
+		sessionUsecase: sessionUsecase,
 	}
 }
 
-func (u *authUsecase) SignInWithGoogle(c *fiber.Ctx) (*domain.User, *fiber.Cookie, error) {
+func (u *authUsecase) SignInWithGoogle(c *fiber.Ctx) (*fiber.Cookie, error) {
 	token, err := u.googleUsecase.GetToken(c)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	profile, err := u.googleUsecase.GetProfile(token.AccessToken)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	// Find and Check User
 	user, err := u.userUsecase.FindByEmail(profile.Email)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	if user == nil {
 		user, err = u.userUsecase.CreateFromGoogle(profile.Name, profile.Email, profile.Picture)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 	}
 
-	// cookie, err := u.sessionUsecase.Create(user.Id, c.IP())
-	// if err != nil {
-	// 	return nil, nil, err
-	// }
-
-	return user, nil, nil
+	cookie, err := u.sessionUsecase.Create(user.Id, c.IP())
+	if err != nil {
+		return nil, fmt.Errorf("cannot create session to sign in with google %w", err)
+	}
+	return cookie, nil
 }
