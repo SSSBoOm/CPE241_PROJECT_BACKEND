@@ -1,7 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/db"
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
@@ -26,9 +30,23 @@ func main() {
 	repository := initRepository(db)
 	usecase := initUsecase(cfg, repository)
 
-	fiber := server.NewFiberServer(usecase, repository)
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
 
-	fiber.Start()
+	fiber := server.NewFiberServer(usecase, repository)
+	go fiber.Start()
+
+	<-signals
+	fmt.Println("Server is shutting down")
+	if err := fiber.Close(); err != nil {
+		log.Fatal("Server is not shutting down", err)
+	}
+	
+	if err := db.Close(); err != nil {
+		log.Fatal("MySQL is not shutting down", err)
+	}
+
+	fmt.Println("Server was successful shutdown")
 }
 
 func initRepository(
