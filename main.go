@@ -16,6 +16,17 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+//	@title			CPE241 Project Backend API
+//	@version		1.0
+//	@description	This is a sample server celler server.
+//	@contact.name	API Support
+//	@contact.email	boom1909chanapat@gmail.com
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @schemes	https http
+// @host		localhost:8080
+// @BasePath	/
 func main() {
 	cfg, err := config.Load()
 	if err != nil {
@@ -33,7 +44,7 @@ func main() {
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
 
-	fiber := server.NewFiberServer(usecase, repository)
+	fiber := server.NewFiberServer(cfg, usecase, repository)
 	go fiber.Start()
 
 	<-signals
@@ -41,7 +52,7 @@ func main() {
 	if err := fiber.Close(); err != nil {
 		log.Fatal("Server is not shutting down", err)
 	}
-	
+
 	if err := db.Close(); err != nil {
 		log.Fatal("MySQL is not shutting down", err)
 	}

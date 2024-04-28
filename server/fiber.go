@@ -6,7 +6,9 @@ import (
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/config"
 	"github.com/SSSBoOm/CPE241_Project_Backend/server/controller"
+	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 type FiberServer struct {
@@ -17,11 +19,13 @@ type FiberServer struct {
 }
 
 func NewFiberServer(
+	cfg *config.Config,
 	usecase *domain.Usecase,
 	repository *domain.Repository,
 
 ) *FiberServer {
 	return &FiberServer{
+		cfg:        cfg,
 		usecase:    usecase,
 		repository: repository,
 	}
@@ -32,11 +36,14 @@ func (s *FiberServer) Start() {
 		AppName: "API",
 	})
 
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowHeaders: "Origin, Content-Type, Accept",
+	}))
+
 	s.app = app
-
 	s.Route()
-
-	if err := app.Listen(":8080"); err != nil {
+	if err := app.Listen(":" + string(s.cfg.BACKEND_PORT)); err != nil {
 		log.Fatal("Server is not running")
 	}
 }
@@ -46,9 +53,19 @@ func (s *FiberServer) Close() error {
 }
 
 func (s *FiberServer) Route() {
+	healthCheckController := controller.NewHealthCheckController()
 	authController := controller.NewAuthController(s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
 
-	auth := s.app.Group("/api/auth")
+	s.app.Use(swagger.New(swagger.Config{
+		BasePath: "/",
+		FilePath: "./docs/swagger.json",
+		Path:     "/docs/swagger",
+	}))
+	api := s.app.Group("/api")
+
+	api.Get("/healthcheck", healthCheckController.HealthCheck)
+
+	auth := api.Group("/auth")
 	auth.Get("/google", authController.GetUrl)
 	auth.Get("/google/callback", authController.SignInWithGoogle)
 }

@@ -1,0 +1,37 @@
+basePath: /
+definitions:
+  domain.Response:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: boom1909chanapat@gmail.com
+    name: API Support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: CPE241 Project Backend API
+  version: "1.0"
+paths:
+  /api/healthcheck:
+    get:
+      description: Health checking for the service
+      operationId: HealthCheckHandler
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Health Check
+schemes:
+- https
+- http
+swagger: "2.0"

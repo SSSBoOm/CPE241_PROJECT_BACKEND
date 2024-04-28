@@ -46,7 +46,7 @@ func (u *authUsecase) SignInWithGoogle(c *fiber.Ctx) (*fiber.Cookie, error) {
 		}
 	}
 
-	cookie, err := u.sessionUsecase.Create(user.Id, c.IP())
+	cookie, err := u.sessionUsecase.Create(user.ID, c.IP())
 	if err != nil {
 		return nil, fmt.Errorf("cannot create session to sign in with google %w", err)
 	}

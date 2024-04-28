@@ -26,12 +26,12 @@ func (u *UserUsecase) CreateFromGoogle(name string, email string, picture string
 	}
 
 	user := &domain.User{
-		Id:         uuid.NewString(),
-		Email:      email,
-		FirstName:  FirstName,
-		LastName:   LastName,
-		ProfileUrl: picture,
-		CreatedAt:  time.Now(),
+		ID:          uuid.NewString(),
+		EMAIL:       email,
+		FIRST_NAME:  FirstName,
+		LAST_NAME:   LastName,
+		PROFILE_URL: picture,
+		CREATE_AT:   time.Now(),
 	}
 
 	err := u.userRepository.CreateFromGoogle(user)
