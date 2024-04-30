@@ -10,7 +10,7 @@ const (
 )
 
 type User struct {
-	ID          string     `json:"id" db:"id"`
+	ID          string     `json:"id,omitempty" db:"id"`
 	EMAIL       string     `json:"email" db:"email"`
 	PREFIX      string     `json:"prefix" db:"prefix"`
 	FIRST_NAME  string     `json:"firstName" db:"first_name"`

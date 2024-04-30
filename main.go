@@ -52,11 +52,12 @@ func main() {
 	if err := fiber.Close(); err != nil {
 		log.Fatal("Server is not shutting down", err)
 	}
+	fmt.Println("fiber was successful")
 
 	if err := db.Close(); err != nil {
 		log.Fatal("MySQL is not shutting down", err)
 	}
-
+	fmt.Println("db was successful")
 	fmt.Println("Server was successful shutdown")
 }
 
@@ -66,6 +67,7 @@ func initRepository(
 	return &domain.Repository{
 		UserRepository:    repository.NewUserRepository(mysql),
 		SessionRepository: repository.NewSessionRepository(mysql),
+		RoleRepository:    repository.NewRoleRepository(mysql),
 	}
 }
 
@@ -77,10 +79,13 @@ func initUsecase(
 	userUsecase := usecase.NewUserUsecase(repo.UserRepository)
 	sessionUsecase := usecase.NewSessionUsecase(repo.SessionRepository)
 	authUsecase := usecase.NewAuthUsecase(googleUsecase, userUsecase, sessionUsecase)
+	roleUsecase := usecase.NewRoleUsecase(repo.RoleRepository)
 
 	return &domain.Usecase{
-		AuthUsecase:   authUsecase,
-		GoogleUsecase: googleUsecase,
-		UserUsecase:   userUsecase,
+		AuthUsecase:    authUsecase,
+		GoogleUsecase:  googleUsecase,
+		UserUsecase:    userUsecase,
+		SessionUsecase: sessionUsecase,
+		RoleUsecase:    roleUsecase,
 	}
 }

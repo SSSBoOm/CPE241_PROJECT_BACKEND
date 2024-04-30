@@ -27,12 +27,12 @@ func (auth *AuthController) GetUrl(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"success": true, "url": url})
 }
 
-func (auth *AuthController) SignInWithGoogle(c *fiber.Ctx) error {
-	cookie, err := auth.authUsecase.SignInWithGoogle(c)
+func (auth *AuthController) SignInWithGoogle(ctx *fiber.Ctx) error {
+	cookie, err := auth.authUsecase.SignInWithGoogle(ctx)
 	if err != nil {
 		fmt.Println("SignIn :", err)
 	}
 
-	c.Cookie(cookie)
-	return c.Redirect("http://localhost:8080/")
+	ctx.Cookie(cookie)
+	return ctx.Redirect("http://localhost:8080/")
 }

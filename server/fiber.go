@@ -5,7 +5,9 @@ import (
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/config"
+	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
 	"github.com/SSSBoOm/CPE241_Project_Backend/server/controller"
+	"github.com/SSSBoOm/CPE241_Project_Backend/server/middleware"
 	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -53,6 +55,10 @@ func (s *FiberServer) Close() error {
 }
 
 func (s *FiberServer) Route() {
+	middlewareAuth := middleware.NewAuthMiddleware(s.usecase.SessionUsecase, s.usecase.UserUsecase, s.usecase.RoleUsecase)
+	// AdminAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE})
+	StaffAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE, constant.USER_ROLE})
+
 	healthCheckController := controller.NewHealthCheckController()
 	authController := controller.NewAuthController(s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
 	userController := controller.NewUserController(s.usecase.UserUsecase)
@@ -71,5 +77,6 @@ func (s *FiberServer) Route() {
 	auth.Get("/google/callback", authController.SignInWithGoogle)
 
 	user := api.Group("/user")
-	user.Get("/:id", userController.GetByID)
+	user.Get("/me", middlewareAuth, userController.Me)
+	user.Get("/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
 }

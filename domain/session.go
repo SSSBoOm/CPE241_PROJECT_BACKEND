@@ -15,11 +15,11 @@ type Session struct {
 }
 
 type SessionRepository interface {
-	Create(session *Session) error
 	Get(ssid string) (*Session, error)
+	Create(session *Session) error
 }
 
 type SessionUsecase interface {
+	Get(ssid string) (*Session, error)
 	Create(userId string, ipAddress string) (*fiber.Cookie, error)
-	// Get(ssid string) (*Session, error)
 }

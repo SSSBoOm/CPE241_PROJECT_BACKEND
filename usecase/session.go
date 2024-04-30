@@ -19,6 +19,14 @@ func NewSessionUsecase(sessionRepository domain.SessionRepository) domain.Sessio
 	}
 }
 
+func (u *sessionUsecase) Get(ssid string) (*domain.Session, error) {
+	session, err := u.sessionRepository.Get(ssid)
+	if err != nil {
+		return nil, err
+	}
+	return session, nil
+}
+
 func (u *sessionUsecase) Create(userId string, ipAddress string) (*fiber.Cookie, error) {
 	id := uuid.NewString()
 	createdAt := time.Now()
@@ -43,7 +51,3 @@ func (u *sessionUsecase) Create(userId string, ipAddress string) (*fiber.Cookie,
 	}
 	return cookie, nil
 }
-
-// func (u *sessionUsecase) Get(ssid string, sessionType domain.SESSION_TYPE) (*domain.Session, error) {
-// 	return u.sessionRepository.Get(ssid, sessionType)
-// }

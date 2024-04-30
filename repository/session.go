@@ -16,14 +16,6 @@ func NewSessionRepository(db *sqlx.DB) domain.SessionRepository {
 	return &sessionRepository{db: db}
 }
 
-func (repo *sessionRepository) Create(session *domain.Session) error {
-	_, err := repo.db.NamedExec("INSERT INTO session (id, user_id, ip_address, expired_at, created_at) VALUES (:id, :user_id,:ip_address, :expired_at, :created_at)", session)
-	if err != nil {
-		return fmt.Errorf("cannot query to create session: %w", err)
-	}
-	return nil
-}
-
 func (repo *sessionRepository) Get(ssid string) (*domain.Session, error) {
 	var session domain.Session
 	err := repo.db.Get(&session, "SELECT * FROM session WHERE id = ? LIMIT 1", ssid)
@@ -33,4 +25,12 @@ func (repo *sessionRepository) Get(ssid string) (*domain.Session, error) {
 		return nil, fmt.Errorf("cannot query to get session: %w", err)
 	}
 	return &session, nil
+}
+
+func (repo *sessionRepository) Create(session *domain.Session) error {
+	_, err := repo.db.NamedExec("INSERT INTO session (id, user_id, ip_address, expired_at, created_at) VALUES (:id, :user_id,:ip_address, :expired_at, :created_at)", session)
+	if err != nil {
+		return fmt.Errorf("cannot query to create session: %w", err)
+	}
+	return nil
 }

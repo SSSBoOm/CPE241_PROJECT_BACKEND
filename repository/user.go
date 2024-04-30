@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
@@ -22,7 +23,7 @@ func (r *userRepository) FindById(id string) (*domain.User, error) {
 	if err == sql.ErrNoRows {
 		return nil, nil
 	} else if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot query to get user: %w", err)
 	}
 	return &user, nil
 }
@@ -34,7 +35,7 @@ func (r *userRepository) FindByEmail(email string) (*domain.User, error) {
 	if err == sql.ErrNoRows {
 		return nil, nil
 	} else if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("cannot query to get user: %w", err)
 	}
 	return &user, nil
 }
