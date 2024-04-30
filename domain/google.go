@@ -7,10 +7,10 @@ import (
 
 type GoogleResponse struct {
 	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Verified bool   `json:"verified_email"`
-	Picture  string `json:"picture"`
+	NAME     string `json:"name"`
+	EMAIL    string `json:"email"`
+	VERIFIED bool   `json:"verified_email"`
+	PICTURE  string `json:"picture"`
 }
 
 type GoogleUsecase interface {

@@ -6,12 +6,20 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type SESSION_TYPE string
+
+const (
+	USER  SESSION_TYPE = "USER"
+	STAFF SESSION_TYPE = "STAFF"
+)
+
 type Session struct {
-	Id        string    `json:"id" db:"id"`
-	UserId    string    `json:"userId" db:"user_id"`
-	IpAddress string    `json:"-" db:"ip_address"`
-	CreatedAt time.Time `json:"createdAt" db:"created_at"`
-	ExpiredAt time.Time `json:"expiredAt" db:"expired_at"`
+	ID         string       `json:"id" db:"id"`
+	USER_ID    string       `json:"userId" db:"user_id"`
+	TYPE       SESSION_TYPE `json:"-" db:"session_type"`
+	IPADDRESS  string       `json:"-" db:"ip_address"`
+	CREATED_AT time.Time    `json:"createdAt" db:"created_at"`
+	EXPIRED_AT time.Time    `json:"expiredAt" db:"expired_at"`
 }
 
 type SessionRepository interface {
@@ -20,5 +28,5 @@ type SessionRepository interface {
 }
 
 type SessionUsecase interface {
-	Create(userId string, ipAddress string) (*fiber.Cookie, error)
+	Create(userId string, ipAddress string, sessionType SESSION_TYPE) (*fiber.Cookie, error)
 }

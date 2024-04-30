@@ -19,17 +19,18 @@ func NewSessionUsecase(sessionRepository domain.SessionRepository) domain.Sessio
 	}
 }
 
-func (u *sessionUsecase) Create(userId string, ipAddress string) (*fiber.Cookie, error) {
+func (u *sessionUsecase) Create(userId string, ipAddress string, sessionType domain.SESSION_TYPE) (*fiber.Cookie, error) {
 	id := uuid.NewString()
 	createdAt := time.Now()
 	expiresAt := createdAt.Add(time.Hour * 24 * 7)
 
 	if err := u.sessionRepository.Create(&domain.Session{
-		Id:        id,
-		UserId:    userId,
-		IpAddress: ipAddress,
-		CreatedAt: createdAt,
-		ExpiredAt: expiresAt,
+		ID:         id,
+		USER_ID:    userId,
+		TYPE:       sessionType,
+		IPADDRESS:  ipAddress,
+		CREATED_AT: createdAt,
+		EXPIRED_AT: expiresAt,
 	}); err != nil {
 		return nil, err
 	}

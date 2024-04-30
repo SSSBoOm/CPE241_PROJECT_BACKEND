@@ -18,7 +18,9 @@ type User struct {
 	DOB         time.Time  `json:"dob" db:"dob"`
 	PHONE       string     `json:"phone" db:"phone"`
 	GENDER      GenderType `json:"gender" db:"gender"`
+	ADDRESS     string     `json:"address" db:"address"`
 	PROFILE_URL string     `json:"profileUrl" db:"profile_url"`
+	UPDATE_AT   time.Time  `json:"updateAt" db:"update_at"`
 	CREATE_AT   time.Time  `json:"createdAt" db:"created_at"`
 }
 

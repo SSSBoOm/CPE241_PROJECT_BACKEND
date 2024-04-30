@@ -35,18 +35,18 @@ func (u *authUsecase) SignInWithGoogle(c *fiber.Ctx) (*fiber.Cookie, error) {
 		return nil, err
 	}
 
-	user, err := u.userUsecase.FindByEmail(profile.Email)
+	user, err := u.userUsecase.FindByEmail(profile.EMAIL)
 	if err != nil {
 		return nil, err
 	}
 	if user == nil {
-		user, err = u.userUsecase.CreateFromGoogle(profile.Name, profile.Email, profile.Picture)
+		user, err = u.userUsecase.CreateFromGoogle(profile.NAME, profile.EMAIL, profile.PICTURE)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	cookie, err := u.sessionUsecase.Create(user.ID, c.IP())
+	cookie, err := u.sessionUsecase.Create(user.ID, c.IP(), domain.USER)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create session to sign in with google %w", err)
 	}
