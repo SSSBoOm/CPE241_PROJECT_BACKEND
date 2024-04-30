@@ -1,7 +1,7 @@
 package domain
 
 type Repository struct {
-	UserRepository UserRepository
+	UserRepository    UserRepository
 	SessionRepository SessionRepository
 }
 

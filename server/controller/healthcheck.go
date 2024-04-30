@@ -1,6 +1,9 @@
 package controller
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
+	"github.com/gofiber/fiber/v2"
+)
 
 type HealthCheckController struct {
 }
@@ -16,8 +19,9 @@ func NewHealthCheckController() *HealthCheckController {
 // @produce json
 // @response 200 {object} domain.Response "OK"
 // @Router /api/healthcheck [get]
-func (h *HealthCheckController) HealthCheck(c *fiber.Ctx) error {
-	return c.Status(fiber.StatusOK).JSON(&fiber.Map{
-		"status":  fiber.StatusOK,
-		"message": "OK"})
+func (h *HealthCheckController) HealthCheck(ctx *fiber.Ctx) error {
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: "OK",
+	})
 }

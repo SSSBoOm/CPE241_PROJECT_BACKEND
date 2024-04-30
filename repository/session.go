@@ -17,7 +17,7 @@ func NewSessionRepository(db *sqlx.DB) domain.SessionRepository {
 }
 
 func (repo *sessionRepository) Create(session *domain.Session) error {
-	_, err := repo.db.NamedExec("INSERT INTO session (id, user_id, ip_address, type, expired_at, created_at) VALUES (:id, :user_id, :type,:ip_address, :expired_at, :created_at)", session)
+	_, err := repo.db.NamedExec("INSERT INTO session (id, user_id, ip_address, expired_at, created_at) VALUES (:id, :user_id,:ip_address, :expired_at, :created_at)", session)
 	if err != nil {
 		return fmt.Errorf("cannot query to create session: %w", err)
 	}

@@ -48,7 +48,11 @@ func (r *userRepository) Create(user *domain.User) error {
 }
 
 func (r *userRepository) CreateFromGoogle(user *domain.User) error {
-	_, err := r.db.NamedExec("INSERT INTO user (id, email, first_name, last_name, profile_url, created_at) VALUES (:id, :email, :first_name, :last_name, :profile_url, :created_at)", user)
+	user.PREFIX = ""
+	user.ADDRESS = ""
+	user.PHONE = ""
+	user.GENDER = ""
+	_, err := r.db.NamedExec("INSERT INTO user (id, email, first_name, last_name, profile_url, created_at, address, phone, gender) VALUES (:id, :email, :first_name, :last_name, :profile_url, :created_at, :address, :phone, :gender)", user)
 	if err != nil {
 		return err
 	}

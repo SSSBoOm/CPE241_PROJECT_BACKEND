@@ -18,7 +18,6 @@ func NewPayloadValidator() domain.ValidatorUsecase {
 
 func (v *payloadValidator) ValidateBody(ctx *fiber.Ctx, Schema interface{}) error {
 	ctx.BodyParser(Schema)
-
 	if err := v.validator.Struct(Schema); err != nil {
 		return err
 	}

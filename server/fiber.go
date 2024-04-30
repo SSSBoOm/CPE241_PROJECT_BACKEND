@@ -55,6 +55,7 @@ func (s *FiberServer) Close() error {
 func (s *FiberServer) Route() {
 	healthCheckController := controller.NewHealthCheckController()
 	authController := controller.NewAuthController(s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
+	userController := controller.NewUserController(s.usecase.UserUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
@@ -68,4 +69,7 @@ func (s *FiberServer) Route() {
 	auth := api.Group("/auth")
 	auth.Get("/google", authController.GetUrl)
 	auth.Get("/google/callback", authController.SignInWithGoogle)
+
+	user := api.Group("/user")
+	user.Get("/:id", userController.GetByID)
 }

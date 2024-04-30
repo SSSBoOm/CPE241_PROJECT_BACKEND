@@ -19,7 +19,7 @@ func NewSessionUsecase(sessionRepository domain.SessionRepository) domain.Sessio
 	}
 }
 
-func (u *sessionUsecase) Create(userId string, ipAddress string, sessionType domain.SESSION_TYPE) (*fiber.Cookie, error) {
+func (u *sessionUsecase) Create(userId string, ipAddress string) (*fiber.Cookie, error) {
 	id := uuid.NewString()
 	createdAt := time.Now()
 	expiresAt := createdAt.Add(time.Hour * 24 * 7)
@@ -27,7 +27,6 @@ func (u *sessionUsecase) Create(userId string, ipAddress string, sessionType dom
 	if err := u.sessionRepository.Create(&domain.Session{
 		ID:         id,
 		USER_ID:    userId,
-		TYPE:       sessionType,
 		IPADDRESS:  ipAddress,
 		CREATED_AT: createdAt,
 		EXPIRED_AT: expiresAt,
@@ -44,3 +43,7 @@ func (u *sessionUsecase) Create(userId string, ipAddress string, sessionType dom
 	}
 	return cookie, nil
 }
+
+// func (u *sessionUsecase) Get(ssid string, sessionType domain.SESSION_TYPE) (*domain.Session, error) {
+// 	return u.sessionRepository.Get(ssid, sessionType)
+// }
