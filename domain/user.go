@@ -31,10 +31,12 @@ type UserRepository interface {
 	Create(user *User) error
 	CreateFromGoogle(user *User) error
 	Update(user *User) error
+	UpdateRoleById(id string, roleID int) error
 }
 
 type UserUsecase interface {
 	CreateFromGoogle(name string, email string, picture string) (*User, error)
 	FindById(id string) (*User, error)
 	FindByEmail(email string) (*User, error)
+	UpdateRoleById(id string, roleID int) error
 }

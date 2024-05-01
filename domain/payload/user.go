@@ -15,3 +15,8 @@ type UpdateUserDTO struct {
 	GENDER     domain.GenderType `json:"gender" db:"gender" validate:"required"`
 	ADDRESS    string            `json:"address" db:"address" validate:"required"`
 }
+
+type UpdateUserRoleDTO struct {
+	USER_ID string `json:"userId" validate:"required"`
+	ROLE_ID int    `json:"roleId" validate:"required"`
+}

@@ -83,4 +83,7 @@ func (s *FiberServer) Route() {
 
 	role := api.Group("/role")
 	role.Get("/all", middlewareAuth, AdminAuthMiddleware, roleController.GetALL)
+
+	admin := api.Group("/admin")
+	admin.Put("/manage/role", middlewareAuth, AdminAuthMiddleware, userController.UpdateRoleByID)
 }

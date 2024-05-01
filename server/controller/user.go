@@ -4,7 +4,9 @@ import (
 	"fmt"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
+	"github.com/SSSBoOm/CPE241_Project_Backend/internal/validator"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -70,6 +72,30 @@ func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
 	// if err != nil {
 	// 	return response.ErrorResponse(c, 400, err.Error())
 	// }
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: "OK",
+	})
+}
+
+func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
+	var body payload.UpdateUserRoleDTO
+	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+
+	err = u.userUsecase.UpdateRoleById(body.USER_ID, body.ROLE_ID)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,

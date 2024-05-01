@@ -67,3 +67,14 @@ func (r *userRepository) Update(user *domain.User) error {
 	}
 	return nil
 }
+
+func (r *userRepository) UpdateRoleById(userId string, roleID int) error {
+	tx := r.db.MustBegin()
+	_, err := tx.Exec("UPDATE user SET role_id = ? WHERE id = ?", roleID, userId)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
+}
