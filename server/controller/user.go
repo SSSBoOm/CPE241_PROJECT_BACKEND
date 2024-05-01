@@ -24,7 +24,7 @@ func (u *UserController) Me(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: err.Error(),
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
 		})
 	} else if user == nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(domain.Response{
@@ -48,12 +48,12 @@ func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: err.Error(),
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
 		})
 	} else if user == nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: "User not found",
+			MESSAGE: constant.MESSAGE_USER_NOT_FOUND,
 		})
 	}
 

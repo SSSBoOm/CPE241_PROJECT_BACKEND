@@ -17,3 +17,7 @@ func NewRoleUsecase(roleRepository domain.RoleRepository) domain.RoleUsecase {
 func (u *roleUsecase) Get(id int) (*domain.Role, error) {
 	return u.roleRepository.Get(id)
 }
+
+func (u *roleUsecase) GetAll() (*[]domain.Role, error) {
+	return u.roleRepository.GetAll()
+}

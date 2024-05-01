@@ -56,12 +56,13 @@ func (s *FiberServer) Close() error {
 
 func (s *FiberServer) Route() {
 	middlewareAuth := middleware.NewAuthMiddleware(s.usecase.SessionUsecase, s.usecase.UserUsecase, s.usecase.RoleUsecase)
-	// AdminAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE})
+	AdminAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE})
 	StaffAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE, constant.USER_ROLE})
 
 	healthCheckController := controller.NewHealthCheckController()
 	authController := controller.NewAuthController(s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
 	userController := controller.NewUserController(s.usecase.UserUsecase)
+	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
@@ -79,4 +80,7 @@ func (s *FiberServer) Route() {
 	user := api.Group("/user")
 	user.Get("/me", middlewareAuth, userController.Me)
 	user.Get("/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
+
+	role := api.Group("/role")
+	role.Get("/all", middlewareAuth, AdminAuthMiddleware, roleController.GetALL)
 }

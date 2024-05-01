@@ -9,4 +9,7 @@ var (
 	ADMIN_ROLE = "ADMIN"
 	STAFF_ROLE = "STAFF"
 	USER_ROLE  = "USER"
+
+	MESSAGE_USER_NOT_FOUND = "User Not Found"
+	MESSAGE_INTERNAL_SERVER_ERROR = "Internal Server Error"
 )

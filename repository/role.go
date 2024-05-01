@@ -26,3 +26,14 @@ func (repo *roleRepository) Get(id int) (*domain.Role, error) {
 	}
 	return &role, nil
 }
+
+func (repo *roleRepository) GetAll() (*[]domain.Role, error) {
+	roles := make([]domain.Role, 0)
+	err := repo.db.Select(&roles, "SELECT * FROM role")
+	if err == sql.ErrNoRows {
+		return nil, nil
+	} else if err != nil {
+		return nil, fmt.Errorf("cannot query to get role: %w", err)
+	}
+	return &roles, nil
+}
