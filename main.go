@@ -19,10 +19,6 @@ import (
 //	@title			CPE241 Project Backend API
 //	@version		1.0
 //	@description	This is a sample server celler server.
-//	@contact.name	API Support
-//	@contact.email	boom1909chanapat@gmail.com
-//	@license.name	Apache 2.0
-//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @schemes	https http
 // @host		localhost:8080

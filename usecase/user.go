@@ -62,6 +62,14 @@ func (u *UserUsecase) FindByEmail(email string) (*domain.User, error) {
 	return user, nil
 }
 
+func (u *UserUsecase) UpdateInfomation(user *domain.User) error {
+	err := u.userRepository.UpdateInfomation(user)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (u *UserUsecase) UpdateRoleById(id string, roleID int) error {
 	user, err := u.userRepository.FindById(id)
 	if err != nil {

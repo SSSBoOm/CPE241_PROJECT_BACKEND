@@ -102,3 +102,47 @@ func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 		MESSAGE: "OK",
 	})
 }
+
+// UpdateUserInformation	godoc
+// @Summary								Update user information
+// @Description						Update user information
+// @Tags									user
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Param									payload body	payload.UpdateUserDTO true "Payload"
+// @Router /api/user/ [patch]
+func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
+	var body payload.UpdateUserDTO
+	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+
+	user := &domain.User{
+		ID:         ctx.Locals(constant.CTX_USER_ID).(string),
+		PREFIX:     body.PREFIX,
+		FIRST_NAME: body.FIRST_NAME,
+		LAST_NAME:  body.LAST_NAME,
+		DOB:        body.DOB,
+		PHONE:      body.PHONE,
+		GENDER:     body.GENDER,
+		ADDRESS:    body.ADDRESS,
+	}
+
+	err = u.userUsecase.UpdateInfomation(user)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: "OK",
+	})
+}

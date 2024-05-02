@@ -30,7 +30,7 @@ type UserRepository interface {
 	FindByEmail(email string) (*User, error)
 	Create(user *User) error
 	CreateFromGoogle(user *User) error
-	Update(user *User) error
+	UpdateInfomation(user *User) error
 	UpdateRoleById(id string, roleID int) error
 }
 
@@ -39,4 +39,5 @@ type UserUsecase interface {
 	FindById(id string) (*User, error)
 	FindByEmail(email string) (*User, error)
 	UpdateRoleById(id string, roleID int) error
+	UpdateInfomation(user *User) error
 }

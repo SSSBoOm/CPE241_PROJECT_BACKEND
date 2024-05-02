@@ -60,11 +60,14 @@ func (r *userRepository) CreateFromGoogle(user *domain.User) error {
 	return nil
 }
 
-func (r *userRepository) Update(user *domain.User) error {
-	_, err := r.db.NamedExec("UPDATE user SET prefix = :prefix, first_name = :first_name, last_name = :last_name, phone = :phone WHERE id = :id", user)
+func (r *userRepository) UpdateInfomation(user *domain.User) error {
+	tx := r.db.MustBegin()
+	_, err := tx.NamedExec("UPDATE user SET prefix = :prefix, first_name = :first_name, last_name = :last_name, gender = :gender, address = :address, phone = :phone WHERE id = :id", user)
 	if err != nil {
+		tx.Rollback()
 		return err
 	}
+	tx.Commit()
 	return nil
 }
 

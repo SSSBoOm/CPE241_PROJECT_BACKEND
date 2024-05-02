@@ -9,14 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {
-            "name": "API Support",
-            "email": "boom1909chanapat@gmail.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -39,16 +32,96 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/user/": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update user information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update user information",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateUserDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
+        "domain.GenderType": {
+            "type": "string",
+            "enum": [
+                "MALE",
+                "FEMALE"
+            ],
+            "x-enum-varnames": [
+                "MALE",
+                "FEMALE"
+            ]
+        },
         "domain.Response": {
             "type": "object",
             "properties": {
+                "data": {},
+                "error": {},
                 "message": {
                     "type": "string"
                 },
-                "status": {
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "payload.UpdateUserDTO": {
+            "type": "object",
+            "required": [
+                "address",
+                "dob",
+                "firstName",
+                "gender",
+                "lastName",
+                "prefix"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "$ref": "#/definitions/domain.GenderType"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string",
+                    "minLength": 10
+                },
+                "prefix": {
                     "type": "string"
                 }
             }
