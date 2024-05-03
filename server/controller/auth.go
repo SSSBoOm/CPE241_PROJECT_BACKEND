@@ -26,11 +26,24 @@ func NewAuthController(config *config.Config, authUsecase domain.AuthUsecase, go
 		userUsecase:   userUsecase}
 }
 
+// GetUrl godoc
+// @Summary Get Url To Google Login
+// @Description Get Url To Google Login
+// @Tags Auth
+// @Produce json
+// @Response 200 {object} domain.Response "OK"
+// @Router /api/auth/google [get]
 func (auth *AuthController) GetUrl(c *fiber.Ctx) error {
 	path := auth.googleUsecase.GoogleConfig()
 	url := path.AuthCodeURL("state")
 
-	return c.Status(200).JSON(fiber.Map{"success": true, "url": url})
+	return c.Status(200).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA: map[string]string{
+			"url": url,
+		},
+	})
 }
 
 func (auth *AuthController) SignInWithGoogle(ctx *fiber.Ctx) error {
@@ -43,6 +56,13 @@ func (auth *AuthController) SignInWithGoogle(ctx *fiber.Ctx) error {
 	return ctx.Redirect(auth.config.FRONTEND_URL)
 }
 
+// Logout godoc
+// @Summary Logout
+// @Description Health checking for the service
+// @Tags Auth
+// @Produce json
+// @Response 200 {object} domain.Response "OK"
+// @Router /api/auth/logout [post]
 func (auth *AuthController) SignOut(ctx *fiber.Ctx) error {
 	ssid := ctx.Cookies(constant.SessionCookieName)
 	if err := auth.sessionUsecase.Delete(ssid); err != nil {

@@ -49,6 +49,32 @@ info:
   title: CPE241 Project Backend API
   version: "1.0"
 paths:
+  /api/auth/google:
+    get:
+      description: Get Url To Google Login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get Url To Google Login
+      tags:
+      - Auth
+  /api/auth/logout:
+    post:
+      description: Health checking for the service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Logout
+      tags:
+      - Auth
   /api/healthcheck:
     get:
       description: Health checking for the service
