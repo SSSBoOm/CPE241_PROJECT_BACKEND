@@ -60,7 +60,7 @@ func (s *FiberServer) Route() {
 	StaffAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE, constant.USER_ROLE})
 
 	healthCheckController := controller.NewHealthCheckController()
-	authController := controller.NewAuthController(s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
+	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
 	userController := controller.NewUserController(s.usecase.UserUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
 
@@ -76,10 +76,11 @@ func (s *FiberServer) Route() {
 	auth := api.Group("/auth")
 	auth.Get("/google", authController.GetUrl)
 	auth.Get("/google/callback", authController.SignInWithGoogle)
+	auth.Post("/logout", authController.SignOut)
 
 	user := api.Group("/user")
 	user.Get("/me", middlewareAuth, userController.Me)
-	user.Patch("", middlewareAuth, userController.UpdateInfomationByID)
+	user.Patch("/", middlewareAuth, userController.UpdateInfomationByID)
 	user.Get("/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
 
 	role := api.Group("/role")

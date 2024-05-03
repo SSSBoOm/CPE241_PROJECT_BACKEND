@@ -51,3 +51,10 @@ func (u *sessionUsecase) Create(userId string, ipAddress string) (*fiber.Cookie,
 	}
 	return cookie, nil
 }
+
+func (u *sessionUsecase) Delete(ssid string) error {
+	if err := u.sessionRepository.Delete(ssid); err != nil {
+		return err
+	}
+	return nil
+}

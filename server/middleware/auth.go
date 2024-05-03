@@ -10,7 +10,7 @@ import (
 
 func NewAuthMiddleware(sessionUsecase domain.SessionUsecase, userUsecase domain.UserUsecase, roleUsecase domain.RoleUsecase) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		ssid := ctx.Cookies("ssid")
+		ssid := ctx.Cookies(constant.SessionCookieName)
 		if ssid == "" {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(domain.Response{
 				SUCCESS: false,

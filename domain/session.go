@@ -17,9 +17,11 @@ type Session struct {
 type SessionRepository interface {
 	Get(ssid string) (*Session, error)
 	Create(session *Session) error
+	Delete(ssid string) error
 }
 
 type SessionUsecase interface {
 	Get(ssid string) (*Session, error)
 	Create(userId string, ipAddress string) (*fiber.Cookie, error)
+	Delete(ssid string) error
 }
