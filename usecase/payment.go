@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"sync"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 )
@@ -31,4 +32,28 @@ func (u *paymentUsecase) Create(payment *domain.Payment) error {
 		return errors.New("payment type not found")
 	}
 	return u.paymentRepo.Create(payment)
+}
+
+func (u *paymentUsecase) GetByUserID(userId string) (*[]domain.Payment, error) {
+	paymentInfo, err := u.paymentRepo.GetByUserID(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	// paymentInfo := make([]interface{}, len(*payment))
+	var wg sync.WaitGroup
+	wg.Add(len(*paymentInfo))
+	for i, item := range *paymentInfo {
+		go func(i int, item domain.Payment) {
+			defer wg.Done()
+			paymentType, err := u.paymentTypeUsecase.GetByID(item.PAYMENT_TYPE_ID)
+			if err != nil || paymentType == nil {
+				return
+			}
+			(*paymentInfo)[i].PAYMENT_TYPE = *paymentType
+		}(i, item)
+	}
+	wg.Wait()
+
+	return paymentInfo, nil
 }

@@ -11,12 +11,14 @@ import (
 )
 
 type UserController struct {
-	userUsecase domain.UserUsecase
+	userUsecase    domain.UserUsecase
+	paymentUsecase domain.PaymentUsecase
 }
 
-func NewUserController(userUsecase domain.UserUsecase) *UserController {
+func NewUserController(userUsecase domain.UserUsecase, paymentUsecase domain.PaymentUsecase) *UserController {
 	return &UserController{
-		userUsecase: userUsecase,
+		userUsecase:    userUsecase,
+		paymentUsecase: paymentUsecase,
 	}
 }
 
@@ -67,12 +69,6 @@ func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 }
 
 func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
-	// var body payload.UpdateUser
-	// err := validator.ValidateBody(c, &body)
-	// if err != nil {
-	// 	return response.ErrorResponse(c, 400, err.Error())
-	// }
-
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
 		MESSAGE: "OK",
@@ -111,7 +107,7 @@ func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									payload body	payload.UpdateUserDTO true "Payload"
-// @Router /api/user/ [patch]
+// @Router /api/user/			[patch]
 func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserDTO
 	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
@@ -144,5 +140,22 @@ func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
 		MESSAGE: "OK",
+	})
+}
+
+func (u *UserController) GetPaymentByUserID(ctx *fiber.Ctx) error {
+	id := ctx.Locals(constant.CTX_USER_ID).(string)
+	payments, err := u.paymentUsecase.GetByUserID(id)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: "OK",
+		DATA:    payments,
 	})
 }

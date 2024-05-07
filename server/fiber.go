@@ -61,7 +61,7 @@ func (s *FiberServer) Route() {
 
 	healthCheckController := controller.NewHealthCheckController()
 	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
-	userController := controller.NewUserController(s.usecase.UserUsecase)
+	userController := controller.NewUserController(s.usecase.UserUsecase, s.usecase.PaymentUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
 	paymentTypeController := controller.NewPaymentTypeController(s.usecase.PaymentTypeUsecase)
 
@@ -81,6 +81,7 @@ func (s *FiberServer) Route() {
 
 	user := api.Group("/user")
 	user.Get("/me", middlewareAuth, userController.Me)
+	user.Get("/payment", middlewareAuth, userController.GetPaymentByUserID)
 	user.Patch("/", middlewareAuth, userController.UpdateInfomationByID)
 	user.Get("/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
 

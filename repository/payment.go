@@ -24,11 +24,20 @@ func (repo *paymentRepository) GetAll() (*[]domain.Payment, error) {
 
 func (repo *paymentRepository) GetByID(id int) (*domain.Payment, error) {
 	payment := domain.Payment{}
-	err := repo.db.Get(&payment, "SELECT * FROM payment WHERE id = $1", id)
+	err := repo.db.Get(&payment, "SELECT * FROM payment WHERE id = ?", id)
 	if err != nil {
 		return nil, err
 	}
 	return &payment, nil
+}
+
+func (repo *paymentRepository) GetByUserID(userId string) (*[]domain.Payment, error) {
+	payments := make([]domain.Payment, 0)
+	err := repo.db.Select(&payments, "SELECT * FROM payment WHERE user_id = ?", userId)
+	if err != nil {
+		return nil, err
+	}
+	return &payments, nil
 }
 
 func (repo *paymentRepository) Create(payment *domain.Payment) error {

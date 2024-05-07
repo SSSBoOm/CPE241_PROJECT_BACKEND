@@ -16,8 +16,16 @@ func NewPaymentTypeController(paymentTypeUsecase domain.PaymentTypeUsecase) *Pay
 	}
 }
 
-func (paymentType *PaymentTypeController) GetAll(ctx *fiber.Ctx) error {
-	paymentTypes, err := paymentType.paymentTypeUsecase.GetAll()
+// GetAll Payment Type	godoc
+// @Summary								GetAll Payment Type
+// @Description						GetAll Payment Type
+// @Tags									PaymentType
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Router /api/payment_type/all [get]
+func (p *PaymentTypeController) GetAll(ctx *fiber.Ctx) error {
+	paymentTypes, err := p.paymentTypeUsecase.GetAll()
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
