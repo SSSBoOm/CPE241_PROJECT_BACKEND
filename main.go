@@ -61,9 +61,11 @@ func initRepository(
 	mysql *sqlx.DB,
 ) *domain.Repository {
 	return &domain.Repository{
-		UserRepository:    repository.NewUserRepository(mysql),
-		SessionRepository: repository.NewSessionRepository(mysql),
-		RoleRepository:    repository.NewRoleRepository(mysql),
+		UserRepository:        repository.NewUserRepository(mysql),
+		SessionRepository:     repository.NewSessionRepository(mysql),
+		RoleRepository:        repository.NewRoleRepository(mysql),
+		PaymentRepository:     repository.NewPaymentRepository(mysql),
+		PaymentTypeRepository: repository.NewPaymentTypeRepository(mysql),
 	}
 }
 
@@ -76,12 +78,16 @@ func initUsecase(
 	sessionUsecase := usecase.NewSessionUsecase(repo.SessionRepository)
 	authUsecase := usecase.NewAuthUsecase(googleUsecase, userUsecase, sessionUsecase)
 	roleUsecase := usecase.NewRoleUsecase(repo.RoleRepository)
+	paymentTypeUsecase := usecase.NewPaymentTypeUsecase(repo.PaymentTypeRepository)
+	paymentUsecase := usecase.NewPaymentUsecase(repo.PaymentRepository, paymentTypeUsecase)
 
 	return &domain.Usecase{
-		AuthUsecase:    authUsecase,
-		GoogleUsecase:  googleUsecase,
-		UserUsecase:    userUsecase,
-		SessionUsecase: sessionUsecase,
-		RoleUsecase:    roleUsecase,
+		AuthUsecase:        authUsecase,
+		GoogleUsecase:      googleUsecase,
+		UserUsecase:        userUsecase,
+		SessionUsecase:     sessionUsecase,
+		RoleUsecase:        roleUsecase,
+		PaymentUsecase:     paymentUsecase,
+		PaymentTypeUsecase: paymentTypeUsecase,
 	}
 }

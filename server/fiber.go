@@ -63,6 +63,7 @@ func (s *FiberServer) Route() {
 	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
 	userController := controller.NewUserController(s.usecase.UserUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
+	paymentTypeController := controller.NewPaymentTypeController(s.usecase.PaymentTypeUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
@@ -88,4 +89,7 @@ func (s *FiberServer) Route() {
 
 	admin := api.Group("/admin")
 	admin.Put("/manage/role", middlewareAuth, AdminAuthMiddleware, userController.UpdateRoleByID)
+
+	paymentType := api.Group("/payment_type")
+	paymentType.Get("/all", middlewareAuth, paymentTypeController.GetAll)
 }
