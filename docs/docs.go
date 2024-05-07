@@ -73,6 +73,27 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/payment_type/all": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetAll Payment Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PaymentType"
+                ],
+                "summary": "GetAll Payment Type",
+                "responses": {}
+            }
+        },
         "/api/user/": {
             "patch": {
                 "security": [

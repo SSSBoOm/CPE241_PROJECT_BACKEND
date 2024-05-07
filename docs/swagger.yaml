@@ -87,6 +87,19 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Health Check
+  /api/payment_type/all:
+    get:
+      consumes:
+      - application/json
+      description: GetAll Payment Type
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: GetAll Payment Type
+      tags:
+      - PaymentType
   /api/user/:
     patch:
       consumes:
