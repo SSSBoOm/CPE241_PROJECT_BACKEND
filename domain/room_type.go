@@ -11,7 +11,15 @@ type RoomType struct {
 }
 
 type RoomTypeRepository interface {
+	GetAll() (*[]RoomType, error)
+	GetByID(id int) (*RoomType, error)
+	Create(roomType *RoomType) error
+	Update(roomType *RoomType) error
 }
 
 type RoomTypeUsecase interface {
+	GetAll() (*[]RoomType, error)
+	GetByID(id int) (*RoomType, error)
+	Create(roomType *RoomType) error
+	Update(roomType *RoomType) error
 }
