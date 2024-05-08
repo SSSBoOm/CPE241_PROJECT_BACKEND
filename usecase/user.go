@@ -75,7 +75,7 @@ func (u *UserUsecase) UpdateRoleById(id string, roleID int) error {
 	if err != nil {
 		return err
 	} else if user == nil {
-		return fmt.Errorf(constant.MESSAGE_USER_NOT_FOUND)
+		return fmt.Errorf(constant.MESSAGE_NOT_FOUND)
 	}
 	role, err := u.roleRepository.Get(roleID)
 	if err != nil {

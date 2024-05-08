@@ -64,6 +64,7 @@ func initRepository(
 		UserRepository:        repository.NewUserRepository(mysql),
 		SessionRepository:     repository.NewSessionRepository(mysql),
 		RoleRepository:        repository.NewRoleRepository(mysql),
+		RoomTypeRepository:    repository.NewRoomTypeRepository(mysql),
 		PaymentRepository:     repository.NewPaymentRepository(mysql),
 		PaymentTypeRepository: repository.NewPaymentTypeRepository(mysql),
 	}
@@ -80,6 +81,7 @@ func initUsecase(
 	roleUsecase := usecase.NewRoleUsecase(repo.RoleRepository)
 	paymentTypeUsecase := usecase.NewPaymentTypeUsecase(repo.PaymentTypeRepository)
 	paymentUsecase := usecase.NewPaymentUsecase(repo.PaymentRepository, paymentTypeUsecase)
+	roomTypeUsecase := usecase.NewRoomTypeUsecase(repo.RoomTypeRepository)
 
 	return &domain.Usecase{
 		AuthUsecase:        authUsecase,
@@ -87,6 +89,7 @@ func initUsecase(
 		UserUsecase:        userUsecase,
 		SessionUsecase:     sessionUsecase,
 		RoleUsecase:        roleUsecase,
+		RoomTypeUsecase:    roomTypeUsecase,
 		PaymentUsecase:     paymentUsecase,
 		PaymentTypeUsecase: paymentTypeUsecase,
 	}

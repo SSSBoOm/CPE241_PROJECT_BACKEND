@@ -4,6 +4,7 @@ type Repository struct {
 	UserRepository        UserRepository
 	SessionRepository     SessionRepository
 	RoleRepository        RoleRepository
+	RoomTypeRepository    RoomTypeRepository
 	PaymentRepository     PaymentRepository
 	PaymentTypeRepository PaymentTypeRepository
 }
@@ -14,6 +15,7 @@ type Usecase struct {
 	UserUsecase        UserUsecase
 	SessionUsecase     SessionUsecase
 	RoleUsecase        RoleUsecase
+	RoomTypeUsecase    RoomTypeUsecase
 	PaymentUsecase     PaymentUsecase
 	PaymentTypeUsecase PaymentTypeUsecase
 }

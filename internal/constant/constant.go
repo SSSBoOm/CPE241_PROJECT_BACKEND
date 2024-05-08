@@ -11,7 +11,8 @@ var (
 	USER_ROLE  = "USER"
 
 	MESSAGE_SUCCESS               = "Success"
-	MESSAGE_USER_NOT_FOUND        = "User Not Found"
+	MESSAGE_NOT_FOUND             = "Not Found"
+	MESSAGE_BAD_REQUEST           = "Bad Request"
 	MESSAGE_INVALID_BODY          = "Invalid Body"
 	MESSAGE_INTERNAL_SERVER_ERROR = "Internal Server Error"
 )

@@ -6,6 +6,7 @@ import (
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/config"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
+	"github.com/SSSBoOm/CPE241_Project_Backend/internal/validator"
 	"github.com/SSSBoOm/CPE241_Project_Backend/server/controller"
 	"github.com/SSSBoOm/CPE241_Project_Backend/server/middleware"
 	"github.com/gofiber/contrib/swagger"
@@ -55,15 +56,18 @@ func (s *FiberServer) Close() error {
 }
 
 func (s *FiberServer) Route() {
+	validator := validator.NewPayloadValidator()
+
 	middlewareAuth := middleware.NewAuthMiddleware(s.usecase.SessionUsecase, s.usecase.UserUsecase, s.usecase.RoleUsecase)
 	AdminAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE})
 	StaffAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE, constant.USER_ROLE})
 
 	healthCheckController := controller.NewHealthCheckController()
 	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
-	userController := controller.NewUserController(s.usecase.UserUsecase, s.usecase.PaymentUsecase)
+	userController := controller.NewUserController(validator, s.usecase.UserUsecase, s.usecase.PaymentUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
 	paymentTypeController := controller.NewPaymentTypeController(s.usecase.PaymentTypeUsecase)
+	roomTypeController := controller.NewRoomTypeController(validator, s.usecase.RoomTypeUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
@@ -93,4 +97,10 @@ func (s *FiberServer) Route() {
 
 	paymentType := api.Group("/payment_type")
 	paymentType.Get("/all", middlewareAuth, paymentTypeController.GetAll)
+
+	roomType := api.Group("/room_type")
+	roomType.Get("/all", roomTypeController.GetRoomTypeList)
+	roomType.Get("/:id", roomTypeController.GetRoomTypeByID)
+	roomType.Post("/", middlewareAuth, AdminAuthMiddleware, roomTypeController.CreateRoomType)
+	roomType.Patch("/:id", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomType)
 }

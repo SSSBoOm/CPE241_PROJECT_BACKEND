@@ -11,12 +11,14 @@ import (
 )
 
 type UserController struct {
+	validator      domain.ValidatorUsecase
 	userUsecase    domain.UserUsecase
 	paymentUsecase domain.PaymentUsecase
 }
 
-func NewUserController(userUsecase domain.UserUsecase, paymentUsecase domain.PaymentUsecase) *UserController {
+func NewUserController(validator domain.ValidatorUsecase, userUsecase domain.UserUsecase, paymentUsecase domain.PaymentUsecase) *UserController {
 	return &UserController{
+		validator:      validator,
 		userUsecase:    userUsecase,
 		paymentUsecase: paymentUsecase,
 	}
@@ -57,7 +59,7 @@ func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 	} else if user == nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: constant.MESSAGE_USER_NOT_FOUND,
+			MESSAGE: constant.MESSAGE_NOT_FOUND,
 		})
 	}
 
@@ -77,7 +79,7 @@ func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
 
 func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserRoleDTO
-	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
+	err := u.validator.ValidateBody(ctx, &body)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
