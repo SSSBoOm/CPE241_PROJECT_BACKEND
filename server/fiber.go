@@ -74,8 +74,8 @@ func (s *FiberServer) Route() {
 		FilePath: "./docs/swagger.json",
 		Path:     "/docs/swagger",
 	}))
-	api := s.app.Group("/api")
 
+	api := s.app.Group("/api")
 	api.Get("/healthcheck", healthCheckController.HealthCheck)
 
 	auth := api.Group("/auth")
