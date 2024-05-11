@@ -17,7 +17,89 @@ definitions:
       success:
         type: boolean
     type: object
+  domain.Room:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      is_active:
+        type: boolean
+      room_number:
+        type: string
+      room_type:
+        $ref: '#/definitions/domain.RoomType'
+      updateAt:
+        type: string
+    type: object
+  domain.RoomType:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+      updateAt:
+        type: string
+    type: object
+  payload.AddPaymentByUserIdDTO:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      paymentName:
+        type: string
+      paymentNumber:
+        type: string
+    type: object
+  payload.UpdateRoomType:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+    required:
+    - id
+    - isActive
+    - name
+    type: object
   payload.UpdateUserDTO:
+    properties:
+      address:
+        type: string
+      dob:
+        type: string
+      firstName:
+        type: string
+      gender:
+        $ref: '#/definitions/domain.GenderType'
+      id:
+        type: string
+      lastName:
+        type: string
+      phone:
+        minLength: 10
+        type: string
+      prefix:
+        type: string
+    required:
+    - address
+    - dob
+    - firstName
+    - gender
+    - id
+    - lastName
+    - prefix
+    type: object
+  payload.UpdateUserInformationDTO:
     properties:
       address:
         type: string
@@ -42,6 +124,16 @@ definitions:
     - lastName
     - prefix
     type: object
+  payload.UpdateUserRoleDTO:
+    properties:
+      roleId:
+        type: integer
+      userId:
+        type: string
+    required:
+    - roleId
+    - userId
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -49,6 +141,65 @@ info:
   title: CPE241 Project Backend API
   version: "1.0"
 paths:
+  /api/admin/manage/role:
+    put:
+      consumes:
+      - application/json
+      description: Update role by user id
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/payload.UpdateUserRoleDTO'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Update role by user id
+      tags:
+      - manage
+  /api/admin/manage/user:
+    put:
+      consumes:
+      - application/json
+      description: Update user by id
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/payload.UpdateUserDTO'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Update user by id
+      tags:
+      - manage
+  /api/admin/manage/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get user by id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Get user by id
+      tags:
+      - manage
   /api/auth/google:
     get:
       description: Get Url To Google Login
@@ -60,6 +211,25 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Get Url To Google Login
+      tags:
+      - Auth
+  /api/auth/google/callback:
+    post:
+      description: Sign In
+      parameters:
+      - description: Code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Sign In
       tags:
       - Auth
   /api/auth/logout:
@@ -87,6 +257,35 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Health Check
+  /api/payment:
+    post:
+      consumes:
+      - application/json
+      description: Add payment by user
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      - description: Add payment by user
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.AddPaymentByUserIdDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Add payment by user
+      tags:
+      - payment
   /api/payment_type/all:
     get:
       consumes:
@@ -100,6 +299,126 @@ paths:
       summary: GetAll Payment Type
       tags:
       - PaymentType
+  /api/role/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all roles
+      produces:
+      - application/json
+      responses: {}
+      summary: Get all roles
+      tags:
+      - role
+  /api/room:
+    post:
+      consumes:
+      - application/json
+      description: Create room
+      parameters:
+      - description: Room
+        in: body
+        name: room
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Room'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create room
+      tags:
+      - room
+  /api/room/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get room by id
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get room by id
+      tags:
+      - room
+  /api/room/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all rooms
+      produces:
+      - application/json
+      responses: {}
+      summary: Get all rooms
+      tags:
+      - room
+  /api/room_type/:
+    post:
+      consumes:
+      - application/json
+      description: Create room type
+      parameters:
+      - description: Room Type
+        in: body
+        name: roomType
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RoomType'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create room type
+      tags:
+      - room_type
+    put:
+      consumes:
+      - application/json
+      description: Update room type
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/payload.UpdateRoomType'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update room type
+      tags:
+      - room_type
+  /api/room_type/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get room type by id
+      parameters:
+      - description: Room Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: Get room type by id
+      tags:
+      - room_type
+  /api/room_type/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all room types
+      produces:
+      - application/json
+      responses: {}
+      summary: Get all room types
+      tags:
+      - room_type
   /api/user/:
     patch:
       consumes:
@@ -111,7 +430,7 @@ paths:
         name: payload
         required: true
         schema:
-          $ref: '#/definitions/payload.UpdateUserDTO'
+          $ref: '#/definitions/payload.UpdateUserInformationDTO'
       produces:
       - application/json
       responses: {}
@@ -120,7 +439,38 @@ paths:
       summary: Update user information
       tags:
       - user
+  /api/user/me:
+    get:
+      consumes:
+      - application/json
+      description: Get user information
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Get user information
+      tags:
+      - user
+  /api/user/payment:
+    get:
+      consumes:
+      - application/json
+      description: Get payment by user id
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Get payment by user id
+      tags:
+      - user
 schemes:
 - https
 - http
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

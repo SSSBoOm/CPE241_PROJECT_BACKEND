@@ -15,6 +15,100 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/admin/manage/role": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update role by user id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manage"
+                ],
+                "summary": "Update role by user id",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateUserRoleDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/admin/manage/user": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update user by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manage"
+                ],
+                "summary": "Update user by id",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateUserDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/admin/manage/user/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get user by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manage"
+                ],
+                "summary": "Get user by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/auth/google": {
             "get": {
                 "description": "Get Url To Google Login",
@@ -25,6 +119,35 @@ const docTemplate = `{
                     "Auth"
                 ],
                 "summary": "Get Url To Google Login",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/google/callback": {
+            "post": {
+                "description": "Sign In",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Sign In",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -73,6 +196,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/payment": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Add payment by user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Add payment by user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Add payment by user",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.AddPaymentByUserIdDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/payment_type/all": {
             "get": {
                 "security": [
@@ -91,6 +260,183 @@ const docTemplate = `{
                     "PaymentType"
                 ],
                 "summary": "GetAll Payment Type",
+                "responses": {}
+            }
+        },
+        "/api/role/all": {
+            "get": {
+                "description": "Get all roles",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "role"
+                ],
+                "summary": "Get all roles",
+                "responses": {}
+            }
+        },
+        "/api/room": {
+            "post": {
+                "description": "Create room",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Create room",
+                "parameters": [
+                    {
+                        "description": "Room",
+                        "name": "room",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Room"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/room/all": {
+            "get": {
+                "description": "Get all rooms",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Get all rooms",
+                "responses": {}
+            }
+        },
+        "/api/room/{id}": {
+            "get": {
+                "description": "Get room by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Get room by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/room_type/": {
+            "put": {
+                "description": "Update room type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room_type"
+                ],
+                "summary": "Update room type",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateRoomType"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "post": {
+                "description": "Create room type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room_type"
+                ],
+                "summary": "Create room type",
+                "parameters": [
+                    {
+                        "description": "Room Type",
+                        "name": "roomType",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.RoomType"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/room_type/all": {
+            "get": {
+                "description": "Get all room types",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room_type"
+                ],
+                "summary": "Get all room types",
+                "responses": {}
+            }
+        },
+        "/api/room_type/{id}": {
+            "get": {
+                "description": "Get room type by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room_type"
+                ],
+                "summary": "Get room type by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },
@@ -119,10 +465,52 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/payload.UpdateUserDTO"
+                            "$ref": "#/definitions/payload.UpdateUserInformationDTO"
                         }
                     }
                 ],
+                "responses": {}
+            }
+        },
+        "/api/user/me": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get user information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get user information",
+                "responses": {}
+            }
+        },
+        "/api/user/payment": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get payment by user id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get payment by user id",
                 "responses": {}
             }
         }
@@ -152,7 +540,128 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.Room": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "room_number": {
+                    "type": "string"
+                },
+                "room_type": {
+                    "$ref": "#/definitions/domain.RoomType"
+                },
+                "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.RoomType": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.AddPaymentByUserIdDTO": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "paymentName": {
+                    "type": "string"
+                },
+                "paymentNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.UpdateRoomType": {
+            "type": "object",
+            "required": [
+                "id",
+                "isActive",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "payload.UpdateUserDTO": {
+            "type": "object",
+            "required": [
+                "address",
+                "dob",
+                "firstName",
+                "gender",
+                "id",
+                "lastName",
+                "prefix"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "$ref": "#/definitions/domain.GenderType"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string",
+                    "minLength": 10
+                },
+                "prefix": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.UpdateUserInformationDTO": {
             "type": "object",
             "required": [
                 "address",
@@ -186,6 +695,28 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "payload.UpdateUserRoleDTO": {
+            "type": "object",
+            "required": [
+                "roleId",
+                "userId"
+            ],
+            "properties": {
+                "roleId": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

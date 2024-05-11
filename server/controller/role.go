@@ -16,6 +16,13 @@ func NewRoleController(roleUsecase domain.RoleUsecase) *RoleController {
 	}
 }
 
+// GetALL godoc
+// @Summary								Get all roles
+// @Description						Get all roles
+// @Tags									role
+// @Accept								json
+// @produce								json
+// @Router /api/role/all	[get]
 func (role *RoleController) GetALL(c *fiber.Ctx) error {
 	roles, err := role.roleUsecase.GetAll()
 	if err != nil {

@@ -18,6 +18,13 @@ func NewRoomController(roomUsecase domain.RoomUsecase) *roomController {
 	}
 }
 
+// GetAll godoc
+// @Summary								Get all rooms
+// @Description						Get all rooms
+// @Tags									room
+// @Accept								json
+// @produce								json
+// @Router /api/room/all	[get]
 func (c *roomController) GetAll(ctx *fiber.Ctx) error {
 	rooms, err := c.roomUsecase.GetAll()
 	if err != nil {
@@ -34,6 +41,14 @@ func (c *roomController) GetAll(ctx *fiber.Ctx) error {
 	})
 }
 
+// GetByID godoc
+// @Summary								Get room by id
+// @Description						Get room by id
+// @Tags									room
+// @Accept								json
+// @produce								json
+// @Param									id path int true "Room ID"
+// @Router /api/room/{id}	[get]
 func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 	id, err := strconv.Atoi(ctx.Params("id"))
 	if err != nil {
@@ -62,6 +77,14 @@ func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 	})
 }
 
+// Create godoc
+// @Summary								Create room
+// @Description						Create room
+// @Tags									room
+// @Accept								json
+// @produce								json
+// @Param									room body domain.Room true "Room"
+// @Router /api/room	[post]
 func (c *roomController) Create(ctx *fiber.Ctx) error {
 	var room domain.Room
 	if err := ctx.BodyParser(&room); err != nil {

@@ -21,6 +21,13 @@ func NewRoomTypeController(validator domain.ValidatorUsecase, roomTypeUsecase do
 	}
 }
 
+// GetAll godoc
+// @Summary								Get all room types
+// @Description						Get all room types
+// @Tags									room_type
+// @Accept								json
+// @produce								json
+// @Router /api/room_type/all	[get]
 func (controller *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 	roomTypeList, err := controller.roomTypeUsecase.GetAll()
 	if err != nil {
@@ -36,6 +43,14 @@ func (controller *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 	})
 }
 
+// GetByID godoc
+// @Summary								Get room type by id
+// @Description						Get room type by id
+// @Tags									room_type
+// @Accept								json
+// @produce								json
+// @Param									id path int true "Room Type ID"
+// @Router /api/room_type/{id}	[get]
 func (controller *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 	roomTypeID, err := strconv.Atoi(ctx.Params("id"))
 	if err != nil {
@@ -59,6 +74,14 @@ func (controller *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 	})
 }
 
+// CreateRoomType godoc
+// @Summary								Create room type
+// @Description						Create room type
+// @Tags									room_type
+// @Accept								json
+// @produce								json
+// @Param									roomType body domain.RoomType true "Room Type"
+// @Router /api/room_type/	[post]
 func (controller *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 	roomType := new(domain.RoomType)
 	if err := ctx.BodyParser(roomType); err != nil {
@@ -81,6 +104,14 @@ func (controller *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 	})
 }
 
+// UpdateRoomType godoc
+// @Summary								Update room type
+// @Description						Update room type
+// @Tags									room_type
+// @Accept								json
+// @produce								json
+// @Param									payload body	payload.UpdateRoomType true "Payload"
+// @Router /api/room_type/	[put]
 func (controller *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
 	payload := new(payload.UpdateRoomType)
 	if err := ctx.BodyParser(payload); err != nil {

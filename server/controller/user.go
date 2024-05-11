@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"fmt"
-
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
@@ -24,6 +22,14 @@ func NewUserController(validator domain.ValidatorUsecase, userUsecase domain.Use
 	}
 }
 
+// Me	godoc
+// @Summary								Get user information
+// @Description						Get user information
+// @Tags									user
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Router /api/user/me	[get]
 func (u *UserController) Me(ctx *fiber.Ctx) error {
 	id := ctx.Locals(constant.CTX_USER_ID).(string)
 	user, err := u.userUsecase.FindById(id)
@@ -47,9 +53,17 @@ func (u *UserController) Me(ctx *fiber.Ctx) error {
 	})
 }
 
+// GetByID	godoc
+// @Summary								Get user by id
+// @Description						Get user by id
+// @Tags									manage
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Param									id path	string true	"User ID"
+// @Router /api/admin/manage/user/{id}	[get]
 func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
-	fmt.Println(id)
 	user, err := u.userUsecase.FindById(id)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
@@ -70,13 +84,59 @@ func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 	})
 }
 
+// UpdateByID	godoc
+// @Summary								Update user by id
+// @Description						Update user by id
+// @Tags									manage
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Param									payload body	payload.UpdateUserDTO true "Payload"
+// @Router /api/admin/manage/user	[put]
 func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
+	var body payload.UpdateUserDTO
+	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+
+	user := &domain.User{
+		ID:         body.ID,
+		PREFIX:     body.PREFIX,
+		FIRST_NAME: body.FIRST_NAME,
+		LAST_NAME:  body.LAST_NAME,
+		DOB:        body.DOB,
+		PHONE:      body.PHONE,
+		GENDER:     body.GENDER,
+		ADDRESS:    body.ADDRESS,
+	}
+
+	err = u.userUsecase.UpdateInfomation(user)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
 		MESSAGE: "OK",
 	})
 }
 
+// UpdateRoleByID	godoc
+// @Summary								Update role by user id
+// @Description						Update role by user id
+// @Tags									manage
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Param									payload body	payload.UpdateUserRoleDTO true "Payload"
+// @Router /api/admin/manage/role	[put]
 func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserRoleDTO
 	err := u.validator.ValidateBody(ctx, &body)
@@ -108,10 +168,10 @@ func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
-// @Param									payload body	payload.UpdateUserDTO true "Payload"
+// @Param									payload body	payload.UpdateUserInformationDTO true "Payload"
 // @Router /api/user/			[patch]
 func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
-	var body payload.UpdateUserDTO
+	var body payload.UpdateUserInformationDTO
 	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
@@ -145,6 +205,14 @@ func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 	})
 }
 
+// GetPaymentByUserID	godoc
+// @Summary								Get payment by user id
+// @Description						Get payment by user id
+// @Tags									user
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Router /api/user/payment	[get]
 func (u *UserController) GetPaymentByUserID(ctx *fiber.Ctx) error {
 	id := ctx.Locals(constant.CTX_USER_ID).(string)
 	payments, err := u.paymentUsecase.GetByUserID(id)

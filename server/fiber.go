@@ -66,6 +66,7 @@ func (s *FiberServer) Route() {
 	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
 	userController := controller.NewUserController(validator, s.usecase.UserUsecase, s.usecase.PaymentUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
+	paymentController := controller.NewPaymentController(s.usecase.PaymentUsecase)
 	paymentTypeController := controller.NewPaymentTypeController(s.usecase.PaymentTypeUsecase)
 	roomTypeController := controller.NewRoomTypeController(validator, s.usecase.RoomTypeUsecase)
 
@@ -87,23 +88,29 @@ func (s *FiberServer) Route() {
 	user.Get("/me", middlewareAuth, userController.Me)
 	user.Get("/payment", middlewareAuth, userController.GetPaymentByUserID)
 	user.Patch("/", middlewareAuth, userController.UpdateInfomationByID)
-	user.Get("/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
 
 	role := api.Group("/role")
 	role.Get("/all", middlewareAuth, AdminAuthMiddleware, roleController.GetALL)
 
 	admin := api.Group("/admin")
+	admin.Get("/manage/user/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
+	admin.Put("/manage/user", middlewareAuth, AdminAuthMiddleware, userController.UpdateByID)
 	admin.Put("/manage/role", middlewareAuth, AdminAuthMiddleware, userController.UpdateRoleByID)
+
+	payment := api.Group("/payment")
+	payment.Post("/", middlewareAuth, paymentController.AddPaymentByUser)
 
 	paymentType := api.Group("/payment_type")
 	paymentType.Get("/all", middlewareAuth, paymentTypeController.GetAll)
 
 	room := api.Group("/room")
-	room.Get("/all", middlewareAuth, roomTypeController.GetRoomTypeList)
+	room.Get("/all", middlewareAuth, StaffAuthMiddleware, roomTypeController.GetRoomTypeList)
+	room.Get("/:id", middlewareAuth, StaffAuthMiddleware, roomTypeController.GetRoomTypeByID)
+	room.Post("/", middlewareAuth, AdminAuthMiddleware, roomTypeController.CreateRoomType)
 
 	roomType := api.Group("/room_type")
 	roomType.Get("/all", roomTypeController.GetRoomTypeList)
 	roomType.Get("/:id", roomTypeController.GetRoomTypeByID)
 	roomType.Post("/", middlewareAuth, AdminAuthMiddleware, roomTypeController.CreateRoomType)
-	roomType.Patch("/:id", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomType)
+	roomType.Put("/:id", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomType)
 }

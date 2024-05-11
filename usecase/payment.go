@@ -40,7 +40,6 @@ func (u *paymentUsecase) GetByUserID(userId string) (*[]domain.Payment, error) {
 		return nil, err
 	}
 
-	// paymentInfo := make([]interface{}, len(*payment))
 	var wg sync.WaitGroup
 	wg.Add(len(*paymentInfo))
 	for i, item := range *paymentInfo {

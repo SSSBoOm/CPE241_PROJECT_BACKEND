@@ -46,6 +46,14 @@ func (auth *AuthController) GetUrl(c *fiber.Ctx) error {
 	})
 }
 
+// SignIn godoc
+// @Summary Sign In
+// @Description Sign In
+// @Tags Auth
+// @Produce json
+// @Param code query string true "Code"
+// @Response 200 {object} domain.Response "OK"
+// @Router /api/auth/google/callback [post]
 func (auth *AuthController) SignInWithGoogle(ctx *fiber.Ctx) error {
 	cookie, err := auth.authUsecase.SignInWithGoogle(ctx)
 	if err != nil {

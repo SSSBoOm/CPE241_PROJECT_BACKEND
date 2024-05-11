@@ -21,5 +21,8 @@ type PaymentRepository interface {
 }
 
 type PaymentUsecase interface {
+	GetAll() (*[]Payment, error)
+	GetByID(id int) (*Payment, error)
+	Create(payment *Payment) error
 	GetByUserID(userId string) (*[]Payment, error)
 }
