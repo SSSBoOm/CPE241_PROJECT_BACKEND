@@ -13,7 +13,7 @@ func NewMaintenanceRepository(db *sqlx.DB) domain.MaintenanceRepository {
 	return &maintenanceRepository{db: db}
 }
 
-func (repo *maintenanceRepository) Get(id int) (*domain.MAINTENANCE, error) {
+func (repo *maintenanceRepository) GetByID(id int) (*domain.MAINTENANCE, error) {
 	maintenance := domain.MAINTENANCE{}
 	err := repo.db.Get(&maintenance, "SELECT * FROM maintenance WHERE id = ?", id)
 	if err != nil {
@@ -31,15 +31,17 @@ func (repo *maintenanceRepository) GetAll() (*[]domain.MAINTENANCE, error) {
 	return &maintenances, nil
 }
 
-func (repo *maintenanceRepository) Create(maintenance *domain.MAINTENANCE) error {
+func (repo *maintenanceRepository) Create(maintenance *domain.MAINTENANCE) (*int, error) {
 	t := repo.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO maintenance (room_id, staff_id) VALUES (:room_id, :staff_id)", maintenance)
+	data, err := t.NamedExec("INSERT INTO maintenance (room_id, staff_id) VALUES (:room_id, :staff_id)", maintenance)
 	if err != nil {
 		t.Rollback()
-		return err
+		return nil, err
 	}
 	t.Commit()
-	return nil
+	LastInsertId, _ := data.LastInsertId()
+	Id := int(LastInsertId)
+	return &Id, nil
 }
 
 func (repo *maintenanceRepository) Update(maintenance *domain.MAINTENANCE) error {
