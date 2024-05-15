@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
@@ -21,6 +22,7 @@ func (r *roomTypeRepository) GetAll() (*[]domain.RoomType, error) {
 	roomType := make([]domain.RoomType, 0)
 	err := r.db.Select(&roomType, "SELECT * FROM room_type")
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 	return &roomType, nil

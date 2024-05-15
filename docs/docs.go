@@ -196,6 +196,27 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/maintenance/all": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetAll Maintenance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Maintenance"
+                ],
+                "summary": "GetAll Maintenance",
+                "responses": {}
+            }
+        },
         "/api/payment": {
             "post": {
                 "security": [

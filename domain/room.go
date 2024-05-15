@@ -8,7 +8,7 @@ type Room struct {
 	IS_ACTIVE    bool      `json:"is_active" db:"is_active"`
 	ROOM_TYPE_ID int       `json:"-" db:"room_type_id"`
 	ROOM_TYPE    RoomType  `json:"room_type"`
-	UPDATE_AT    time.Time `json:"updateAt" db:"update_at"`
+	UPDATE_AT    time.Time `json:"updateAt" db:"updated_at"`
 	CREATE_AT    time.Time `json:"createdAt" db:"created_at"`
 }
 

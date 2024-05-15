@@ -64,13 +64,15 @@ func initRepository(
 	mysql *sqlx.DB,
 ) *domain.Repository {
 	return &domain.Repository{
-		UserRepository:        repository.NewUserRepository(mysql),
-		SessionRepository:     repository.NewSessionRepository(mysql),
-		RoleRepository:        repository.NewRoleRepository(mysql),
-		RoomRepository:        repository.NewRoomRepository(mysql),
-		RoomTypeRepository:    repository.NewRoomTypeRepository(mysql),
-		PaymentRepository:     repository.NewPaymentRepository(mysql),
-		PaymentTypeRepository: repository.NewPaymentTypeRepository(mysql),
+		UserRepository:           repository.NewUserRepository(mysql),
+		SessionRepository:        repository.NewSessionRepository(mysql),
+		RoleRepository:           repository.NewRoleRepository(mysql),
+		RoomRepository:           repository.NewRoomRepository(mysql),
+		RoomTypeRepository:       repository.NewRoomTypeRepository(mysql),
+		PaymentRepository:        repository.NewPaymentRepository(mysql),
+		PaymentTypeRepository:    repository.NewPaymentTypeRepository(mysql),
+		MaintenanceRepository:    repository.NewMaintenanceRepository(mysql),
+		MaintenanceLogRepository: repository.NewMaintenanceLogRepository(mysql),
 	}
 }
 
@@ -87,16 +89,20 @@ func initUsecase(
 	paymentUsecase := usecase.NewPaymentUsecase(repo.PaymentRepository, paymentTypeUsecase)
 	roomTypeUsecase := usecase.NewRoomTypeUsecase(repo.RoomTypeRepository)
 	roomUsecase := usecase.NewRoomUsecase(repo.RoomRepository, roomTypeUsecase)
+	maintenanceLogUsecase := usecase.NewMaintenanceLogUsecase(repo.MaintenanceLogRepository)
+	maintenanceUsecase := usecase.NewMaintenanceUsecase(repo.MaintenanceRepository, maintenanceLogUsecase)
 
 	return &domain.Usecase{
-		AuthUsecase:        authUsecase,
-		GoogleUsecase:      googleUsecase,
-		UserUsecase:        userUsecase,
-		SessionUsecase:     sessionUsecase,
-		RoleUsecase:        roleUsecase,
-		RoomUsecase:        roomUsecase,
-		RoomTypeUsecase:    roomTypeUsecase,
-		PaymentUsecase:     paymentUsecase,
-		PaymentTypeUsecase: paymentTypeUsecase,
+		AuthUsecase:           authUsecase,
+		GoogleUsecase:         googleUsecase,
+		UserUsecase:           userUsecase,
+		SessionUsecase:        sessionUsecase,
+		RoleUsecase:           roleUsecase,
+		RoomUsecase:           roomUsecase,
+		RoomTypeUsecase:       roomTypeUsecase,
+		PaymentUsecase:        paymentUsecase,
+		PaymentTypeUsecase:    paymentTypeUsecase,
+		MaintenanceUsecase:    maintenanceUsecase,
+		MaintenanceLogUsecase: maintenanceLogUsecase,
 	}
 }

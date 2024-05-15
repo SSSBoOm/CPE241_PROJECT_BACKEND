@@ -257,6 +257,19 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Health Check
+  /api/maintenance/all:
+    get:
+      consumes:
+      - application/json
+      description: GetAll Maintenance
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: GetAll Maintenance
+      tags:
+      - Maintenance
   /api/payment:
     post:
       consumes:

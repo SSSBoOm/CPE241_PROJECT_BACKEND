@@ -21,7 +21,7 @@ type User struct {
 	ADDRESS     string     `json:"address" db:"address"`
 	PROFILE_URL string     `json:"profileUrl" db:"profile_url"`
 	ROLE_ID     int        `json:"-" db:"role_id"`
-	UPDATE_AT   time.Time  `json:"updateAt" db:"update_at"`
+	UPDATE_AT   time.Time  `json:"updateAt" db:"updated_at"`
 	CREATE_AT   time.Time  `json:"createdAt" db:"created_at"`
 }
 
