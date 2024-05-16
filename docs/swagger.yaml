@@ -8,6 +8,18 @@ definitions:
     x-enum-varnames:
     - MALE
     - FEMALE
+  domain.MAINTENANCE_LOG_STATUS:
+    enum:
+    - CASE_OPEN
+    - PENDING
+    - APPROVED
+    - REJECTED
+    type: string
+    x-enum-varnames:
+    - CASE_OPEN
+    - PENDING
+    - APPROVED
+    - REJECTED
   domain.Response:
     properties:
       data: {}
@@ -47,8 +59,6 @@ definitions:
     type: object
   payload.AddPaymentByUserIdDTO:
     properties:
-      createdAt:
-        type: string
       id:
         type: integer
       name:
@@ -57,6 +67,45 @@ definitions:
         type: string
       paymentNumber:
         type: string
+    required:
+    - id
+    - name
+    - paymentName
+    - paymentNumber
+    type: object
+  payload.MAINTENANCE_CREATE:
+    properties:
+      maintenance_log:
+        items:
+          $ref: '#/definitions/payload.MAINTENANCE_LOG_ON_MAINTENANCE_CREATE'
+        type: array
+      room_id:
+        type: integer
+    required:
+    - room_id
+    type: object
+  payload.MAINTENANCE_LOG_ON_MAINTENANCE_CREATE:
+    properties:
+      description:
+        type: string
+      status:
+        $ref: '#/definitions/domain.MAINTENANCE_LOG_STATUS'
+    required:
+    - description
+    - status
+    type: object
+  payload.MaintenanceLogCreate:
+    properties:
+      description:
+        type: string
+      maintenance_id:
+        type: integer
+      status:
+        $ref: '#/definitions/domain.MAINTENANCE_LOG_STATUS'
+    required:
+    - description
+    - maintenance_id
+    - status
     type: object
   payload.UpdateRoomType:
     properties:
@@ -257,6 +306,54 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Health Check
+  /api/maintenance:
+    post:
+      consumes:
+      - application/json
+      description: Create Maintenance
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      - description: MAINTENANCE_CREATE
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.MAINTENANCE_CREATE'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create Maintenance
+      tags:
+      - Maintenance
+  /api/maintenance/{id}:
+    get:
+      consumes:
+      - application/json
+      description: GetByID Maintenance
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: GetByID Maintenance
+      tags:
+      - Maintenance
   /api/maintenance/all:
     get:
       consumes:
@@ -270,6 +367,35 @@ paths:
       summary: GetAll Maintenance
       tags:
       - Maintenance
+  /api/maintenance_log:
+    post:
+      consumes:
+      - application/json
+      description: Create maintenance log
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      - description: MaintenanceLogCreate
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.MaintenanceLogCreate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create maintenance log
+      tags:
+      - maintenance_log
   /api/payment:
     post:
       consumes:

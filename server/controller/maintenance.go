@@ -54,6 +54,7 @@ func (c *maintenanceController) GetAll(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									id path string true "ID"
+// @Response 200 {object} domain.Response
 // @Router /api/maintenance/{id} [get]
 func (c *maintenanceController) GetByID(ctx *fiber.Ctx) error {
 	id, err := strconv.Atoi(ctx.Params("id"))
@@ -85,7 +86,9 @@ func (c *maintenanceController) GetByID(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
-// @Param									maintenance body MaintenanceRequest true "Maintenance"
+// @Param									ssid header string true "Session ID"
+// @Param									body body payload.MAINTENANCE_CREATE true "MAINTENANCE_CREATE"
+// @Success 201 {object} domain.Response
 // @Router /api/maintenance [post]
 func (c *maintenanceController) Create(ctx *fiber.Ctx) error {
 	userId := ctx.Locals(constant.CTX_USER_ID).(string)

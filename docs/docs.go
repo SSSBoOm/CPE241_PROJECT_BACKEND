@@ -196,6 +196,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/maintenance": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create Maintenance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Maintenance"
+                ],
+                "summary": "Create Maintenance",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "MAINTENANCE_CREATE",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.MAINTENANCE_CREATE"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/maintenance/all": {
             "get": {
                 "security": [
@@ -215,6 +261,82 @@ const docTemplate = `{
                 ],
                 "summary": "GetAll Maintenance",
                 "responses": {}
+            }
+        },
+        "/api/maintenance/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetByID Maintenance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Maintenance"
+                ],
+                "summary": "GetByID Maintenance",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/maintenance_log": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create maintenance log",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "maintenance_log"
+                ],
+                "summary": "Create maintenance log",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "MaintenanceLogCreate",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.MaintenanceLogCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/payment": {
@@ -548,6 +670,21 @@ const docTemplate = `{
                 "FEMALE"
             ]
         },
+        "domain.MAINTENANCE_LOG_STATUS": {
+            "type": "string",
+            "enum": [
+                "CASE_OPEN",
+                "PENDING",
+                "APPROVED",
+                "REJECTED"
+            ],
+            "x-enum-varnames": [
+                "CASE_OPEN",
+                "PENDING",
+                "APPROVED",
+                "REJECTED"
+            ]
+        },
         "domain.Response": {
             "type": "object",
             "properties": {
@@ -606,10 +743,13 @@ const docTemplate = `{
         },
         "payload.AddPaymentByUserIdDTO": {
             "type": "object",
+            "required": [
+                "id",
+                "name",
+                "paymentName",
+                "paymentNumber"
+            ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
@@ -621,6 +761,57 @@ const docTemplate = `{
                 },
                 "paymentNumber": {
                     "type": "string"
+                }
+            }
+        },
+        "payload.MAINTENANCE_CREATE": {
+            "type": "object",
+            "required": [
+                "room_id"
+            ],
+            "properties": {
+                "maintenance_log": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/payload.MAINTENANCE_LOG_ON_MAINTENANCE_CREATE"
+                    }
+                },
+                "room_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "payload.MAINTENANCE_LOG_ON_MAINTENANCE_CREATE": {
+            "type": "object",
+            "required": [
+                "description",
+                "status"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
+                }
+            }
+        },
+        "payload.MaintenanceLogCreate": {
+            "type": "object",
+            "required": [
+                "description",
+                "maintenance_id",
+                "status"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "maintenance_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
                 }
             }
         },

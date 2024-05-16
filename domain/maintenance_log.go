@@ -12,7 +12,7 @@ const (
 type MAINTENANCE_LOG struct {
 	ID             int                    `json:"id" db:"id"`
 	MAINTENANCE_ID int                    `json:"maintenance_id" db:"maintenance_id"`
-	STAFF_ID       int                    `json:"staff_id" db:"staff_id"`
+	STAFF_ID       string                 `json:"staff_id" db:"staff_id"`
 	DESCRIPTION    string                 `json:"description" db:"description"`
 	STATUS         MAINTENANCE_LOG_STATUS `json:"status" db:"status"`
 	CREATED_AT     string                 `json:"created_at" db:"created_at"`
