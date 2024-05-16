@@ -27,6 +27,7 @@ func NewRoomTypeController(validator domain.ValidatorUsecase, roomTypeUsecase do
 // @Tags									room_type
 // @Accept								json
 // @produce								json
+// @Response 200 {object} domain.Response
 // @Router /api/room_type/all	[get]
 func (controller *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 	roomTypeList, err := controller.roomTypeUsecase.GetAll()

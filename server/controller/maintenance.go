@@ -93,8 +93,7 @@ func (c *maintenanceController) GetByID(ctx *fiber.Ctx) error {
 func (c *maintenanceController) Create(ctx *fiber.Ctx) error {
 	userId := ctx.Locals(constant.CTX_USER_ID).(string)
 	var body payload.MAINTENANCE_CREATE
-	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
-	if err != nil {
+	if err := validator.NewPayloadValidator().ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INVALID_BODY,
@@ -115,7 +114,7 @@ func (c *maintenanceController) Create(ctx *fiber.Ctx) error {
 		MAINTENANCE_LOG: &MAINTENANCE_LOG,
 	}
 
-	err = c.maintenanceUsecase.CreateWithMaintenance_Log(data)
+	err := c.maintenanceUsecase.CreateWithMaintenance_Log(data)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,

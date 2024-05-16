@@ -69,6 +69,7 @@ func (s *FiberServer) Route() {
 	paymentController := controller.NewPaymentController(s.usecase.PaymentUsecase)
 	paymentTypeController := controller.NewPaymentTypeController(s.usecase.PaymentTypeUsecase)
 	roomTypeController := controller.NewRoomTypeController(validator, s.usecase.RoomTypeUsecase)
+	roomController := controller.NewRoomController(validator, s.usecase.RoomUsecase)
 	maintenanceController := controller.NewMaintenanceController(validator, s.usecase.MaintenanceUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
@@ -107,7 +108,8 @@ func (s *FiberServer) Route() {
 	room := api.Group("/room")
 	room.Get("/all", middlewareAuth, StaffAuthMiddleware, roomTypeController.GetRoomTypeList)
 	room.Get("/:id", middlewareAuth, StaffAuthMiddleware, roomTypeController.GetRoomTypeByID)
-	room.Post("/", middlewareAuth, AdminAuthMiddleware, roomTypeController.CreateRoomType)
+	room.Post("/", middlewareAuth, AdminAuthMiddleware, roomController.Create)
+	room.Put("/:id", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomType)
 
 	roomType := api.Group("/room_type")
 	roomType.Get("/all", roomTypeController.GetRoomTypeList)

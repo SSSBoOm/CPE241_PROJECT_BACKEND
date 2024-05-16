@@ -348,7 +348,11 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       security:
       - ApiKeyAuth: []
       summary: GetByID Maintenance
@@ -484,6 +488,28 @@ paths:
       summary: Get room by id
       tags:
       - room
+    put:
+      consumes:
+      - application/json
+      description: Update room
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Room
+        in: body
+        name: room
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Room'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update room
+      tags:
+      - room
   /api/room/all:
     get:
       consumes:
@@ -554,7 +580,11 @@ paths:
       description: Get all room types
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       summary: Get all room types
       tags:
       - room_type

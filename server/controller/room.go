@@ -4,16 +4,20 @@ import (
 	"strconv"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
+	"github.com/SSSBoOm/CPE241_Project_Backend/internal/validator"
 	"github.com/gofiber/fiber/v2"
 )
 
 type roomController struct {
+	validator   domain.ValidatorUsecase
 	roomUsecase domain.RoomUsecase
 }
 
-func NewRoomController(roomUsecase domain.RoomUsecase) *roomController {
+func NewRoomController(validator domain.ValidatorUsecase, roomUsecase domain.RoomUsecase) *roomController {
 	return &roomController{
+		validator:   validator,
 		roomUsecase: roomUsecase,
 	}
 }
@@ -86,15 +90,21 @@ func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 // @Param									room body domain.Room true "Room"
 // @Router /api/room	[post]
 func (c *roomController) Create(ctx *fiber.Ctx) error {
-	var room domain.Room
-	if err := ctx.BodyParser(&room); err != nil {
+	var body payload.RoomCreateDTO
+	if err := validator.NewPayloadValidator().ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INVALID_BODY,
 		})
 	}
 
-	if err := c.roomUsecase.Create(&room); err != nil {
+	room := &domain.Room{
+		ROOM_NUMBER:  body.ROOM_NUMBER,
+		IS_ACTIVE:    body.IS_ACTIVE,
+		ROOM_TYPE_ID: body.ROOM_TYPE_ID,
+	}
+
+	if err := c.roomUsecase.Create(room); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
@@ -102,6 +112,52 @@ func (c *roomController) Create(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+	})
+}
+
+// Update godoc
+// @Summary								Update room
+// @Description						Update room
+// @Tags									room
+// @Accept								json
+// @produce								json
+// @Param									id path int true "Room ID"
+// @Param									room body domain.Room true "Room"
+// @Router /api/room/{id}	[put]
+func (c *roomController) Update(ctx *fiber.Ctx) error {
+	id, err := strconv.Atoi(ctx.Params("id"))
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	var body payload.RoomUpdateDTO
+	if err := validator.NewPayloadValidator().ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+
+	data := &domain.Room{
+		ID:           id,
+		ROOM_NUMBER:  body.ROOM_NUMBER,
+		IS_ACTIVE:    body.IS_ACTIVE,
+		ROOM_TYPE_ID: body.ROOM_TYPE_ID,
+	}
+
+	if err := c.roomUsecase.Update(data); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
 		MESSAGE: constant.MESSAGE_SUCCESS,
 	})
