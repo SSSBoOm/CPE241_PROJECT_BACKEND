@@ -47,7 +47,7 @@ func (r *roomRepository) Create(room *domain.Room) error {
 }
 
 func (r *roomRepository) Update(room *domain.Room) error {
-	room.UPDATE_AT = time.Now()
+	room.UPDATED_AT = time.Now()
 	t := r.db.MustBegin()
 	_, err := t.NamedExec("UPDATE room SET room_number = :room_number, is_active = :is_active, room_type_id = :room_type_id, update_at = :update_at WHERE id = :id", room)
 	if err != nil {

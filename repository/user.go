@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
@@ -61,8 +62,9 @@ func (r *userRepository) CreateFromGoogle(user *domain.User) error {
 }
 
 func (r *userRepository) UpdateInfomation(user *domain.User) error {
+	user.UPDATED_AT = time.Now()
 	tx := r.db.MustBegin()
-	_, err := tx.NamedExec("UPDATE user SET prefix = :prefix, first_name = :first_name, last_name = :last_name, gender = :gender, address = :address, phone = :phone WHERE id = :id", user)
+	_, err := tx.NamedExec("UPDATE user SET prefix = :prefix, first_name = :first_name, last_name = :last_name, gender = :gender, address = :address, phone = :phone, updated_at = :updated_at WHERE id = :id", user)
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -73,7 +75,7 @@ func (r *userRepository) UpdateInfomation(user *domain.User) error {
 
 func (r *userRepository) UpdateRoleById(userId string, roleID int) error {
 	tx := r.db.MustBegin()
-	_, err := tx.Exec("UPDATE user SET role_id = ? WHERE id = ?", roleID, userId)
+	_, err := tx.Exec("UPDATE user SET role_id = ?, updated_at = ? WHERE id = ?", roleID, time.Now(), userId)
 	if err != nil {
 		tx.Rollback()
 		return err

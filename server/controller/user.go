@@ -4,7 +4,6 @@ import (
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
-	"github.com/SSSBoOm/CPE241_Project_Backend/internal/validator"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -95,7 +94,7 @@ func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 // @Router /api/admin/manage/user	[put]
 func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserDTO
-	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
+	err := u.validator.ValidateBody(ctx, &body)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
@@ -172,7 +171,7 @@ func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 // @Router /api/user/			[patch]
 func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserInformationDTO
-	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
+	err := u.validator.ValidateBody(ctx, &body)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,

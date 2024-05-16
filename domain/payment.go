@@ -10,7 +10,7 @@ type Payment struct {
 	USER_ID         string      `json:"userId" db:"user_id"`
 	PAYMENT_TYPE_ID int         `json:"-" db:"payment_type_id"`
 	PAYMENT_TYPE    PaymentType `json:"paymentType"`
-	CREATE_AT       time.Time   `json:"createdAt" db:"created_at"`
+	CREATED_AT      time.Time   `json:"createdAt" db:"created_at"`
 }
 
 type PaymentRepository interface {

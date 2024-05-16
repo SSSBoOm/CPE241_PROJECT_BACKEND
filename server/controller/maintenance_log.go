@@ -4,18 +4,18 @@ import (
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
-	"github.com/SSSBoOm/CPE241_Project_Backend/internal/validator"
 	"github.com/gofiber/fiber/v2"
 )
 
 type maintenanceLogController struct {
+	validator             domain.ValidatorUsecase
 	maintenanceUsecase    domain.MaintenanceUsecase
 	maintenanceLogUsecase domain.MaintenanceLogUsecase
 }
 
-func NewMaintenanceLogController(maintenanceUsecase domain.MaintenanceUsecase,
-	maintenanceLogUsecase domain.MaintenanceLogUsecase) *maintenanceLogController {
+func NewMaintenanceLogController(validator domain.ValidatorUsecase, maintenanceUsecase domain.MaintenanceUsecase, maintenanceLogUsecase domain.MaintenanceLogUsecase) *maintenanceLogController {
 	return &maintenanceLogController{
+		validator:             validator,
 		maintenanceUsecase:    maintenanceUsecase,
 		maintenanceLogUsecase: maintenanceLogUsecase,
 	}
@@ -35,7 +35,7 @@ func NewMaintenanceLogController(maintenanceUsecase domain.MaintenanceUsecase,
 func (c *maintenanceLogController) Create(ctx *fiber.Ctx) error {
 	userId := ctx.Locals(constant.CTX_USER_ID).(string)
 	var body payload.MaintenanceLogCreate
-	err := validator.NewPayloadValidator().ValidateBody(ctx, &body)
+	err := c.validator.ValidateBody(ctx, &body)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,

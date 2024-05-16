@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
@@ -51,6 +52,7 @@ func (r *roomTypeRepository) Create(roomType *domain.RoomType) error {
 }
 
 func (r *roomTypeRepository) Update(roomType *domain.RoomType) error {
+	roomType.UPDATED_AT = time.Now()
 	t := r.db.MustBegin()
 	_, err := t.NamedExec("UPDATE room_type SET name = :name, is_active = :is_active, update_at = :update_at WHERE id = :id", roomType)
 	if err != nil {

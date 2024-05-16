@@ -1,5 +1,7 @@
 package domain
 
+import "time"
+
 type MAINTENANCE_LOG_STATUS string
 
 const (
@@ -15,7 +17,8 @@ type MAINTENANCE_LOG struct {
 	STAFF_ID       string                 `json:"staff_id" db:"staff_id"`
 	DESCRIPTION    string                 `json:"description" db:"description"`
 	STATUS         MAINTENANCE_LOG_STATUS `json:"status" db:"status"`
-	CREATED_AT     string                 `json:"created_at" db:"created_at"`
+	UPDATED_AT     time.Time              `json:"updateAt" db:"updated_at"`
+	CREATED_AT     time.Time              `json:"createdAt" db:"created_at"`
 }
 
 type MaintenanceLogRepository interface {

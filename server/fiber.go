@@ -71,6 +71,7 @@ func (s *FiberServer) Route() {
 	roomTypeController := controller.NewRoomTypeController(validator, s.usecase.RoomTypeUsecase)
 	roomController := controller.NewRoomController(validator, s.usecase.RoomUsecase)
 	maintenanceController := controller.NewMaintenanceController(validator, s.usecase.MaintenanceUsecase)
+	maintenanceLogController := controller.NewMaintenanceLogController(validator, s.usecase.MaintenanceUsecase, s.usecase.MaintenanceLogUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
@@ -119,4 +120,7 @@ func (s *FiberServer) Route() {
 
 	maintenance := api.Group("/maintenance")
 	maintenance.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceController.Create)
+
+	maintenanceLog := api.Group("/maintenance_log")
+	maintenanceLog.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceLogController.Create)
 }

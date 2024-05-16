@@ -13,12 +13,11 @@ func NewRoleAuthMiddleware(rolesAuth []string) fiber.Handler {
 		role := ctx.Locals(constant.CTX_ROLE).(string)
 
 		if !slices.Contains(rolesAuth, role) {
-			return ctx.Status(fiber.StatusUnauthorized).JSON(domain.Response{
+			return ctx.Status(fiber.StatusForbidden).JSON(domain.Response{
 				SUCCESS: false,
-				MESSAGE: "No Permission",
+				MESSAGE: "Forbidden",
 			})
 		}
-
 		return ctx.Next()
 	}
 }

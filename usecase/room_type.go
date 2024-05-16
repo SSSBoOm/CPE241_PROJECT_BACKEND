@@ -1,8 +1,6 @@
 package usecase
 
 import (
-	"time"
-
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 )
 
@@ -29,6 +27,5 @@ func (u *roomTypeUsecase) Create(roomType *domain.RoomType) error {
 }
 
 func (u *roomTypeUsecase) Update(roomType *domain.RoomType) error {
-	roomType.UPDATE_AT = time.Now()
 	return u.roomTypeRepository.Update(roomType)
 }

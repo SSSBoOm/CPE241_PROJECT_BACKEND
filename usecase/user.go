@@ -34,7 +34,7 @@ func (u *UserUsecase) CreateFromGoogle(name string, email string, picture string
 		FIRST_NAME:  FirstName,
 		LAST_NAME:   LastName,
 		PROFILE_URL: picture,
-		CREATE_AT:   time.Now(),
+		CREATED_AT:  time.Now(),
 	}
 
 	err := u.userRepository.CreateFromGoogle(user)

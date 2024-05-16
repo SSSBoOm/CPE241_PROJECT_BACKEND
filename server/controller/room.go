@@ -136,7 +136,7 @@ func (c *roomController) Update(ctx *fiber.Ctx) error {
 	}
 
 	var body payload.RoomUpdateDTO
-	if err := validator.NewPayloadValidator().ValidateBody(ctx, &body); err != nil {
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INVALID_BODY,
