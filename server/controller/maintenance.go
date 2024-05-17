@@ -87,7 +87,7 @@ func (c *maintenanceController) GetByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									ssid header string true "Session ID"
-// @Param									body body payload.MAINTENANCE_CREATE true "MAINTENANCE_CREATE"
+// @Param									body body payload.MaintenanceCreateDTO true "MAINTENANCE_CREATE"
 // @Success 201 {object} domain.Response
 // @Router /api/maintenance [post]
 func (c *maintenanceController) Create(ctx *fiber.Ctx) error {

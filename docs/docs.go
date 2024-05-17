@@ -228,7 +228,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/payload.MAINTENANCE_CREATE"
+                            "$ref": "#/definitions/payload.MaintenanceCreateDTO"
                         }
                     }
                 ],
@@ -725,10 +725,10 @@ const docTemplate = `{
                 "REJECTED"
             ],
             "x-enum-varnames": [
-                "CASE_OPEN",
-                "PENDING",
-                "APPROVED",
-                "REJECTED"
+                "MAINTENANCE_LOG_STATUS_CASE_OPEN",
+                "MAINTENANCE_LOG_STATUS_PENDING",
+                "MAINTENANCE_LOG_STATUS_APPROVED",
+                "MAINTENANCE_LOG_STATUS_REJECTED"
             ]
         },
         "domain.Response": {
@@ -810,35 +810,20 @@ const docTemplate = `{
                 }
             }
         },
-        "payload.MAINTENANCE_CREATE": {
+        "payload.MaintenanceCreateDTO": {
             "type": "object",
             "required": [
-                "room_id"
+                "roomId"
             ],
             "properties": {
-                "maintenance_log": {
+                "maintenanceLog": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/payload.MAINTENANCE_LOG_ON_MAINTENANCE_CREATE"
+                        "$ref": "#/definitions/payload.Maintenance_Log_On_Maintenance_Create"
                     }
                 },
-                "room_id": {
+                "roomId": {
                     "type": "integer"
-                }
-            }
-        },
-        "payload.MAINTENANCE_LOG_ON_MAINTENANCE_CREATE": {
-            "type": "object",
-            "required": [
-                "description",
-                "status"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "status": {
-                    "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
                 }
             }
         },
@@ -846,15 +831,30 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "description",
-                "maintenance_id",
+                "maintenanceId",
                 "status"
             ],
             "properties": {
                 "description": {
                     "type": "string"
                 },
-                "maintenance_id": {
+                "maintenanceId": {
                     "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
+                }
+            }
+        },
+        "payload.Maintenance_Log_On_Maintenance_Create": {
+            "type": "object",
+            "required": [
+                "description",
+                "status"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
                 },
                 "status": {
                     "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
