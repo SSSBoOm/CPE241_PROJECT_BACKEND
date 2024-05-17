@@ -5,19 +5,19 @@ import "time"
 type MAINTENANCE_LOG_STATUS string
 
 const (
-	CASE_OPEN MAINTENANCE_LOG_STATUS = "CASE_OPEN"
-	PENDING   MAINTENANCE_LOG_STATUS = "PENDING"
-	APPROVED  MAINTENANCE_LOG_STATUS = "APPROVED"
-	REJECTED  MAINTENANCE_LOG_STATUS = "REJECTED"
+	MAINTENANCE_LOG_STATUS_CASE_OPEN MAINTENANCE_LOG_STATUS = "CASE_OPEN"
+	MAINTENANCE_LOG_STATUS_PENDING   MAINTENANCE_LOG_STATUS = "PENDING"
+	MAINTENANCE_LOG_STATUS_APPROVED  MAINTENANCE_LOG_STATUS = "APPROVED"
+	MAINTENANCE_LOG_STATUS_REJECTED  MAINTENANCE_LOG_STATUS = "REJECTED"
 )
 
 type MAINTENANCE_LOG struct {
 	ID             int                    `json:"id" db:"id"`
-	MAINTENANCE_ID int                    `json:"maintenance_id" db:"maintenance_id"`
-	STAFF_ID       string                 `json:"staff_id" db:"staff_id"`
+	MAINTENANCE_ID int                    `json:"maintenanceId" db:"maintenance_id"`
+	STAFF_ID       string                 `json:"staffId" db:"staff_id"`
 	DESCRIPTION    string                 `json:"description" db:"description"`
 	STATUS         MAINTENANCE_LOG_STATUS `json:"status" db:"status"`
-	UPDATED_AT     time.Time              `json:"updateAt" db:"updated_at"`
+	UPDATED_AT     time.Time              `json:"updatedAt" db:"updated_at"`
 	CREATED_AT     time.Time              `json:"createdAt" db:"created_at"`
 }
 

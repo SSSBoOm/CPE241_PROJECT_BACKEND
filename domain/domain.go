@@ -10,6 +10,7 @@ type Repository struct {
 	PaymentTypeRepository    PaymentTypeRepository
 	MaintenanceRepository    MaintenanceRepository
 	MaintenanceLogRepository MaintenanceLogRepository
+	ReservationRepository    ReservationRepository
 }
 
 type Usecase struct {
@@ -24,4 +25,5 @@ type Usecase struct {
 	PaymentTypeUsecase    PaymentTypeUsecase
 	MaintenanceUsecase    MaintenanceUsecase
 	MaintenanceLogUsecase MaintenanceLogUsecase
+	ReservationUsecase    ReservationUsecase
 }

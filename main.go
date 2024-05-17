@@ -73,6 +73,7 @@ func initRepository(
 		PaymentTypeRepository:    repository.NewPaymentTypeRepository(mysql),
 		MaintenanceRepository:    repository.NewMaintenanceRepository(mysql),
 		MaintenanceLogRepository: repository.NewMaintenanceLogRepository(mysql),
+		ReservationRepository:    repository.NewReservationRepository(mysql),
 	}
 }
 
@@ -91,6 +92,7 @@ func initUsecase(
 	roomUsecase := usecase.NewRoomUsecase(repo.RoomRepository, roomTypeUsecase)
 	maintenanceLogUsecase := usecase.NewMaintenanceLogUsecase(repo.MaintenanceLogRepository)
 	maintenanceUsecase := usecase.NewMaintenanceUsecase(repo.MaintenanceRepository, maintenanceLogUsecase)
+	reservationUsecase := usecase.NewReservationUsecase(repo.ReservationRepository, roomTypeUsecase, roomUsecase)
 
 	return &domain.Usecase{
 		AuthUsecase:           authUsecase,
@@ -104,5 +106,6 @@ func initUsecase(
 		PaymentTypeUsecase:    paymentTypeUsecase,
 		MaintenanceUsecase:    maintenanceUsecase,
 		MaintenanceLogUsecase: maintenanceLogUsecase,
+		ReservationUsecase:    reservationUsecase,
 	}
 }

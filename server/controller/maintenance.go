@@ -92,7 +92,7 @@ func (c *maintenanceController) GetByID(ctx *fiber.Ctx) error {
 // @Router /api/maintenance [post]
 func (c *maintenanceController) Create(ctx *fiber.Ctx) error {
 	userId := ctx.Locals(constant.CTX_USER_ID).(string)
-	var body payload.MAINTENANCE_CREATE
+	var body payload.MaintenanceCreateDTO
 	if err := validator.NewPayloadValidator().ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,

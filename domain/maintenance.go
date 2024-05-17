@@ -4,10 +4,10 @@ import "time"
 
 type MAINTENANCE struct {
 	ID              int                `json:"id" db:"id"`
-	ROOM_ID         int                `json:"room_id" db:"room_id"`
-	STAFF_ID        string             `json:"staff_id" db:"staff_id"`
-	MAINTENANCE_LOG *[]MAINTENANCE_LOG `json:"maintenance_log" db:"-"`
-	UPDATED_AT      time.Time          `json:"updateAt" db:"updated_at"`
+	ROOM_ID         int                `json:"roomId" db:"room_id"`
+	STAFF_ID        string             `json:"staffId" db:"staff_id"`
+	MAINTENANCE_LOG *[]MAINTENANCE_LOG `json:"maintenanceLog" db:"-"`
+	UPDATED_AT      time.Time          `json:"updatedAt" db:"updated_at"`
 	CREATED_AT      time.Time          `json:"createdAt" db:"created_at"`
 }
 
