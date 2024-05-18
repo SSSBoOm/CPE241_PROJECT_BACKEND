@@ -481,6 +481,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/reservation/me/all": {
+            "get": {
+                "description": "Get reservation by user id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Get reservation by user id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/role/all": {
             "get": {
                 "description": "Get all roles",
@@ -856,6 +888,9 @@ const docTemplate = `{
                 "createdAt": {
                     "type": "string"
                 },
+                "detail": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -873,15 +908,12 @@ const docTemplate = `{
         "payload.AddPaymentByUserIdDTO": {
             "type": "object",
             "required": [
-                "id",
                 "name",
                 "paymentName",
-                "paymentNumber"
+                "paymentNumber",
+                "payment_type_id"
             ],
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -890,6 +922,9 @@ const docTemplate = `{
                 },
                 "paymentNumber": {
                     "type": "string"
+                },
+                "payment_type_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -989,11 +1024,15 @@ const docTemplate = `{
         "payload.UpdateRoomType": {
             "type": "object",
             "required": [
+                "detail",
                 "id",
                 "isActive",
                 "name"
             ],
             "properties": {
+                "detail": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },

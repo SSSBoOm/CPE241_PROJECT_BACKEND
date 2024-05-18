@@ -60,6 +60,8 @@ definitions:
     properties:
       createdAt:
         type: string
+      detail:
+        type: string
       id:
         type: integer
       isActive:
@@ -71,19 +73,19 @@ definitions:
     type: object
   payload.AddPaymentByUserIdDTO:
     properties:
-      id:
-        type: integer
       name:
         type: string
+      payment_type_id:
+        type: integer
       paymentName:
         type: string
       paymentNumber:
         type: string
     required:
-    - id
     - name
     - paymentName
     - paymentNumber
+    - payment_type_id
     type: object
   payload.CreateReservationDTO:
     properties:
@@ -150,6 +152,8 @@ definitions:
     type: object
   payload.UpdateRoomType:
     properties:
+      detail:
+        type: string
       id:
         type: integer
       isActive:
@@ -157,6 +161,7 @@ definitions:
       name:
         type: string
     required:
+    - detail
     - id
     - isActive
     - name
@@ -525,6 +530,27 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Get room available group by room type
+      tags:
+      - reservation
+  /api/reservation/me/all:
+    get:
+      consumes:
+      - application/json
+      description: Get reservation by user id
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get reservation by user id
       tags:
       - reservation
   /api/role/all:
