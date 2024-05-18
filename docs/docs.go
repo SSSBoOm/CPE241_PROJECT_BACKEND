@@ -159,7 +159,7 @@ const docTemplate = `{
             }
         },
         "/api/auth/logout": {
-            "post": {
+            "get": {
                 "description": "Health checking for the service",
                 "produces": [
                     "application/json"
@@ -411,6 +411,74 @@ const docTemplate = `{
                 ],
                 "summary": "GetAll Payment Type",
                 "responses": {}
+            }
+        },
+        "/api/reservation": {
+            "post": {
+                "description": "Create reservation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Create reservation",
+                "parameters": [
+                    {
+                        "description": "Create reservation",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.CreateReservationDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation/get-room-available": {
+            "post": {
+                "description": "Get room available group by room type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Get room available group by room type",
+                "parameters": [
+                    {
+                        "description": "Get room available group by room type",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.GetRoomAvailableGroupByRoomTypeDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/role/all": {
@@ -731,6 +799,21 @@ const docTemplate = `{
                 "MAINTENANCE_LOG_STATUS_REJECTED"
             ]
         },
+        "domain.PrefixType": {
+            "type": "string",
+            "enum": [
+                "MR",
+                "MRS",
+                "MS",
+                ""
+            ],
+            "x-enum-varnames": [
+                "MR",
+                "MRS",
+                "MS",
+                "DEFAULT"
+            ]
+        },
         "domain.Response": {
             "type": "object",
             "properties": {
@@ -806,6 +889,48 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "paymentNumber": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.CreateReservationDTO": {
+            "type": "object",
+            "required": [
+                "endDate",
+                "paymentInfoId",
+                "price",
+                "roomId",
+                "startDate"
+            ],
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "paymentInfoId": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "roomId": {
+                    "type": "integer"
+                },
+                "startDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.GetRoomAvailableGroupByRoomTypeDTO": {
+            "type": "object",
+            "required": [
+                "endDate",
+                "startDate"
+            ],
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "startDate": {
                     "type": "string"
                 }
             }
@@ -915,7 +1040,7 @@ const docTemplate = `{
                     "minLength": 10
                 },
                 "prefix": {
-                    "type": "string"
+                    "$ref": "#/definitions/domain.PrefixType"
                 }
             }
         },
@@ -950,7 +1075,7 @@ const docTemplate = `{
                     "minLength": 10
                 },
                 "prefix": {
-                    "type": "string"
+                    "$ref": "#/definitions/domain.PrefixType"
                 }
             }
         },

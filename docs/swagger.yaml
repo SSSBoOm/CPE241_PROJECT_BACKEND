@@ -20,6 +20,18 @@ definitions:
     - MAINTENANCE_LOG_STATUS_PENDING
     - MAINTENANCE_LOG_STATUS_APPROVED
     - MAINTENANCE_LOG_STATUS_REJECTED
+  domain.PrefixType:
+    enum:
+    - MR
+    - MRS
+    - MS
+    - ""
+    type: string
+    x-enum-varnames:
+    - MR
+    - MRS
+    - MS
+    - DEFAULT
   domain.Response:
     properties:
       data: {}
@@ -72,6 +84,35 @@ definitions:
     - name
     - paymentName
     - paymentNumber
+    type: object
+  payload.CreateReservationDTO:
+    properties:
+      endDate:
+        type: string
+      paymentInfoId:
+        type: integer
+      price:
+        type: number
+      roomId:
+        type: integer
+      startDate:
+        type: string
+    required:
+    - endDate
+    - paymentInfoId
+    - price
+    - roomId
+    - startDate
+    type: object
+  payload.GetRoomAvailableGroupByRoomTypeDTO:
+    properties:
+      endDate:
+        type: string
+      startDate:
+        type: string
+    required:
+    - endDate
+    - startDate
     type: object
   payload.Maintenance_Log_On_Maintenance_Create:
     properties:
@@ -138,7 +179,7 @@ definitions:
         minLength: 10
         type: string
       prefix:
-        type: string
+        $ref: '#/definitions/domain.PrefixType'
     required:
     - address
     - dob
@@ -164,7 +205,7 @@ definitions:
         minLength: 10
         type: string
       prefix:
-        type: string
+        $ref: '#/definitions/domain.PrefixType'
     required:
     - address
     - dob
@@ -282,7 +323,7 @@ paths:
       tags:
       - Auth
   /api/auth/logout:
-    post:
+    get:
       description: Health checking for the service
       produces:
       - application/json
@@ -442,6 +483,50 @@ paths:
       summary: GetAll Payment Type
       tags:
       - PaymentType
+  /api/reservation:
+    post:
+      consumes:
+      - application/json
+      description: Create reservation
+      parameters:
+      - description: Create reservation
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.CreateReservationDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Create reservation
+      tags:
+      - reservation
+  /api/reservation/get-room-available:
+    post:
+      consumes:
+      - application/json
+      description: Get room available group by room type
+      parameters:
+      - description: Get room available group by room type
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.GetRoomAvailableGroupByRoomTypeDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get room available group by room type
+      tags:
+      - reservation
   /api/role/all:
     get:
       consumes:
