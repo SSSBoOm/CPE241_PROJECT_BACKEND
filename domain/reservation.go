@@ -1,6 +1,9 @@
 package domain
 
-import "time"
+import (
+	"database/sql"
+	"time"
+)
 
 type RESERVATION_STATUS string
 
@@ -18,15 +21,15 @@ const (
 type RESERVATION struct {
 	ID              int                `json:"id" db:"id"`
 	ROOM_ID         int                `json:"room_id" db:"room_id"`
-	USER_ID         int                `json:"user_id" db:"user_id"`
-	START_DATE      string             `json:"start_date" db:"start_date"`
-	END_DATE        string             `json:"end_date" db:"end_date"`
+	USER_ID         string             `json:"user_id" db:"user_id"`
+	START_DATE      time.Time          `json:"start_date" db:"start_date"`
+	END_DATE        time.Time          `json:"end_date" db:"end_date"`
 	PRICE           float64            `json:"price" db:"price"`
 	STATUS          RESERVATION_STATUS `json:"status" db:"status"`
-	ROOM_NUMBER     string             `json:"room_number" db:"room_number"`
-	PAYMENT_DATE    string             `json:"payment_date" db:"payment_date"`
+	PAYMENT_DATE    time.Time          `json:"payment_date" db:"payment_date"`
 	PAYMENT_INFO_ID int                `json:"payment_info_id" db:"payment_info_id"`
 	PAYMENT_INFO    Payment            `json:"payment_info" db:"-"`
+	STAFF_ID        *sql.NullString    `json:"staff_id" db:"staff_id"`
 	CREATED_AT      time.Time          `json:"created_at" db:"created_at"`
 	UPDATED_AT      time.Time          `json:"updated_at" db:"updated_at"`
 }

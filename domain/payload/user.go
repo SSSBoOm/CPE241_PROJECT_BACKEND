@@ -8,7 +8,7 @@ import (
 
 type UpdateUserDTO struct {
 	ID         string            `json:"id" validate:"required"`
-	PREFIX     string            `json:"prefix" validate:"required"`
+	PREFIX     domain.PrefixType `json:"prefix" validate:"required"`
 	FIRST_NAME string            `json:"firstName" validate:"required"`
 	LAST_NAME  string            `json:"lastName" validate:"required"`
 	DOB        time.Time         `json:"dob" validate:"required"`
@@ -18,7 +18,7 @@ type UpdateUserDTO struct {
 }
 
 type UpdateUserInformationDTO struct {
-	PREFIX     string            `json:"prefix" validate:"required"`
+	PREFIX     domain.PrefixType `json:"prefix" validate:"required"`
 	FIRST_NAME string            `json:"firstName" validate:"required"`
 	LAST_NAME  string            `json:"lastName" validate:"required"`
 	DOB        time.Time         `json:"dob" validate:"required"`

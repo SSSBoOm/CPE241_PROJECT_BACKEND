@@ -64,7 +64,7 @@ func (r *userRepository) CreateFromGoogle(user *domain.User) error {
 func (r *userRepository) UpdateInfomation(user *domain.User) error {
 	user.UPDATED_AT = time.Now()
 	tx := r.db.MustBegin()
-	_, err := tx.NamedExec("UPDATE user SET prefix = :prefix, first_name = :first_name, last_name = :last_name, gender = :gender, address = :address, phone = :phone, updated_at = :updated_at WHERE id = :id", user)
+	_, err := tx.NamedExec("UPDATE user SET prefix = :prefix, first_name = :first_name, last_name = :last_name, gender = :gender, address = :address, dob = :dob, phone = :phone, updated_at = :updated_at WHERE id = :id", user)
 	if err != nil {
 		tx.Rollback()
 		return err

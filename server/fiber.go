@@ -40,8 +40,10 @@ func (s *FiberServer) Start() {
 	})
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowOrigins:     "http://localhost:5173",
+		AllowHeaders:     "Origin,Content-Type,Accept,Content-Length,Accept-Language,Accept-Encoding,Connection,Access-Control-Allow-Origin",
+		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH",
+		AllowCredentials: true,
 	}))
 
 	s.app = app
@@ -63,7 +65,7 @@ func (s *FiberServer) Route() {
 	StaffAuthMiddleware := middleware.NewRoleAuthMiddleware([]string{constant.ADMIN_ROLE, constant.USER_ROLE})
 
 	healthCheckController := controller.NewHealthCheckController()
-	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase)
+	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase, s.usecase.SessionUsecase)
 	userController := controller.NewUserController(validator, s.usecase.UserUsecase, s.usecase.PaymentUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
 	paymentController := controller.NewPaymentController(s.usecase.PaymentUsecase)
@@ -85,7 +87,7 @@ func (s *FiberServer) Route() {
 	auth := api.Group("/auth")
 	auth.Get("/google", authController.GetUrl)
 	auth.Get("/google/callback", authController.SignInWithGoogle)
-	auth.Post("/logout", authController.SignOut)
+	auth.Get("/logout", middlewareAuth, authController.SignOut)
 
 	user := api.Group("/user")
 	user.Get("/me", middlewareAuth, userController.Me)

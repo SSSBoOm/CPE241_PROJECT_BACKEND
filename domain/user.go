@@ -1,6 +1,17 @@
 package domain
 
-import "time"
+import (
+	"time"
+)
+
+type PrefixType string
+
+const (
+	MR      PrefixType = "MR"
+	MRS     PrefixType = "MRS"
+	MS      PrefixType = "MS"
+	DEFAULT PrefixType = ""
+)
 
 type GenderType string
 
@@ -12,10 +23,10 @@ const (
 type User struct {
 	ID          string     `json:"id,omitempty" db:"id"`
 	EMAIL       string     `json:"email" db:"email"`
-	PREFIX      string     `json:"prefix" db:"prefix"`
+	PREFIX      PrefixType `json:"prefix" db:"prefix"`
 	FIRST_NAME  string     `json:"firstName" db:"first_name"`
 	LAST_NAME   string     `json:"lastName" db:"last_name"`
-	DOB         time.Time  `json:"dob" db:"dob"`
+	DOB         *time.Time `json:"dob" db:"dob"`
 	PHONE       string     `json:"phone" db:"phone"`
 	GENDER      GenderType `json:"gender" db:"gender"`
 	ADDRESS     string     `json:"address" db:"address"`

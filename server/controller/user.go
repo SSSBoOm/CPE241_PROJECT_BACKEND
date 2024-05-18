@@ -107,7 +107,7 @@ func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
 		PREFIX:     body.PREFIX,
 		FIRST_NAME: body.FIRST_NAME,
 		LAST_NAME:  body.LAST_NAME,
-		DOB:        body.DOB,
+		DOB:        &body.DOB,
 		PHONE:      body.PHONE,
 		GENDER:     body.GENDER,
 		ADDRESS:    body.ADDRESS,
@@ -171,8 +171,7 @@ func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 // @Router /api/user/			[patch]
 func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserInformationDTO
-	err := u.validator.ValidateBody(ctx, &body)
-	if err != nil {
+	if err := u.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INVALID_BODY,
@@ -184,14 +183,13 @@ func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 		PREFIX:     body.PREFIX,
 		FIRST_NAME: body.FIRST_NAME,
 		LAST_NAME:  body.LAST_NAME,
-		DOB:        body.DOB,
+		DOB:        &body.DOB,
 		PHONE:      body.PHONE,
 		GENDER:     body.GENDER,
 		ADDRESS:    body.ADDRESS,
 	}
 
-	err = u.userUsecase.UpdateInfomation(user)
-	if err != nil {
+	if err := u.userUsecase.UpdateInfomation(user); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,

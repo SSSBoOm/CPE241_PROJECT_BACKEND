@@ -18,12 +18,14 @@ type AuthController struct {
 	sessionUsecase domain.SessionUsecase
 }
 
-func NewAuthController(config *config.Config, authUsecase domain.AuthUsecase, googleUsecase domain.GoogleUsecase, userUsecase domain.UserUsecase) *AuthController {
+func NewAuthController(config *config.Config, authUsecase domain.AuthUsecase, googleUsecase domain.GoogleUsecase, userUsecase domain.UserUsecase, sessionUsecase domain.SessionUsecase) *AuthController {
 	return &AuthController{
-		config:        config,
-		authUsecase:   authUsecase,
-		googleUsecase: googleUsecase,
-		userUsecase:   userUsecase}
+		config:         config,
+		authUsecase:    authUsecase,
+		googleUsecase:  googleUsecase,
+		userUsecase:    userUsecase,
+		sessionUsecase: sessionUsecase,
+	}
 }
 
 // GetUrl godoc
@@ -70,7 +72,7 @@ func (auth *AuthController) SignInWithGoogle(ctx *fiber.Ctx) error {
 // @Tags Auth
 // @Produce json
 // @Response 200 {object} domain.Response "OK"
-// @Router /api/auth/logout [post]
+// @Router /api/auth/logout [get]
 func (auth *AuthController) SignOut(ctx *fiber.Ctx) error {
 	ssid := ctx.Cookies(constant.SessionCookieName)
 	if err := auth.sessionUsecase.Delete(ssid); err != nil {
@@ -81,5 +83,8 @@ func (auth *AuthController) SignOut(ctx *fiber.Ctx) error {
 	}
 
 	ctx.Cookie(&fiber.Cookie{Name: constant.SessionCookieName, Expires: time.Unix(0, 0)})
-	return ctx.Status(fiber.StatusOK).Redirect(auth.config.FRONTEND_URL)
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+	})
 }

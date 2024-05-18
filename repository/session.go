@@ -36,9 +36,12 @@ func (repo *sessionRepository) Create(session *domain.Session) error {
 }
 
 func (repo *sessionRepository) Delete(ssid string) error {
-	_, err := repo.db.Exec("DELETE FROM session WHERE id = ?", ssid)
+	t := repo.db.MustBegin()
+	_, err := t.Exec("DELETE FROM session WHERE id = ?", ssid)
 	if err != nil {
+		t.Rollback()
 		return fmt.Errorf("cannot query to delete session: %w", err)
 	}
+	t.Commit()
 	return nil
 }
