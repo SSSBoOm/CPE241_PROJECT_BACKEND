@@ -5,6 +5,7 @@ import "time"
 type RoomType struct {
 	ID         int       `json:"id" db:"id"`
 	NAME       string    `json:"name" db:"name"`
+	DETAIL     string    `json:"detail" db:"detail"`
 	IS_ACTIVE  bool      `json:"isActive" db:"is_active"`
 	UPDATED_AT time.Time `json:"updateAt" db:"updated_at"`
 	CREATED_AT time.Time `json:"createdAt" db:"created_at"`

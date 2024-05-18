@@ -35,7 +35,7 @@ func (repo *reservationRepository) GetByDate(startDate string, endDate string) (
 	return &reservations, nil
 }
 
-func (repo *reservationRepository) GetByUserID(userID int) (*[]domain.RESERVATION, error) {
+func (repo *reservationRepository) GetByUserID(userID string) (*[]domain.RESERVATION, error) {
 	reservations := make([]domain.RESERVATION, 0)
 	err := repo.db.Select(&reservations, "SELECT * FROM reservation WHERE user_id = ?", userID)
 	if err != nil {

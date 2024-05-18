@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"database/sql"
 	"time"
 )
 
@@ -29,7 +28,7 @@ type RESERVATION struct {
 	PAYMENT_DATE    time.Time          `json:"payment_date" db:"payment_date"`
 	PAYMENT_INFO_ID int                `json:"payment_info_id" db:"payment_info_id"`
 	PAYMENT_INFO    Payment            `json:"payment_info" db:"-"`
-	STAFF_ID        *sql.NullString    `json:"staff_id" db:"staff_id"`
+	STAFF_ID        *string            `json:"staff_id" db:"staff_id"`
 	CREATED_AT      time.Time          `json:"created_at" db:"created_at"`
 	UPDATED_AT      time.Time          `json:"updated_at" db:"updated_at"`
 }
@@ -37,7 +36,7 @@ type RESERVATION struct {
 type ReservationUsecase interface {
 	GetAll() (*[]RESERVATION, error)
 	GetByDate(startDate string, endDate string) (*[]RESERVATION, error)
-	GetByUserID(userID int) (*[]RESERVATION, error)
+	GetByUserID(userID string) (*[]RESERVATION, error)
 	GetByRoomID(roomID int) (*[]RESERVATION, error)
 	GetByID(id int) (*RESERVATION, error)
 	Create(reservation *RESERVATION) (id *int, err error)
@@ -47,7 +46,7 @@ type ReservationUsecase interface {
 type ReservationRepository interface {
 	GetAll() (*[]RESERVATION, error)
 	GetByDate(startDate string, endDate string) (*[]RESERVATION, error)
-	GetByUserID(userID int) (*[]RESERVATION, error)
+	GetByUserID(userID string) (*[]RESERVATION, error)
 	GetByRoomID(roomID int) (*[]RESERVATION, error)
 	GetByID(id int) (*RESERVATION, error)
 	Create(reservation *RESERVATION) (id *int, err error)

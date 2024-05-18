@@ -66,6 +66,34 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 	})
 }
 
+// getReservationByUserID godoc
+// @Summary Get reservation by user id
+// @Description Get reservation by user id
+// @Tags reservation
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Success 200 {object} domain.Response
+// @Router /api/reservation/me/all [get]
+func (c *reservationController) GetReservationByUserID(ctx *fiber.Ctx) error {
+	userID := ctx.Locals(constant.CTX_USER_ID).(string)
+
+	data, err := c.reservationUsecase.GetByUserID(userID)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.JSON(&domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    data,
+	})
+
+}
+
 // getRoomAvailableGroupByRoomType godoc
 // @Summary Get room available group by room type
 // @Description Get room available group by room type

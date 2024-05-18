@@ -44,6 +44,7 @@ func (u *maintenanceUsecase) CreateWithMaintenance_Log(maintenance *domain.MAINT
 	}
 	for _, maintenanceLog := range *maintenance.MAINTENANCE_LOG {
 		maintenanceLog.MAINTENANCE_ID = *id
+		maintenanceLog.STAFF_ID = maintenance.STAFF_ID
 		err = u.maintenanceLogUsecase.Create(&maintenanceLog)
 		if err != nil {
 			return err

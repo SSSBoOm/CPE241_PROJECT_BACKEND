@@ -29,7 +29,7 @@ func (u *reservationUsecase) GetByDate(startDate string, endDate string) (*[]dom
 	return u.reservationRepository.GetByDate(startDate, endDate)
 }
 
-func (u *reservationUsecase) GetByUserID(userID int) (*[]domain.RESERVATION, error) {
+func (u *reservationUsecase) GetByUserID(userID string) (*[]domain.RESERVATION, error) {
 	return u.reservationRepository.GetByUserID(userID)
 }
 
