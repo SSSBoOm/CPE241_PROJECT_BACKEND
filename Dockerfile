@@ -17,6 +17,7 @@ RUN go build -o /bin/app
 FROM scratch AS runner
 WORKDIR /app
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY .env ./
 COPY --from=builder /app/docs/ ./docs/
 COPY --from=builder /bin/app ./
