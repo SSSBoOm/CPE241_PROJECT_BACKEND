@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
@@ -32,6 +33,7 @@ func NewRoomController(validator domain.ValidatorUsecase, roomUsecase domain.Roo
 func (c *roomController) GetAll(ctx *fiber.Ctx) error {
 	rooms, err := c.roomUsecase.GetAll()
 	if err != nil {
+		fmt.Println(err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,

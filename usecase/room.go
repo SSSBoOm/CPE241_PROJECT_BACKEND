@@ -1,6 +1,10 @@
 package usecase
 
-import "github.com/SSSBoOm/CPE241_Project_Backend/domain"
+import (
+	"sync"
+
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
+)
 
 type RoomUsecase struct {
 	roomRepository  domain.RoomRepository
@@ -15,7 +19,25 @@ func NewRoomUsecase(roomRepository domain.RoomRepository, roomTypeUsecase domain
 }
 
 func (u *RoomUsecase) GetAll() (*[]domain.Room, error) {
-	return u.roomRepository.GetAll()
+	room, err := u.roomRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	var wg sync.WaitGroup
+	wg.Add(len(*room))
+	for i, item := range *room {
+		go func(i int, item domain.Room) {
+			defer wg.Done()
+			roomType, err := u.roomTypeUsecase.GetByID(item.ROOM_TYPE_ID)
+			if err != nil || roomType == nil {
+				return
+			}
+			(*room)[i].ROOM_TYPE = roomType
+		}(i, item)
+	}
+	wg.Wait()
+
+	return room, nil
 }
 
 func (u *RoomUsecase) GetByID(id int) (*domain.Room, error) {

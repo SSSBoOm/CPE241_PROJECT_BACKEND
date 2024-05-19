@@ -19,7 +19,7 @@ func NewRoomRepository(db *sqlx.DB) domain.RoomRepository {
 
 func (r *roomRepository) GetAll() (*[]domain.Room, error) {
 	room := make([]domain.Room, 0)
-	err := r.db.Select(&room, "SELECT * FROM room_type")
+	err := r.db.Select(&room, "SELECT * FROM room")
 	if err != nil {
 		return nil, err
 	}

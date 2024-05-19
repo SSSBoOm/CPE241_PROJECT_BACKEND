@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 	"time"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
@@ -23,7 +22,6 @@ func (r *roomTypeRepository) GetAll() (*[]domain.RoomType, error) {
 	roomType := make([]domain.RoomType, 0)
 	err := r.db.Select(&roomType, "SELECT * FROM room_type")
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 	return &roomType, nil
@@ -42,7 +40,7 @@ func (r *roomTypeRepository) GetByID(id int) (*domain.RoomType, error) {
 
 func (r *roomTypeRepository) Create(roomType *domain.RoomType) error {
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO room_type (name, detail, is_active) VALUES (:name, :detail, :is_active)", roomType)
+	_, err := t.NamedExec("INSERT INTO room_type (name, detail, price, is_active) VALUES (:name, :detail, :price, :is_active)", roomType)
 	if err != nil {
 		t.Rollback()
 		return err
@@ -54,7 +52,7 @@ func (r *roomTypeRepository) Create(roomType *domain.RoomType) error {
 func (r *roomTypeRepository) Update(roomType *domain.RoomType) error {
 	roomType.UPDATED_AT = time.Now()
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("UPDATE room_type SET name = :name, detail = :detail, is_active = :is_active, update_at = :update_at WHERE id = :id", roomType)
+	_, err := t.NamedExec("UPDATE room_type SET name = :name, detail = :detail, price = :price, is_active = :is_active, update_at = :update_at WHERE id = :id", roomType)
 	if err != nil {
 		t.Rollback()
 		return err
