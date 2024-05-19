@@ -29,8 +29,8 @@ func NewRoomTypeController(validator domain.ValidatorUsecase, roomTypeUsecase do
 // @produce								json
 // @Response 200 {object} domain.Response
 // @Router /api/room_type/all	[get]
-func (controller *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
-	roomTypeList, err := controller.roomTypeUsecase.GetAll()
+func (c *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
+	roomTypeList, err := c.roomTypeUsecase.GetAll()
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
@@ -52,7 +52,7 @@ func (controller *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 // @produce								json
 // @Param									id path int true "Room Type ID"
 // @Router /api/room_type/{id}	[get]
-func (controller *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
+func (c *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 	roomTypeID, err := strconv.Atoi(ctx.Params("id"))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
@@ -61,7 +61,7 @@ func (controller *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 		})
 	}
 
-	roomType, err := controller.roomTypeUsecase.GetByID(roomTypeID)
+	roomType, err := c.roomTypeUsecase.GetByID(roomTypeID)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
@@ -83,7 +83,7 @@ func (controller *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Param									roomType body domain.RoomType true "Room Type"
 // @Router /api/room_type/	[post]
-func (controller *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
+func (c *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 	var body payload.CreateRoomType
 	if err := ctx.BodyParser(body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
@@ -92,7 +92,7 @@ func (controller *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 		})
 	}
 
-	err := controller.roomTypeUsecase.Create(&domain.RoomType{
+	err := c.roomTypeUsecase.Create(&domain.RoomType{
 		NAME:      body.NAME,
 		DETAIL:    body.DETAIL,
 		IS_ACTIVE: body.IS_ACTIVE,
@@ -117,9 +117,9 @@ func (controller *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 // @produce								json
 // @Param									payload body	payload.UpdateRoomType true "Payload"
 // @Router /api/room_type/	[put]
-func (controller *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
+func (c *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
 	var body payload.UpdateRoomType
-	if err := ctx.BodyParser(body); err != nil {
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_BAD_REQUEST,
@@ -133,8 +133,37 @@ func (controller *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
 		IS_ACTIVE: body.IS_ACTIVE,
 	}
 
-	err := controller.roomTypeUsecase.Update(roomType)
+	err := c.roomTypeUsecase.Update(roomType)
 	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+	})
+}
+
+// UpdateIsActive godoc
+// @Summary								Update room type is active
+// @Description						Update room type is active
+// @Tags									room_type
+// @Accept								json
+// @produce								json
+// @Param									payload body	payload.UpdateIsActive true "Payload"
+// @Router /api/room_type/active	[post]
+func (c *RoomTypeController) UpdateIsActive(ctx *fiber.Ctx) error {
+	var body payload.UpdateRoomTypeIsActiveDTO
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	if err := c.roomTypeUsecase.UpdateIsActive(body.ID, body.IsActive); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,

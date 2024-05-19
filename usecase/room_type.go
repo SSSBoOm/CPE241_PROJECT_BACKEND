@@ -29,3 +29,7 @@ func (u *roomTypeUsecase) Create(roomType *domain.RoomType) error {
 func (u *roomTypeUsecase) Update(roomType *domain.RoomType) error {
 	return u.roomTypeRepository.Update(roomType)
 }
+
+func (u *roomTypeUsecase) UpdateIsActive(id int, isActive bool) error {
+	return u.roomTypeRepository.UpdateIsActive(id, isActive)
+}

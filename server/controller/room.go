@@ -100,7 +100,7 @@ func (c *roomController) Create(ctx *fiber.Ctx) error {
 		})
 	}
 
-	room := &domain.Room{
+	room := &domain.ROOM{
 		ROOM_NUMBER:  body.ROOM_NUMBER,
 		IS_ACTIVE:    body.IS_ACTIVE,
 		ROOM_TYPE_ID: body.ROOM_TYPE_ID,
@@ -145,7 +145,7 @@ func (c *roomController) Update(ctx *fiber.Ctx) error {
 		})
 	}
 
-	data := &domain.Room{
+	data := &domain.ROOM{
 		ID:           id,
 		ROOM_NUMBER:  body.ROOM_NUMBER,
 		IS_ACTIVE:    body.IS_ACTIVE,
@@ -159,6 +159,36 @@ func (c *roomController) Update(ctx *fiber.Ctx) error {
 		})
 	}
 
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+	})
+}
+
+// UpdateIsActive godoc
+// @Summary								Update room is active
+// @Description						Update room is active
+// @Tags									room
+// @Accept								json
+// @produce								json
+// @Param									id path int true "Room ID"
+// @Param									isActive body domain.RoomUpdateIsActiveDTO true "Is Active"
+// @Router /api/room/active [post]
+func (c *roomController) UpdateIsActive(ctx *fiber.Ctx) error {
+	var body payload.RoomUpdateRoomIsActiveDTO
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	if err := c.roomUsecase.UpdateIsActive(body.ID, body.IsActive); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
 		MESSAGE: constant.MESSAGE_SUCCESS,

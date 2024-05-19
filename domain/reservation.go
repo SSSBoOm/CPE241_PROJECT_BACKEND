@@ -19,7 +19,8 @@ const (
 
 type RESERVATION struct {
 	ID              int                `json:"id" db:"id"`
-	ROOM_ID         int                `json:"room_id" db:"room_id"`
+	ROOM_ID         *int               `json:"room_id" db:"room_id"`
+	ROOM            *ROOM              `json:"room" db:"-"`
 	USER_ID         string             `json:"user_id" db:"user_id"`
 	START_DATE      time.Time          `json:"start_date" db:"start_date"`
 	END_DATE        time.Time          `json:"end_date" db:"end_date"`

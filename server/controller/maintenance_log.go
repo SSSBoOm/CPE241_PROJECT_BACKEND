@@ -35,8 +35,7 @@ func NewMaintenanceLogController(validator domain.ValidatorUsecase, maintenanceU
 func (c *maintenanceLogController) Create(ctx *fiber.Ctx) error {
 	userId := ctx.Locals(constant.CTX_USER_ID).(string)
 	var body payload.MaintenanceLogCreate
-	err := c.validator.ValidateBody(ctx, &body)
-	if err != nil {
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INVALID_BODY,

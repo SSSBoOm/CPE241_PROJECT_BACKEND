@@ -18,7 +18,7 @@ func NewRoomUsecase(roomRepository domain.RoomRepository, roomTypeUsecase domain
 	}
 }
 
-func (u *RoomUsecase) GetAll() (*[]domain.Room, error) {
+func (u *RoomUsecase) GetAll() (*[]domain.ROOM, error) {
 	room, err := u.roomRepository.GetAll()
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func (u *RoomUsecase) GetAll() (*[]domain.Room, error) {
 	var wg sync.WaitGroup
 	wg.Add(len(*room))
 	for i, item := range *room {
-		go func(i int, item domain.Room) {
+		go func(i int, item domain.ROOM) {
 			defer wg.Done()
 			roomType, err := u.roomTypeUsecase.GetByID(item.ROOM_TYPE_ID)
 			if err != nil || roomType == nil {
@@ -40,14 +40,18 @@ func (u *RoomUsecase) GetAll() (*[]domain.Room, error) {
 	return room, nil
 }
 
-func (u *RoomUsecase) GetByID(id int) (*domain.Room, error) {
+func (u *RoomUsecase) GetByID(id int) (*domain.ROOM, error) {
 	return u.roomRepository.GetByID(id)
 }
 
-func (u *RoomUsecase) Create(room *domain.Room) error {
+func (u *RoomUsecase) Create(room *domain.ROOM) error {
 	return u.roomRepository.Create(room)
 }
 
-func (u *RoomUsecase) Update(room *domain.Room) error {
+func (u *RoomUsecase) Update(room *domain.ROOM) error {
 	return u.roomRepository.Update(room)
+}
+
+func (u *RoomUsecase) UpdateIsActive(id int, isActive bool) error {
+	return u.roomRepository.UpdateIsActive(id, isActive)
 }

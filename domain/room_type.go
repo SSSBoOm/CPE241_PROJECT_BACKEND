@@ -17,6 +17,7 @@ type RoomTypeRepository interface {
 	GetByID(id int) (*RoomType, error)
 	Create(roomType *RoomType) error
 	Update(roomType *RoomType) error
+	UpdateIsActive(id int, isActive bool) error
 }
 
 type RoomTypeUsecase interface {
@@ -24,4 +25,5 @@ type RoomTypeUsecase interface {
 	GetByID(id int) (*RoomType, error)
 	Create(roomType *RoomType) error
 	Update(roomType *RoomType) error
+	UpdateIsActive(id int, isActive bool) error
 }

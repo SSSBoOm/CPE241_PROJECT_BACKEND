@@ -2,7 +2,7 @@ package domain
 
 import "time"
 
-type Room struct {
+type ROOM struct {
 	ID           int       `json:"id" db:"id"`
 	ROOM_NUMBER  string    `json:"roomNumber" db:"room_number"`
 	IS_ACTIVE    bool      `json:"isActive" db:"is_active"`
@@ -13,15 +13,17 @@ type Room struct {
 }
 
 type RoomRepository interface {
-	GetAll() (*[]Room, error)
-	GetByID(id int) (*Room, error)
-	Create(room *Room) error
-	Update(room *Room) error
+	GetAll() (*[]ROOM, error)
+	GetByID(id int) (*ROOM, error)
+	Create(room *ROOM) error
+	Update(room *ROOM) error
+	UpdateIsActive(id int, isActive bool) error
 }
 
 type RoomUsecase interface {
-	GetAll() (*[]Room, error)
-	GetByID(id int) (*Room, error)
-	Create(room *Room) error
-	Update(room *Room) error
+	GetAll() (*[]ROOM, error)
+	GetByID(id int) (*ROOM, error)
+	Create(room *ROOM) error
+	Update(room *ROOM) error
+	UpdateIsActive(id int, isActive bool) error
 }

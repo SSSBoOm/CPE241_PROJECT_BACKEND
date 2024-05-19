@@ -45,7 +45,7 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 	}
 
 	if _, err := c.reservationUsecase.Create(&domain.RESERVATION{
-		ROOM_ID:         body.ROOM_ID,
+		ROOM_ID:         &body.ROOM_ID,
 		USER_ID:         userID,
 		START_DATE:      body.START_DATE,
 		END_DATE:        body.END_DATE,

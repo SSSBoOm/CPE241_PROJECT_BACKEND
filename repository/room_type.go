@@ -60,3 +60,14 @@ func (r *roomTypeRepository) Update(roomType *domain.RoomType) error {
 	t.Commit()
 	return nil
 }
+
+func (r *roomTypeRepository) UpdateIsActive(id int, isActive bool) error {
+	t := r.db.MustBegin()
+	_, err := t.Exec("UPDATE room_type SET is_active = ? WHERE id = ?", isActive, id)
+	if err != nil {
+		t.Rollback()
+		return err
+	}
+	t.Commit()
+	return nil
+}

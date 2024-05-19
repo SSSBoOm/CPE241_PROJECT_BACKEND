@@ -12,3 +12,8 @@ type RoomUpdateDTO struct {
 	IS_ACTIVE    bool   `json:"isActive" validate:"required"`
 	ROOM_TYPE_ID int    `json:"roomTypeId" validate:"required"`
 }
+
+type RoomUpdateRoomIsActiveDTO struct {
+	ID       int  `json:"id" validate:"required"`
+	IsActive bool `json:"isActive" validate:"boolean"`
+}
