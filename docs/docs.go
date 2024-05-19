@@ -549,7 +549,41 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Room"
+                            "$ref": "#/definitions/domain.ROOM"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/room/active": {
+            "post": {
+                "description": "Update room is active",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Update room is active",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Is Active",
+                        "name": "isActive",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.RoomUpdateRoomIsActiveDTO"
                         }
                     }
                 ],
@@ -622,7 +656,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.Room"
+                            "$ref": "#/definitions/domain.ROOM"
                         }
                     }
                 ],
@@ -675,6 +709,33 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/domain.RoomType"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/room_type/active": {
+            "post": {
+                "description": "Update room type is active",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room_type"
+                ],
+                "summary": "Update room type is active",
+                "parameters": [
+                    {
+                        "description": "Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateRoomTypeIsActiveDTO"
                         }
                     }
                 ],
@@ -846,6 +907,29 @@ const docTemplate = `{
                 "DEFAULT"
             ]
         },
+        "domain.ROOM": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "roomNumber": {
+                    "type": "string"
+                },
+                "roomType": {
+                    "$ref": "#/definitions/domain.RoomType"
+                },
+                "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.Response": {
             "type": "object",
             "properties": {
@@ -856,29 +940,6 @@ const docTemplate = `{
                 },
                 "success": {
                     "type": "boolean"
-                }
-            }
-        },
-        "domain.Room": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "is_active": {
-                    "type": "boolean"
-                },
-                "room_number": {
-                    "type": "string"
-                },
-                "room_type": {
-                    "$ref": "#/definitions/domain.RoomType"
-                },
-                "updateAt": {
-                    "type": "string"
                 }
             }
         },
@@ -899,6 +960,9 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "price": {
+                    "type": "number"
                 },
                 "updateAt": {
                     "type": "string"
@@ -1021,13 +1085,28 @@ const docTemplate = `{
                 }
             }
         },
+        "payload.RoomUpdateRoomIsActiveDTO": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                }
+            }
+        },
         "payload.UpdateRoomType": {
             "type": "object",
             "required": [
                 "detail",
                 "id",
                 "isActive",
-                "name"
+                "name",
+                "price"
             ],
             "properties": {
                 "detail": {
@@ -1041,6 +1120,23 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "payload.UpdateRoomTypeIsActiveDTO": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
                 }
             }
         },

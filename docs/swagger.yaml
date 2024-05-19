@@ -32,6 +32,21 @@ definitions:
     - MRS
     - MS
     - DEFAULT
+  domain.ROOM:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      roomNumber:
+        type: string
+      roomType:
+        $ref: '#/definitions/domain.RoomType'
+      updateAt:
+        type: string
+    type: object
   domain.Response:
     properties:
       data: {}
@@ -40,21 +55,6 @@ definitions:
         type: string
       success:
         type: boolean
-    type: object
-  domain.Room:
-    properties:
-      createdAt:
-        type: string
-      id:
-        type: integer
-      is_active:
-        type: boolean
-      room_number:
-        type: string
-      room_type:
-        $ref: '#/definitions/domain.RoomType'
-      updateAt:
-        type: string
     type: object
   domain.RoomType:
     properties:
@@ -68,6 +68,8 @@ definitions:
         type: boolean
       name:
         type: string
+      price:
+        type: number
       updateAt:
         type: string
     type: object
@@ -150,6 +152,15 @@ definitions:
     - maintenanceId
     - status
     type: object
+  payload.RoomUpdateRoomIsActiveDTO:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+    required:
+    - id
+    type: object
   payload.UpdateRoomType:
     properties:
       detail:
@@ -160,11 +171,23 @@ definitions:
         type: boolean
       name:
         type: string
+      price:
+        type: number
     required:
     - detail
     - id
     - isActive
     - name
+    - price
+    type: object
+  payload.UpdateRoomTypeIsActiveDTO:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+    required:
+    - id
     type: object
   payload.UpdateUserDTO:
     properties:
@@ -575,7 +598,7 @@ paths:
         name: room
         required: true
         schema:
-          $ref: '#/definitions/domain.Room'
+          $ref: '#/definitions/domain.ROOM'
       produces:
       - application/json
       responses: {}
@@ -614,11 +637,34 @@ paths:
         name: room
         required: true
         schema:
-          $ref: '#/definitions/domain.Room'
+          $ref: '#/definitions/domain.ROOM'
       produces:
       - application/json
       responses: {}
       summary: Update room
+      tags:
+      - room
+  /api/room/active:
+    post:
+      consumes:
+      - application/json
+      description: Update room is active
+      parameters:
+      - description: Room ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Is Active
+        in: body
+        name: isActive
+        required: true
+        schema:
+          $ref: '#/definitions/payload.RoomUpdateRoomIsActiveDTO'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update room is active
       tags:
       - room
   /api/room/all:
@@ -682,6 +728,24 @@ paths:
       - application/json
       responses: {}
       summary: Get room type by id
+      tags:
+      - room_type
+  /api/room_type/active:
+    post:
+      consumes:
+      - application/json
+      description: Update room type is active
+      parameters:
+      - description: Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/payload.UpdateRoomTypeIsActiveDTO'
+      produces:
+      - application/json
+      responses: {}
+      summary: Update room type is active
       tags:
       - room_type
   /api/room_type/all:

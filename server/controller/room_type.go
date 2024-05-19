@@ -152,9 +152,9 @@ func (c *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
 // @Tags									room_type
 // @Accept								json
 // @produce								json
-// @Param									payload body	payload.UpdateIsActive true "Payload"
+// @Param									payload body	payload.UpdateRoomTypeIsActiveDTO true "Payload"
 // @Router /api/room_type/active	[post]
-func (c *RoomTypeController) UpdateIsActive(ctx *fiber.Ctx) error {
+func (c *RoomTypeController) UpdateRoomTypeIsActive(ctx *fiber.Ctx) error {
 	var body payload.UpdateRoomTypeIsActiveDTO
 	if err := c.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{

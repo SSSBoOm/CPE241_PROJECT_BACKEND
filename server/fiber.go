@@ -120,7 +120,7 @@ func (s *FiberServer) Route() {
 	roomType.Get("/all", roomTypeController.GetRoomTypeList)
 	roomType.Get("/:id", roomTypeController.GetRoomTypeByID)
 	roomType.Post("/", middlewareAuth, AdminAuthMiddleware, roomTypeController.CreateRoomType)
-	roomType.Post("/active", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateIsActive)
+	roomType.Post("/active", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomTypeIsActive)
 	roomType.Put("/:id", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomType)
 
 	maintenance := api.Group("/maintenance")

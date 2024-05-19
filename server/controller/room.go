@@ -89,7 +89,7 @@ func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 // @Tags									room
 // @Accept								json
 // @produce								json
-// @Param									room body domain.Room true "Room"
+// @Param									room body domain.ROOM true "Room"
 // @Router /api/room	[post]
 func (c *roomController) Create(ctx *fiber.Ctx) error {
 	var body payload.RoomCreateDTO
@@ -126,7 +126,7 @@ func (c *roomController) Create(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									id path int true "Room ID"
-// @Param									room body domain.Room true "Room"
+// @Param									room body domain.ROOM true "Room"
 // @Router /api/room/{id}	[put]
 func (c *roomController) Update(ctx *fiber.Ctx) error {
 	id, err := strconv.Atoi(ctx.Params("id"))
@@ -172,7 +172,7 @@ func (c *roomController) Update(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									id path int true "Room ID"
-// @Param									isActive body domain.RoomUpdateIsActiveDTO true "Is Active"
+// @Param									isActive body payload.RoomUpdateRoomIsActiveDTO true "Is Active"
 // @Router /api/room/active [post]
 func (c *roomController) UpdateIsActive(ctx *fiber.Ctx) error {
 	var body payload.RoomUpdateRoomIsActiveDTO
