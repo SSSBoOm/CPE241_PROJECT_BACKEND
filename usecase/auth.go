@@ -28,10 +28,12 @@ func NewAuthUsecase(
 func (u *authUsecase) SignInWithGoogle(c *fiber.Ctx) (*fiber.Cookie, error) {
 	token, err := u.googleUsecase.GetToken(c)
 	if err != nil {
+		fmt.Println(1)
 		return nil, err
 	}
 	profile, err := u.googleUsecase.GetProfile(token.AccessToken)
 	if err != nil {
+		fmt.Println(2)
 		return nil, err
 	}
 

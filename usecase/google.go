@@ -44,6 +44,7 @@ func (u *googleUsecase) GetToken(c *fiber.Ctx) (*oauth2.Token, error) {
 }
 
 func (u *googleUsecase) GetProfile(token string) (*domain.GoogleResponse, error) {
+	fmt.Println(token)
 	reqUrl, err := url.Parse("https://www.googleapis.com/oauth2/v1/userinfo")
 	if err != nil {
 		panic(err)

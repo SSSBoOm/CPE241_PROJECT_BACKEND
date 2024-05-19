@@ -60,6 +60,10 @@ func (auth *AuthController) SignInWithGoogle(ctx *fiber.Ctx) error {
 	cookie, err := auth.authUsecase.SignInWithGoogle(ctx)
 	if err != nil {
 		fmt.Println("SignIn :", err)
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
 	}
 
 	ctx.Cookie(cookie)
