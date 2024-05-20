@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"sync"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 )
 
@@ -42,14 +44,22 @@ func (u *maintenanceUsecase) CreateWithMaintenance_Log(maintenance *domain.MAINT
 	if err != nil {
 		return err
 	}
-	for _, maintenanceLog := range *maintenance.MAINTENANCE_LOG {
-		maintenanceLog.MAINTENANCE_ID = *id
-		maintenanceLog.STAFF_ID = maintenance.STAFF_ID
-		err = u.maintenanceLogUsecase.Create(&maintenanceLog)
-		if err != nil {
-			return err
-		}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*maintenance.MAINTENANCE_LOG))
+	for i, item := range *maintenance.MAINTENANCE_LOG {
+		go func(i int, item domain.MAINTENANCE_LOG) {
+			defer wg.Done()
+			item.MAINTENANCE_ID = *id
+			item.STAFF_ID = maintenance.STAFF_ID
+			err = u.maintenanceLogUsecase.Create(&item)
+			if err != nil {
+				return
+			}
+		}(i, item)
 	}
+	wg.Wait()
+
 	return nil
 }
 

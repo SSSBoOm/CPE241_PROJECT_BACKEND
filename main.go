@@ -90,7 +90,7 @@ func initUsecase(
 	roleUsecase := usecase.NewRoleUsecase(repo.RoleRepository)
 	paymentTypeUsecase := usecase.NewPaymentTypeUsecase(repo.PaymentTypeRepository)
 	paymentUsecase := usecase.NewPaymentUsecase(repo.PaymentRepository, paymentTypeUsecase)
-	roomTypeUsecase := usecase.NewRoomTypeUsecase(repo.RoomTypeRepository)
+	roomTypeUsecase := usecase.NewRoomTypeUsecase(repo.RoomTypeRepository, repo.RoomRepository)
 	roomUsecase := usecase.NewRoomUsecase(repo.RoomRepository, roomTypeUsecase)
 	maintenanceLogUsecase := usecase.NewMaintenanceLogUsecase(repo.MaintenanceLogRepository)
 	maintenanceUsecase := usecase.NewMaintenanceUsecase(repo.MaintenanceRepository, maintenanceLogUsecase)

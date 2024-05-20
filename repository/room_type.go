@@ -38,15 +38,17 @@ func (r *roomTypeRepository) GetByID(id int) (*domain.RoomType, error) {
 	return &roomType, nil
 }
 
-func (r *roomTypeRepository) Create(roomType *domain.RoomType) error {
+func (r *roomTypeRepository) Create(roomType *domain.RoomType) (*int, error) {
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO room_type (name, detail, price, accommodate, is_active) VALUES (:name, :detail, :price, :accommodate, :is_active)", roomType)
+	row, err := t.NamedExec("INSERT INTO room_type (name, detail, price, accommodate, is_active) VALUES (:name, :detail, :price, :accommodate, :is_active)", roomType)
 	if err != nil {
 		t.Rollback()
-		return err
+		return nil, err
 	}
 	t.Commit()
-	return nil
+	LastInsertId, _ := row.LastInsertId()
+	Id := int(LastInsertId)
+	return &Id, nil
 }
 
 func (r *roomTypeRepository) Update(roomType *domain.RoomType) error {

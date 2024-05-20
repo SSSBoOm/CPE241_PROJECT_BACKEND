@@ -72,6 +72,10 @@ definitions:
         type: string
       price:
         type: number
+      room:
+        items:
+          $ref: '#/definitions/domain.ROOM'
+        type: array
       updateAt:
         type: string
     type: object
@@ -109,6 +113,28 @@ definitions:
     - price
     - roomId
     - startDate
+    type: object
+  payload.CreateRoomType:
+    properties:
+      accommodate:
+        type: integer
+      detail:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: number
+      room:
+        items:
+          $ref: '#/definitions/payload.RoomOnCreateRoomType'
+        type: array
+    required:
+    - accommodate
+    - detail
+    - name
+    - price
     type: object
   payload.GetRoomAvailableGroupByRoomTypeDTO:
     properties:
@@ -153,6 +179,15 @@ definitions:
     - description
     - maintenanceId
     - status
+    type: object
+  payload.RoomOnCreateRoomType:
+    properties:
+      isActive:
+        type: boolean
+      roomNumber:
+        type: string
+    required:
+    - roomNumber
     type: object
   payload.RoomUpdateRoomIsActiveDTO:
     properties:
@@ -772,7 +807,7 @@ paths:
         name: roomType
         required: true
         schema:
-          $ref: '#/definitions/domain.RoomType'
+          $ref: '#/definitions/payload.CreateRoomType'
       produces:
       - application/json
       responses:

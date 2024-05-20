@@ -715,7 +715,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.RoomType"
+                            "$ref": "#/definitions/payload.CreateRoomType"
                         }
                     }
                 ],
@@ -1300,6 +1300,12 @@ const docTemplate = `{
                 "price": {
                     "type": "number"
                 },
+                "room": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.ROOM"
+                    }
+                },
                 "updateAt": {
                     "type": "string"
                 }
@@ -1352,6 +1358,38 @@ const docTemplate = `{
                 },
                 "startDate": {
                     "type": "string"
+                }
+            }
+        },
+        "payload.CreateRoomType": {
+            "type": "object",
+            "required": [
+                "accommodate",
+                "detail",
+                "name",
+                "price"
+            ],
+            "properties": {
+                "accommodate": {
+                    "type": "integer"
+                },
+                "detail": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "room": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/payload.RoomOnCreateRoomType"
+                    }
                 }
             }
         },
@@ -1418,6 +1456,20 @@ const docTemplate = `{
                 },
                 "status": {
                     "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
+                }
+            }
+        },
+        "payload.RoomOnCreateRoomType": {
+            "type": "object",
+            "required": [
+                "roomNumber"
+            ],
+            "properties": {
+                "isActive": {
+                    "type": "boolean"
+                },
+                "roomNumber": {
+                    "type": "string"
                 }
             }
         },

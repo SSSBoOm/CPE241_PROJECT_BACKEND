@@ -82,23 +82,35 @@ func (c *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 // @Tags									room_type
 // @Accept								json
 // @produce								json
-// @Param									roomType body domain.RoomType true "Room Type"
+// @Param									roomType body payload.CreateRoomType true "Room Type"
 // @Response 200 {object} domain.Response
 // @Router /api/room_type/	[post]
 func (c *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 	var body payload.CreateRoomType
-	if err := ctx.BodyParser(body); err != nil {
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_BAD_REQUEST,
 		})
 	}
 
-	err := c.roomTypeUsecase.Create(&domain.RoomType{
-		NAME:      body.NAME,
-		DETAIL:    body.DETAIL,
-		IS_ACTIVE: body.IS_ACTIVE,
+	var roomList = make([]domain.ROOM, 0)
+	for _, item := range *body.ROOM {
+		roomList = append(roomList, domain.ROOM{
+			ROOM_NUMBER: item.ROOM_NUMBER,
+			IS_ACTIVE:   item.IS_ACTIVE,
+		})
+	}
+
+	_, err := c.roomTypeUsecase.Create(&domain.RoomType{
+		NAME:        body.NAME,
+		DETAIL:      body.DETAIL,
+		ACCOMMODATE: body.ACCOMMODATE,
+		PRICE:       &body.PRICE,
+		IS_ACTIVE:   body.IS_ACTIVE,
+		ROOM:        &roomList,
 	})
+
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,

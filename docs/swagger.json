@@ -713,7 +713,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.RoomType"
+                            "$ref": "#/definitions/payload.CreateRoomType"
                         }
                     }
                 ],
@@ -1298,6 +1298,12 @@
                 "price": {
                     "type": "number"
                 },
+                "room": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.ROOM"
+                    }
+                },
                 "updateAt": {
                     "type": "string"
                 }
@@ -1350,6 +1356,38 @@
                 },
                 "startDate": {
                     "type": "string"
+                }
+            }
+        },
+        "payload.CreateRoomType": {
+            "type": "object",
+            "required": [
+                "accommodate",
+                "detail",
+                "name",
+                "price"
+            ],
+            "properties": {
+                "accommodate": {
+                    "type": "integer"
+                },
+                "detail": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "room": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/payload.RoomOnCreateRoomType"
+                    }
                 }
             }
         },
@@ -1416,6 +1454,20 @@
                 },
                 "status": {
                     "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
+                }
+            }
+        },
+        "payload.RoomOnCreateRoomType": {
+            "type": "object",
+            "required": [
+                "roomNumber"
+            ],
+            "properties": {
+                "isActive": {
+                    "type": "boolean"
+                },
+                "roomNumber": {
+                    "type": "string"
                 }
             }
         },

@@ -1,16 +1,20 @@
 package usecase
 
 import (
+	"sync"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 )
 
 type roomTypeUsecase struct {
 	roomTypeRepository domain.RoomTypeRepository
+	roomRepository     domain.RoomRepository
 }
 
-func NewRoomTypeUsecase(roomTypeRepository domain.RoomTypeRepository) domain.RoomTypeUsecase {
+func NewRoomTypeUsecase(roomTypeRepository domain.RoomTypeRepository, roomRepository domain.RoomRepository) domain.RoomTypeUsecase {
 	return &roomTypeUsecase{
 		roomTypeRepository: roomTypeRepository,
+		roomRepository:     roomRepository,
 	}
 }
 
@@ -22,8 +26,27 @@ func (u *roomTypeUsecase) GetByID(id int) (*domain.RoomType, error) {
 	return u.roomTypeRepository.GetByID(id)
 }
 
-func (u *roomTypeUsecase) Create(roomType *domain.RoomType) error {
-	return u.roomTypeRepository.Create(roomType)
+func (u *roomTypeUsecase) Create(roomType *domain.RoomType) (*int, error) {
+	roomTypeId, err := u.roomTypeRepository.Create(roomType)
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*roomType.ROOM))
+	for i, item := range *roomType.ROOM {
+		go func(i int, item domain.ROOM) {
+			defer wg.Done()
+			item.ROOM_TYPE_ID = *roomTypeId
+			err = u.roomRepository.Create(&item)
+			if err != nil {
+				return
+			}
+		}(i, item)
+	}
+	wg.Wait()
+
+	return roomTypeId, nil
 }
 
 func (u *roomTypeUsecase) Update(roomType *domain.RoomType) error {
