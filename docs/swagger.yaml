@@ -58,6 +58,8 @@ definitions:
     type: object
   domain.RoomType:
     properties:
+      accommodate:
+        type: integer
       createdAt:
         type: string
       detail:
@@ -242,6 +244,8 @@ definitions:
     type: object
   payload.UpdateRoomType:
     properties:
+      accommodate:
+        type: integer
       detail:
         type: string
       id:
@@ -253,6 +257,7 @@ definitions:
       price:
         type: number
     required:
+    - accommodate
     - detail
     - id
     - name

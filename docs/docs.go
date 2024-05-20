@@ -1279,6 +1279,9 @@ const docTemplate = `{
         "domain.RoomType": {
             "type": "object",
             "properties": {
+                "accommodate": {
+                    "type": "integer"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -1552,12 +1555,16 @@ const docTemplate = `{
         "payload.UpdateRoomType": {
             "type": "object",
             "required": [
+                "accommodate",
                 "detail",
                 "id",
                 "name",
                 "price"
             ],
             "properties": {
+                "accommodate": {
+                    "type": "integer"
+                },
                 "detail": {
                     "type": "string"
                 },
