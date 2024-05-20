@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
 )
@@ -52,8 +54,9 @@ func (repo *maintenanceLogRepository) Create(maintenanceLog *domain.MAINTENANCE_
 }
 
 func (repo *maintenanceLogRepository) Update(maintenanceLog *domain.MAINTENANCE_LOG) error {
+	maintenanceLog.UPDATED_AT = time.Now()
 	t := repo.db.MustBegin()
-	_, err := t.NamedExec("UPDATE maintenance_log SET maintenance_id = :maintenance_id, staff_id = :staff_id, description = :description, status = :status WHERE id = :id", maintenanceLog)
+	_, err := t.NamedExec("UPDATE maintenance_log SET maintenance_id = :maintenance_id, staff_id = :staff_id, description = :description, status = :status, updated_at := updated_at WHERE id = :id", maintenanceLog)
 	if err != nil {
 		t.Rollback()
 		return err

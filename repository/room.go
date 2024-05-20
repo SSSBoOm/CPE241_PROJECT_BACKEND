@@ -60,7 +60,7 @@ func (r *roomRepository) Update(room *domain.ROOM) error {
 
 func (r *roomRepository) UpdateIsActive(id int, isActive bool) error {
 	t := r.db.MustBegin()
-	_, err := t.Exec("UPDATE room SET is_active = ? WHERE id = ?", isActive, id)
+	_, err := t.Exec("UPDATE room SET is_active = ?, updated_at = ? WHERE id = ?", isActive, time.Now(), id)
 	if err != nil {
 		t.Rollback()
 		return err

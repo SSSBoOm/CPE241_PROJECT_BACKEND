@@ -7,7 +7,6 @@ import (
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
-	"github.com/SSSBoOm/CPE241_Project_Backend/internal/validator"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -93,7 +92,7 @@ func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 // @Router /api/room	[post]
 func (c *roomController) Create(ctx *fiber.Ctx) error {
 	var body payload.RoomCreateDTO
-	if err := validator.NewPayloadValidator().ValidateBody(ctx, &body); err != nil {
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INVALID_BODY,

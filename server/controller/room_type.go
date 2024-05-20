@@ -51,6 +51,7 @@ func (c *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									id path int true "Room Type ID"
+// @Response 200 {object} domain.Response
 // @Router /api/room_type/{id}	[get]
 func (c *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 	roomTypeID, err := strconv.Atoi(ctx.Params("id"))
@@ -82,6 +83,7 @@ func (c *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									roomType body domain.RoomType true "Room Type"
+// @Response 200 {object} domain.Response
 // @Router /api/room_type/	[post]
 func (c *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 	var body payload.CreateRoomType
@@ -116,6 +118,7 @@ func (c *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									payload body	payload.UpdateRoomType true "Payload"
+// @Response 200 {object} domain.Response
 // @Router /api/room_type/	[put]
 func (c *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
 	var body payload.UpdateRoomType
@@ -153,6 +156,7 @@ func (c *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									payload body	payload.UpdateRoomTypeIsActiveDTO true "Payload"
+// @Response 200 {object} domain.Response
 // @Router /api/room_type/active	[post]
 func (c *RoomTypeController) UpdateRoomTypeIsActive(ctx *fiber.Ctx) error {
 	var body payload.UpdateRoomTypeIsActiveDTO
@@ -163,7 +167,7 @@ func (c *RoomTypeController) UpdateRoomTypeIsActive(ctx *fiber.Ctx) error {
 		})
 	}
 
-	if err := c.roomTypeUsecase.UpdateIsActive(body.ID, body.IsActive); err != nil {
+	if err := c.roomTypeUsecase.UpdateIsActive(body.ID, body.IS_ACTIVE); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,

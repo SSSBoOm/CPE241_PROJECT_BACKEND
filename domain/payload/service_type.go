@@ -1,13 +1,13 @@
 package payload
 
-type CreateRoomType struct {
+type ServiceTypeCreateDTO struct {
 	NAME      string  `json:"name" validate:"required"`
 	DETAIL    string  `json:"detail" validate:"required"`
 	PRICE     float32 `json:"price" validate:"required"`
-	IS_ACTIVE bool    `json:"isActive" validate:"boolean"`
+	IS_ACTIVE bool    `json:"isActive" validate:"required"`
 }
 
-type UpdateRoomType struct {
+type ServiceTypeUpdateDTO struct {
 	ID        int     `json:"id" validate:"required"`
 	NAME      string  `json:"name" validate:"required"`
 	DETAIL    string  `json:"detail" validate:"required"`
@@ -15,7 +15,7 @@ type UpdateRoomType struct {
 	IS_ACTIVE bool    `json:"isActive" validate:"boolean"`
 }
 
-type UpdateRoomTypeIsActiveDTO struct {
-	ID       int  `json:"id" validate:"required"`
+type ServiceTypeUpdateIsActiveDTO struct {
+	ID        int  `json:"id" validate:"required"`
 	IS_ACTIVE bool `json:"isActive" validate:"boolean"`
 }

@@ -74,6 +74,8 @@ func initRepository(
 		MaintenanceRepository:    repository.NewMaintenanceRepository(mysql),
 		MaintenanceLogRepository: repository.NewMaintenanceLogRepository(mysql),
 		ReservationRepository:    repository.NewReservationRepository(mysql),
+		ServiceRepository:        repository.NewServiceRepository(mysql),
+		ServiceTypeRepository:    repository.NewServiceTypeRepository(mysql),
 	}
 }
 
@@ -93,6 +95,8 @@ func initUsecase(
 	maintenanceLogUsecase := usecase.NewMaintenanceLogUsecase(repo.MaintenanceLogRepository)
 	maintenanceUsecase := usecase.NewMaintenanceUsecase(repo.MaintenanceRepository, maintenanceLogUsecase)
 	reservationUsecase := usecase.NewReservationUsecase(repo.ReservationRepository, roomTypeUsecase, roomUsecase)
+	serviceRepository := usecase.NewServiceUsecase(repo.ServiceRepository, repo.ServiceTypeRepository)
+	serviceTypeRepository := usecase.NewServiceTypeUsecase(repo.ServiceTypeRepository)
 
 	return &domain.Usecase{
 		AuthUsecase:           authUsecase,
@@ -107,5 +111,7 @@ func initUsecase(
 		MaintenanceUsecase:    maintenanceUsecase,
 		MaintenanceLogUsecase: maintenanceLogUsecase,
 		ReservationUsecase:    reservationUsecase,
+		ServiceUsecase:        serviceRepository,
+		ServiceTypeUsecase:    serviceTypeRepository,
 	}
 }

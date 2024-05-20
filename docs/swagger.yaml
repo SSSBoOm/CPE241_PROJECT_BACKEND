@@ -161,6 +161,85 @@ definitions:
     required:
     - id
     type: object
+  payload.ServiceCreateDTO:
+    properties:
+      isActive:
+        type: boolean
+      name:
+        type: string
+      serviceTypeId:
+        type: integer
+    required:
+    - name
+    - serviceTypeId
+    type: object
+  payload.ServiceTypeCreateDTO:
+    properties:
+      detail:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: number
+    required:
+    - detail
+    - isActive
+    - name
+    - price
+    type: object
+  payload.ServiceTypeUpdateDTO:
+    properties:
+      detail:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: number
+    required:
+    - detail
+    - id
+    - name
+    - price
+    type: object
+  payload.ServiceTypeUpdateIsActiveDTO:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+    required:
+    - id
+    type: object
+  payload.ServiceUpdateDTO:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+      serviceTypeId:
+        type: integer
+    required:
+    - id
+    - name
+    - serviceTypeId
+    type: object
+  payload.ServiceUpdateIsActiveDTO:
+    properties:
+      id:
+        type: integer
+      isActive:
+        type: boolean
+    required:
+    - id
+    type: object
   payload.UpdateRoomType:
     properties:
       detail:
@@ -176,7 +255,6 @@ definitions:
     required:
     - detail
     - id
-    - isActive
     - name
     - price
     type: object
@@ -692,7 +770,11 @@ paths:
           $ref: '#/definitions/domain.RoomType'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       summary: Create room type
       tags:
       - room_type
@@ -709,7 +791,11 @@ paths:
           $ref: '#/definitions/payload.UpdateRoomType'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       summary: Update room type
       tags:
       - room_type
@@ -726,7 +812,11 @@ paths:
         type: integer
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       summary: Get room type by id
       tags:
       - room_type
@@ -744,7 +834,11 @@ paths:
           $ref: '#/definitions/payload.UpdateRoomTypeIsActiveDTO'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       summary: Update room type is active
       tags:
       - room_type
@@ -763,6 +857,202 @@ paths:
       summary: Get all room types
       tags:
       - room_type
+  /api/service/:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get all services
+      tags:
+      - service
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ServiceCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Create service
+      tags:
+      - service
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ServiceUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Update service
+      tags:
+      - service
+  /api/service/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get service by ID
+      tags:
+      - service
+  /api/service/active:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service
+        in: body
+        name: service
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ServiceUpdateIsActiveDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Update service is active
+      tags:
+      - service
+  /api/service_type:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get all service types
+      tags:
+      - service_type
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service Type
+        in: body
+        name: serviceType
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ServiceTypeCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Create service type
+      tags:
+      - service_type
+  /api/service_type/:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Service Type
+        in: body
+        name: serviceType
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ServiceTypeUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Update service type
+      tags:
+      - service_type
+  /api/service_type/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get service type by ID
+      tags:
+      - service_type
+  /api/service_type/active:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Service Type
+        in: body
+        name: isActive
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ServiceTypeUpdateIsActiveDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Update service type is active
+      tags:
+      - service_type
   /api/user/:
     patch:
       consumes:

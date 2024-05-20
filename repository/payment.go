@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
 )
@@ -41,9 +43,24 @@ func (repo *paymentRepository) GetByUserID(userId string) (*[]domain.Payment, er
 }
 
 func (repo *paymentRepository) Create(payment *domain.Payment) error {
-	_, err := repo.db.NamedExec("INSERT INTO payment (name, payment_name, payment_number, user_id, payment_type_id) VALUES (:name, :payment_name, :payment_number, :user_id, :payment_type_id)", payment)
+	t := repo.db.MustBegin()
+	_, err := t.NamedExec("INSERT INTO payment (name, payment_name, payment_number, user_id, payment_type_id) VALUES (:name, :payment_name, :payment_number, :user_id, :payment_type_id)", payment)
 	if err != nil {
+		t.Rollback()
 		return err
 	}
+	t.Commit()
+	return nil
+}
+
+func (repo *paymentRepository) Update(payment *domain.Payment) error {
+	payment.UPDATED_AT = time.Now()
+	t := repo.db.MustBegin()
+	_, err := t.NamedExec("UPDATE payment SET name = :name, payment_name = :payment_name, payment_number = :payment_number, user_id = :user_id, payment_type_id = :payment_type_id, updated_at := updated_at WHERE id = :id", payment)
+	if err != nil {
+		t.Rollback()
+		return err
+	}
+	t.Commit()
 	return nil
 }

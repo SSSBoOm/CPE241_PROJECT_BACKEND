@@ -11,6 +11,8 @@ type Repository struct {
 	MaintenanceRepository    MaintenanceRepository
 	MaintenanceLogRepository MaintenanceLogRepository
 	ReservationRepository    ReservationRepository
+	ServiceRepository        ServiceRepository
+	ServiceTypeRepository    ServiceTypeRepository
 }
 
 type Usecase struct {
@@ -26,4 +28,6 @@ type Usecase struct {
 	MaintenanceUsecase    MaintenanceUsecase
 	MaintenanceLogUsecase MaintenanceLogUsecase
 	ReservationUsecase    ReservationUsecase
+	ServiceUsecase        ServiceUsecase
+	ServiceTypeUsecase    ServiceTypeUsecase
 }

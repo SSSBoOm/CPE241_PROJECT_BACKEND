@@ -10,6 +10,7 @@ type Payment struct {
 	USER_ID         string      `json:"userId" db:"user_id"`
 	PAYMENT_TYPE_ID int         `json:"-" db:"payment_type_id"`
 	PAYMENT_TYPE    PaymentType `json:"paymentType"`
+	UPDATED_AT      time.Time   `json:"updatedAt" db:"updated_at"`
 	CREATED_AT      time.Time   `json:"createdAt" db:"created_at"`
 }
 

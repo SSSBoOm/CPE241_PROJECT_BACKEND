@@ -75,6 +75,8 @@ func (s *FiberServer) Route() {
 	maintenanceController := controller.NewMaintenanceController(validator, s.usecase.MaintenanceUsecase)
 	maintenanceLogController := controller.NewMaintenanceLogController(validator, s.usecase.MaintenanceUsecase, s.usecase.MaintenanceLogUsecase)
 	reservationController := controller.NewReservationController(validator, s.usecase.ReservationUsecase, s.usecase.RoomUsecase, s.usecase.RoomTypeUsecase)
+	serviceTypeController := controller.NewServiceTypeController(validator, s.usecase.ServiceTypeUsecase)
+	serviceController := controller.NewServiceController(validator, s.usecase.ServiceUsecase, s.usecase.ServiceTypeUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
@@ -123,8 +125,24 @@ func (s *FiberServer) Route() {
 	roomType.Post("/active", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomTypeIsActive)
 	roomType.Put("/:id", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomType)
 
+	serviceType := api.Group("/service_type")
+	serviceType.Get("/all", middlewareAuth, StaffAuthMiddleware, serviceTypeController.GetAll)
+	serviceType.Get("/:id", middlewareAuth, StaffAuthMiddleware, serviceTypeController.GetByID)
+	serviceType.Post("/", middlewareAuth, AdminAuthMiddleware, serviceTypeController.Create)
+	serviceType.Post("/active", middlewareAuth, AdminAuthMiddleware, serviceTypeController.UpdateIsActive)
+	serviceType.Put("/:id", middlewareAuth, AdminAuthMiddleware, serviceTypeController.Update)
+
+	service := api.Group("/service")
+	service.Get("/all", middlewareAuth, StaffAuthMiddleware, serviceController.GetAll)
+	service.Get("/:id", middlewareAuth, StaffAuthMiddleware, serviceController.GetByID)
+	service.Post("/", middlewareAuth, AdminAuthMiddleware, serviceController.Create)
+	service.Post("/active", middlewareAuth, AdminAuthMiddleware, serviceController.UpdateIsActive)
+	service.Put("/:id", middlewareAuth, AdminAuthMiddleware, serviceController.Update)
+
 	maintenance := api.Group("/maintenance")
 	maintenance.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceController.Create)
+	maintenance.Get("/all", middlewareAuth, StaffAuthMiddleware, maintenanceController.GetAll)
+	maintenance.Get("/:id", middlewareAuth, StaffAuthMiddleware, maintenanceController.GetByID)
 
 	maintenanceLog := api.Group("/maintenance_log")
 	maintenanceLog.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceLogController.Create)
