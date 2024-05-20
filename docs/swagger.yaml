@@ -169,10 +169,13 @@ definitions:
         type: boolean
       name:
         type: string
+      price:
+        type: number
       serviceTypeId:
         type: integer
     required:
     - name
+    - price
     - serviceTypeId
     type: object
   payload.ServiceTypeCreateDTO:
@@ -183,13 +186,10 @@ definitions:
         type: boolean
       name:
         type: string
-      price:
-        type: number
     required:
     - detail
     - isActive
     - name
-    - price
     type: object
   payload.ServiceTypeUpdateDTO:
     properties:
@@ -201,13 +201,10 @@ definitions:
         type: boolean
       name:
         type: string
-      price:
-        type: number
     required:
     - detail
     - id
     - name
-    - price
     type: object
   payload.ServiceTypeUpdateIsActiveDTO:
     properties:
@@ -226,11 +223,14 @@ definitions:
         type: boolean
       name:
         type: string
+      price:
+        type: number
       serviceTypeId:
         type: integer
     required:
     - id
     - name
+    - price
     - serviceTypeId
     type: object
   payload.ServiceUpdateIsActiveDTO:

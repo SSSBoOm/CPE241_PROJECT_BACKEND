@@ -94,7 +94,6 @@ func (c *serviceTypeController) Create(ctx *fiber.Ctx) error {
 	if err := c.serviceTypeService.Create(&domain.SERVICE_TYPE{
 		NAME:      body.NAME,
 		DETAIL:    body.DETAIL,
-		PRICE:     &body.PRICE,
 		IS_ACTIVE: body.IS_ACTIVE,
 	}); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
@@ -132,7 +131,6 @@ func (c *serviceTypeController) Update(ctx *fiber.Ctx) error {
 			ID:        body.ID,
 			NAME:      body.NAME,
 			DETAIL:    body.DETAIL,
-			PRICE:     &body.PRICE,
 			IS_ACTIVE: body.IS_ACTIVE,
 		},
 	); err != nil {

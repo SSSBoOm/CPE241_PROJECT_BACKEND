@@ -1439,6 +1439,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "name",
+                "price",
                 "serviceTypeId"
             ],
             "properties": {
@@ -1447,6 +1448,9 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "price": {
+                    "type": "number"
                 },
                 "serviceTypeId": {
                     "type": "integer"
@@ -1458,8 +1462,7 @@ const docTemplate = `{
             "required": [
                 "detail",
                 "isActive",
-                "name",
-                "price"
+                "name"
             ],
             "properties": {
                 "detail": {
@@ -1470,9 +1473,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                },
-                "price": {
-                    "type": "number"
                 }
             }
         },
@@ -1481,8 +1481,7 @@ const docTemplate = `{
             "required": [
                 "detail",
                 "id",
-                "name",
-                "price"
+                "name"
             ],
             "properties": {
                 "detail": {
@@ -1496,9 +1495,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                },
-                "price": {
-                    "type": "number"
                 }
             }
         },
@@ -1521,6 +1517,7 @@ const docTemplate = `{
             "required": [
                 "id",
                 "name",
+                "price",
                 "serviceTypeId"
             ],
             "properties": {
@@ -1532,6 +1529,9 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "price": {
+                    "type": "number"
                 },
                 "serviceTypeId": {
                     "type": "integer"

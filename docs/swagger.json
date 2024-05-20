@@ -1437,6 +1437,7 @@
             "type": "object",
             "required": [
                 "name",
+                "price",
                 "serviceTypeId"
             ],
             "properties": {
@@ -1445,6 +1446,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "price": {
+                    "type": "number"
                 },
                 "serviceTypeId": {
                     "type": "integer"
@@ -1456,8 +1460,7 @@
             "required": [
                 "detail",
                 "isActive",
-                "name",
-                "price"
+                "name"
             ],
             "properties": {
                 "detail": {
@@ -1468,9 +1471,6 @@
                 },
                 "name": {
                     "type": "string"
-                },
-                "price": {
-                    "type": "number"
                 }
             }
         },
@@ -1479,8 +1479,7 @@
             "required": [
                 "detail",
                 "id",
-                "name",
-                "price"
+                "name"
             ],
             "properties": {
                 "detail": {
@@ -1494,9 +1493,6 @@
                 },
                 "name": {
                     "type": "string"
-                },
-                "price": {
-                    "type": "number"
                 }
             }
         },
@@ -1519,6 +1515,7 @@
             "required": [
                 "id",
                 "name",
+                "price",
                 "serviceTypeId"
             ],
             "properties": {
@@ -1530,6 +1527,9 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "price": {
+                    "type": "number"
                 },
                 "serviceTypeId": {
                     "type": "integer"

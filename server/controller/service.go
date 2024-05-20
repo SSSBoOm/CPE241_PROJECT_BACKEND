@@ -95,6 +95,7 @@ func (c *serviceController) Create(ctx *fiber.Ctx) error {
 
 	if err := c.serviceUsecase.Create(&domain.SERVICE{
 		NAME:            body.NAME,
+		PRICE:           &body.PRICE,
 		IS_ACTIVE:       body.IS_ACTIVE,
 		SERVICE_TYPE_ID: body.SERVICE_TYPE_ID,
 	}); err != nil {
@@ -130,6 +131,7 @@ func (c *serviceController) Update(ctx *fiber.Ctx) error {
 	if err := c.serviceUsecase.Update(&domain.SERVICE{
 		ID:              body.ID,
 		NAME:            body.NAME,
+		PRICE:           &body.PRICE,
 		IS_ACTIVE:       body.IS_ACTIVE,
 		SERVICE_TYPE_ID: body.SERVICE_TYPE_ID,
 	}); err != nil {

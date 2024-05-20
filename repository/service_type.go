@@ -37,7 +37,7 @@ func (r *serviceTypeRepository) GetByID(id int) (*domain.SERVICE_TYPE, error) {
 
 func (r *serviceTypeRepository) Create(serviceType *domain.SERVICE_TYPE) error {
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO service_type (name, detail, price, is_active) VALUES (:name, :detail, :price, :is_active)", serviceType)
+	_, err := t.NamedExec("INSERT INTO service_type (name, detail, is_active) VALUES (:name, :detail, :is_active)", serviceType)
 	if err != nil {
 		t.Rollback()
 		return err
@@ -49,7 +49,7 @@ func (r *serviceTypeRepository) Create(serviceType *domain.SERVICE_TYPE) error {
 func (r *serviceTypeRepository) Update(serviceType *domain.SERVICE_TYPE) error {
 	serviceType.UPDATED_AT = time.Now()
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("UPDATE service_type SET name = :name, detail = :detail, price = :price, is_active = :is_active, updated_at = :updated_at WHERE id = :id", serviceType)
+	_, err := t.NamedExec("UPDATE service_type SET name = :name, detail = :detail, is_active = :is_active, updated_at = :updated_at WHERE id = :id", serviceType)
 	if err != nil {
 		t.Rollback()
 		return err
