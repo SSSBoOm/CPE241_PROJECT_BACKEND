@@ -197,6 +197,25 @@ const docTemplate = `{
             }
         },
         "/api/maintenance": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetAll Maintenance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Maintenance"
+                ],
+                "summary": "GetAll Maintenance",
+                "responses": {}
+            },
             "post": {
                 "security": [
                     {
@@ -240,27 +259,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/api/maintenance/all": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "GetAll Maintenance",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Maintenance"
-                ],
-                "summary": "GetAll Maintenance",
-                "responses": {}
             }
         },
         "/api/maintenance/{id}": {
@@ -392,7 +390,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/payment_type/all": {
+        "/api/payment_type": {
             "get": {
                 "security": [
                     {
@@ -481,7 +479,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/reservation/me/all": {
+        "/api/reservation/me": {
             "get": {
                 "description": "Get reservation by user id",
                 "consumes": [
@@ -513,7 +511,53 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/role/all": {
+        "/api/reservation_task": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create reservation task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation_task"
+                ],
+                "summary": "Create reservation task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Create reservation task",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.RESERVATION_TASK"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/role": {
             "get": {
                 "description": "Get all roles",
                 "consumes": [
@@ -530,6 +574,20 @@ const docTemplate = `{
             }
         },
         "/api/room": {
+            "get": {
+                "description": "Get all rooms",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room"
+                ],
+                "summary": "Get all rooms",
+                "responses": {}
+            },
             "post": {
                 "description": "Create room",
                 "consumes": [
@@ -590,22 +648,6 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/api/room/all": {
-            "get": {
-                "description": "Get all rooms",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "room"
-                ],
-                "summary": "Get all rooms",
-                "responses": {}
-            }
-        },
         "/api/room/{id}": {
             "get": {
                 "description": "Get room by id",
@@ -663,7 +705,28 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/api/room_type/": {
+        "/api/room_type": {
+            "get": {
+                "description": "Get all room types",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room_type"
+                ],
+                "summary": "Get all room types",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            },
             "put": {
                 "description": "Update room type",
                 "consumes": [
@@ -763,29 +826,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/room_type/all": {
-            "get": {
-                "description": "Get all room types",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "room_type"
-                ],
-                "summary": "Get all room types",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/domain.Response"
-                        }
-                    }
-                }
-            }
-        },
         "/api/room_type/{id}": {
             "get": {
                 "description": "Get room type by id",
@@ -818,7 +858,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/service/": {
+        "/api/service": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -987,39 +1027,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "service_type"
-                ],
-                "summary": "Create service type",
-                "parameters": [
-                    {
-                        "description": "Service Type",
-                        "name": "serviceType",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/payload.ServiceTypeCreateDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/domain.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/service_type/": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -1046,6 +1053,37 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/payload.ServiceTypeUpdateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "service_type"
+                ],
+                "summary": "Create service type",
+                "parameters": [
+                    {
+                        "description": "Service Type",
+                        "name": "serviceType",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.ServiceTypeCreateDTO"
                         }
                     }
                 ],
@@ -1240,6 +1278,35 @@ const docTemplate = `{
                 "DEFAULT"
             ]
         },
+        "domain.RESERVATION_TASK": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "reservation": {
+                    "type": "integer"
+                },
+                "staff": {
+                    "$ref": "#/definitions/domain.User"
+                },
+                "staffId": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.ROOM": {
             "type": "object",
             "properties": {
@@ -1311,6 +1378,47 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.User": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "$ref": "#/definitions/domain.GenderType"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "prefix": {
+                    "$ref": "#/definitions/domain.PrefixType"
+                },
+                "profileUrl": {
+                    "type": "string"
+                },
+                "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
         "payload.AddPaymentByUserIdDTO": {
             "type": "object",
             "required": [
@@ -1340,8 +1448,6 @@ const docTemplate = `{
                 "endDate",
                 "paymentInfoId",
                 "price",
-                "roomId",
-                "serviceId",
                 "startDate"
             ],
             "properties": {

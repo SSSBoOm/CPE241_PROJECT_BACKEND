@@ -32,6 +32,25 @@ definitions:
     - MRS
     - MS
     - DEFAULT
+  domain.RESERVATION_TASK:
+    properties:
+      createdAt:
+        type: string
+      date:
+        type: string
+      id:
+        type: integer
+      reservation:
+        type: integer
+      staff:
+        $ref: '#/definitions/domain.User'
+      staffId:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
   domain.ROOM:
     properties:
       createdAt:
@@ -79,6 +98,33 @@ definitions:
       updateAt:
         type: string
     type: object
+  domain.User:
+    properties:
+      address:
+        type: string
+      createdAt:
+        type: string
+      dob:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      gender:
+        $ref: '#/definitions/domain.GenderType'
+      id:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      prefix:
+        $ref: '#/definitions/domain.PrefixType'
+      profileUrl:
+        type: string
+      updateAt:
+        type: string
+    type: object
   payload.AddPaymentByUserIdDTO:
     properties:
       name:
@@ -113,8 +159,6 @@ definitions:
     - endDate
     - paymentInfoId
     - price
-    - roomId
-    - serviceId
     - startDate
     type: object
   payload.CreateRoomType:
@@ -497,6 +541,18 @@ paths:
             $ref: '#/definitions/domain.Response'
       summary: Health Check
   /api/maintenance:
+    get:
+      consumes:
+      - application/json
+      description: GetAll Maintenance
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: GetAll Maintenance
+      tags:
+      - Maintenance
     post:
       consumes:
       - application/json
@@ -546,19 +602,6 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: GetByID Maintenance
-      tags:
-      - Maintenance
-  /api/maintenance/all:
-    get:
-      consumes:
-      - application/json
-      description: GetAll Maintenance
-      produces:
-      - application/json
-      responses: {}
-      security:
-      - ApiKeyAuth: []
-      summary: GetAll Maintenance
       tags:
       - Maintenance
   /api/maintenance_log:
@@ -619,7 +662,7 @@ paths:
       summary: Add payment by user
       tags:
       - payment
-  /api/payment_type/all:
+  /api/payment_type:
     get:
       consumes:
       - application/json
@@ -676,7 +719,7 @@ paths:
       summary: Get room available group by room type
       tags:
       - reservation
-  /api/reservation/me/all:
+  /api/reservation/me:
     get:
       consumes:
       - application/json
@@ -697,7 +740,36 @@ paths:
       summary: Get reservation by user id
       tags:
       - reservation
-  /api/role/all:
+  /api/reservation_task:
+    post:
+      consumes:
+      - application/json
+      description: Create reservation task
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      - description: Create reservation task
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RESERVATION_TASK'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create reservation task
+      tags:
+      - reservation_task
+  /api/role:
     get:
       consumes:
       - application/json
@@ -709,6 +781,16 @@ paths:
       tags:
       - role
   /api/room:
+    get:
+      consumes:
+      - application/json
+      description: Get all rooms
+      produces:
+      - application/json
+      responses: {}
+      summary: Get all rooms
+      tags:
+      - room
     post:
       consumes:
       - application/json
@@ -788,18 +870,21 @@ paths:
       summary: Update room is active
       tags:
       - room
-  /api/room/all:
+  /api/room_type:
     get:
       consumes:
       - application/json
-      description: Get all rooms
+      description: Get all room types
       produces:
       - application/json
-      responses: {}
-      summary: Get all rooms
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get all room types
       tags:
-      - room
-  /api/room_type/:
+      - room_type
     post:
       consumes:
       - application/json
@@ -885,22 +970,7 @@ paths:
       summary: Update room type is active
       tags:
       - room_type
-  /api/room_type/all:
-    get:
-      consumes:
-      - application/json
-      description: Get all room types
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/domain.Response'
-      summary: Get all room types
-      tags:
-      - room_type
-  /api/service/:
+  /api/service:
     get:
       consumes:
       - application/json
@@ -1029,7 +1099,6 @@ paths:
       summary: Create service type
       tags:
       - service_type
-  /api/service_type/:
     put:
       consumes:
       - application/json
