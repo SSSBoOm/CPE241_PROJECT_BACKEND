@@ -116,7 +116,7 @@ func (c *serviceTypeController) Create(ctx *fiber.Ctx) error {
 // @Param id path int true "Service Type ID"
 // @Param serviceType body payload.ServiceTypeUpdateDTO true "Service Type"
 // @Response 200 {object} domain.Response
-// @Router /api/service_type/ [put]
+// @Router /api/service_type [put]
 func (c *serviceTypeController) Update(ctx *fiber.Ctx) error {
 	var body payload.ServiceTypeUpdateDTO
 	if err := c.validate.ValidateBody(ctx, &body); err != nil {

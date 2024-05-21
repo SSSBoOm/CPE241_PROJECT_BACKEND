@@ -21,17 +21,19 @@ type RESERVATION struct {
 	ID              int                `json:"id" db:"id"`
 	ROOM_ID         *int               `json:"room_id" db:"room_id"`
 	ROOM            *ROOM              `json:"room" db:"-"`
-	USER_ID         string             `json:"user_id" db:"user_id"`
-	START_DATE      time.Time          `json:"start_date" db:"start_date"`
-	END_DATE        time.Time          `json:"end_date" db:"end_date"`
+	SERVICE_ID      *int               `json:"serviceId" db:"service_id"`
+	SERVICE         *SERVICE           `json:"service" db:"-"`
+	USER_ID         string             `json:"userId" db:"user_id"`
+	START_DATE      time.Time          `json:"startDate" db:"start_date"`
+	END_DATE        time.Time          `json:"endDate" db:"end_date"`
 	PRICE           float64            `json:"price" db:"price"`
 	STATUS          RESERVATION_STATUS `json:"status" db:"status"`
-	PAYMENT_DATE    time.Time          `json:"payment_date" db:"payment_date"`
-	PAYMENT_INFO_ID int                `json:"payment_info_id" db:"payment_info_id"`
-	PAYMENT_INFO    Payment            `json:"payment_info" db:"-"`
-	STAFF_ID        *string            `json:"staff_id" db:"staff_id"`
-	CREATED_AT      time.Time          `json:"created_at" db:"created_at"`
-	UPDATED_AT      time.Time          `json:"updated_at" db:"updated_at"`
+	PAYMENT_DATE    time.Time          `json:"paymentDate" db:"payment_date"`
+	PAYMENT_INFO_ID int                `json:"paymentInfoId" db:"payment_info_id"`
+	PAYMENT_INFO    Payment            `json:"paymentInfo" db:"-"`
+	STAFF_ID        *string            `json:"staffId" db:"staff_id"`
+	CREATED_AT      time.Time          `json:"createdAt" db:"created_at"`
+	UPDATED_AT      time.Time          `json:"updatedAt" db:"updated_at"`
 }
 
 type ReservationUsecase interface {
@@ -42,6 +44,8 @@ type ReservationUsecase interface {
 	GetByID(id int) (*RESERVATION, error)
 	Create(reservation *RESERVATION) (id *int, err error)
 	Update(reservation *RESERVATION) error
+	UpdateStaff(id int, staffID string) error
+	UpdateStatus(id int, status RESERVATION_STATUS) error
 }
 
 type ReservationRepository interface {
@@ -52,4 +56,6 @@ type ReservationRepository interface {
 	GetByID(id int) (*RESERVATION, error)
 	Create(reservation *RESERVATION) (id *int, err error)
 	Update(reservation *RESERVATION) error
+	UpdateStaff(id int, staffID string) error
+	UpdateStatus(id int, status RESERVATION_STATUS) error
 }

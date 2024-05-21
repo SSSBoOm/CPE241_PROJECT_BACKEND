@@ -27,7 +27,7 @@ func NewServiceController(validate domain.ValidatorUsecase, serviceUsecase domai
 // @Accept json
 // @Produce json
 // @Response 200 {object} domain.Response
-// @Router /api/service/ [get]
+// @Router /api/service [get]
 func (c *serviceController) GetAll(ctx *fiber.Ctx) error {
 	services, err := c.serviceUsecase.GetAll()
 	if err != nil {
@@ -83,7 +83,7 @@ func (c *serviceController) GetByID(ctx *fiber.Ctx) error {
 // @Produce json
 // @Param service body payload.ServiceCreateDTO true "Service"
 // @Response 200 {object} domain.Response
-// @Router /api/service/ [post]
+// @Router /api/service [post]
 func (c *serviceController) Create(ctx *fiber.Ctx) error {
 	var body payload.ServiceCreateDTO
 	if err := c.validate.ValidateBody(ctx, &body); err != nil {
@@ -118,7 +118,7 @@ func (c *serviceController) Create(ctx *fiber.Ctx) error {
 // @Produce json
 // @Param service body payload.ServiceUpdateDTO true "Service"
 // @Response 200 {object} domain.Response
-// @Router /api/service/ [put]
+// @Router /api/service [put]
 func (c *serviceController) Update(ctx *fiber.Ctx) error {
 	var body payload.ServiceUpdateDTO
 	if err := c.validate.ValidateBody(ctx, &body); err != nil {

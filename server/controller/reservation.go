@@ -44,8 +44,16 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 		})
 	}
 
+	if (body.ROOM_ID == nil && body.SERVICE_ID == nil) || (body.ROOM_ID != nil && body.SERVICE_ID != nil) {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+
 	if _, err := c.reservationUsecase.Create(&domain.RESERVATION{
-		ROOM_ID:         &body.ROOM_ID,
+		ROOM_ID:         body.ROOM_ID,
+		SERVICE_ID:      body.SERVICE_ID,
 		USER_ID:         userID,
 		START_DATE:      body.START_DATE,
 		END_DATE:        body.END_DATE,
@@ -74,7 +82,7 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 // @Produce json
 // @Param user_id path string true "User ID"
 // @Success 200 {object} domain.Response
-// @Router /api/reservation/me/all [get]
+// @Router /api/reservation/me [get]
 func (c *reservationController) GetReservationByUserID(ctx *fiber.Ctx) error {
 	userID := ctx.Locals(constant.CTX_USER_ID).(string)
 

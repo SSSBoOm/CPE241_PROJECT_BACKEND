@@ -98,7 +98,7 @@ func (s *FiberServer) Route() {
 	user.Patch("/", middlewareAuth, userController.UpdateInfomationByID)
 
 	role := api.Group("/role")
-	role.Get("/all", middlewareAuth, AdminAuthMiddleware, roleController.GetALL)
+	role.Get("/", middlewareAuth, AdminAuthMiddleware, roleController.GetALL)
 
 	admin := api.Group("/admin")
 	admin.Get("/manage/user/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
@@ -109,45 +109,45 @@ func (s *FiberServer) Route() {
 	payment.Post("/", middlewareAuth, paymentController.AddPaymentByUser)
 
 	paymentType := api.Group("/payment_type")
-	paymentType.Get("/all", middlewareAuth, paymentTypeController.GetAll)
+	paymentType.Get("/", middlewareAuth, paymentTypeController.GetAll)
 
 	room := api.Group("/room")
-	room.Get("/all", middlewareAuth, StaffAuthMiddleware, roomController.GetAll)
+	room.Get("/", middlewareAuth, StaffAuthMiddleware, roomController.GetAll)
 	room.Get("/:id", middlewareAuth, StaffAuthMiddleware, roomController.GetByID)
 	room.Post("/", middlewareAuth, AdminAuthMiddleware, roomController.Create)
 	room.Post("/active", middlewareAuth, AdminAuthMiddleware, roomController.UpdateIsActive)
 	room.Put("/:id", middlewareAuth, AdminAuthMiddleware, roomController.Update)
 
 	roomType := api.Group("/room_type")
-	roomType.Get("/all", roomTypeController.GetRoomTypeList)
+	roomType.Get("/", roomTypeController.GetRoomTypeList)
 	roomType.Get("/:id", roomTypeController.GetRoomTypeByID)
 	roomType.Post("/", middlewareAuth, AdminAuthMiddleware, roomTypeController.CreateRoomType)
 	roomType.Post("/active", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomTypeIsActive)
 	roomType.Put("/:id", middlewareAuth, AdminAuthMiddleware, roomTypeController.UpdateRoomType)
 
 	serviceType := api.Group("/service_type")
-	serviceType.Get("/all", middlewareAuth, StaffAuthMiddleware, serviceTypeController.GetAll)
+	serviceType.Get("/", serviceTypeController.GetAll)
 	serviceType.Get("/:id", middlewareAuth, StaffAuthMiddleware, serviceTypeController.GetByID)
 	serviceType.Post("/", middlewareAuth, AdminAuthMiddleware, serviceTypeController.Create)
 	serviceType.Post("/active", middlewareAuth, AdminAuthMiddleware, serviceTypeController.UpdateIsActive)
 	serviceType.Put("/:id", middlewareAuth, AdminAuthMiddleware, serviceTypeController.Update)
 
 	service := api.Group("/service")
-	service.Get("/all", middlewareAuth, StaffAuthMiddleware, serviceController.GetAll)
+	service.Get("/", middlewareAuth, StaffAuthMiddleware, serviceController.GetAll)
 	service.Get("/:id", middlewareAuth, StaffAuthMiddleware, serviceController.GetByID)
 	service.Post("/", middlewareAuth, AdminAuthMiddleware, serviceController.Create)
 	service.Post("/active", middlewareAuth, AdminAuthMiddleware, serviceController.UpdateIsActive)
 	service.Put("/:id", middlewareAuth, AdminAuthMiddleware, serviceController.Update)
 
 	maintenance := api.Group("/maintenance")
-	maintenance.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceController.Create)
-	maintenance.Get("/all", middlewareAuth, StaffAuthMiddleware, maintenanceController.GetAll)
+	maintenance.Get("/", middlewareAuth, StaffAuthMiddleware, maintenanceController.GetAll)
 	maintenance.Get("/:id", middlewareAuth, StaffAuthMiddleware, maintenanceController.GetByID)
+	maintenance.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceController.Create)
 
 	maintenanceLog := api.Group("/maintenance_log")
 	maintenanceLog.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceLogController.Create)
 
 	reservation := api.Group("/reservation")
+	reservation.Get("/me", middlewareAuth, StaffAuthMiddleware, reservationController.GetReservationByUserID)
 	reservation.Post("/", middlewareAuth, reservationController.CreateReservation)
-	reservation.Get("/me/all", middlewareAuth, StaffAuthMiddleware, reservationController.GetReservationByUserID)
 }

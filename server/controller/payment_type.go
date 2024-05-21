@@ -23,7 +23,7 @@ func NewPaymentTypeController(paymentTypeUsecase domain.PaymentTypeUsecase) *Pay
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
-// @Router /api/payment_type/all [get]
+// @Router /api/payment_type [get]
 func (p *PaymentTypeController) GetAll(ctx *fiber.Ctx) error {
 	paymentTypes, err := p.paymentTypeUsecase.GetAll()
 	if err != nil {

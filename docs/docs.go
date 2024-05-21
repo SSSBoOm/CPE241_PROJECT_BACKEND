@@ -1341,6 +1341,7 @@ const docTemplate = `{
                 "paymentInfoId",
                 "price",
                 "roomId",
+                "serviceId",
                 "startDate"
             ],
             "properties": {
@@ -1354,6 +1355,9 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "roomId": {
+                    "type": "integer"
+                },
+                "serviceId": {
                     "type": "integer"
                 },
                 "startDate": {

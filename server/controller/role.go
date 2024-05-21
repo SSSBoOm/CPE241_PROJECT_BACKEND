@@ -22,7 +22,7 @@ func NewRoleController(roleUsecase domain.RoleUsecase) *RoleController {
 // @Tags									role
 // @Accept								json
 // @produce								json
-// @Router /api/role/all	[get]
+// @Router /api/role			[get]
 func (role *RoleController) GetALL(c *fiber.Ctx) error {
 	roles, err := role.roleUsecase.GetAll()
 	if err != nil {
@@ -34,7 +34,7 @@ func (role *RoleController) GetALL(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "Hello World",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 		DATA:    roles,
 	})
 }

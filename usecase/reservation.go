@@ -49,6 +49,14 @@ func (u *reservationUsecase) Update(reservation *domain.RESERVATION) error {
 	return u.reservationRepository.Update(reservation)
 }
 
+func (u *reservationUsecase) UpdateStaff(id int, staffID string) error {
+	return u.reservationRepository.UpdateStaff(id, staffID)
+}
+
+func (u *reservationUsecase) UpdateStatus(id int, status domain.RESERVATION_STATUS) error {
+	return u.reservationRepository.UpdateStatus(id, status)
+}
+
 func (u *reservationUsecase) GetRoomAvailableGroupByRoomType(start_date time.Time, end_date time.Time) ([]domain.RoomType, error) {
 	roomType, err := u.roomTypeUsecase.GetAll()
 	if err != nil {

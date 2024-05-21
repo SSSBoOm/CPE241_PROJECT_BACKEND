@@ -28,7 +28,7 @@ func NewRoomController(validator domain.ValidatorUsecase, roomUsecase domain.Roo
 // @Tags									room
 // @Accept								json
 // @produce								json
-// @Router /api/room/all	[get]
+// @Router /api/room	[get]
 func (c *roomController) GetAll(ctx *fiber.Ctx) error {
 	rooms, err := c.roomUsecase.GetAll()
 	if err != nil {

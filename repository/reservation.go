@@ -65,7 +65,7 @@ func (repo *reservationRepository) GetByID(id int) (*domain.RESERVATION, error) 
 func (repo *reservationRepository) Create(reservation *domain.RESERVATION) (id *int, err error) {
 	t := repo.db.MustBegin()
 	reservation.STATUS = domain.RESERVATION_STATUS_WAITING_APPROVE_PAYMENT
-	result, err := t.NamedExec("INSERT INTO reservation (room_id, user_id, start_date, end_date, price, status, payment_date, payment_info_id) VALUES (:room_id, :user_id, :start_date, :end_date, :price, :status, :payment_date, :payment_info_id)", reservation)
+	result, err := t.NamedExec("INSERT INTO reservation (room_id, service_id, user_id, start_date, end_date, price, status, payment_date, payment_info_id) VALUES (:room_id, :service_id, :user_id, :start_date, :end_date, :price, :status, :payment_date, :payment_info_id)", reservation)
 	if err != nil {
 		t.Rollback()
 		return nil, err
@@ -80,6 +80,28 @@ func (repo *reservationRepository) Update(reservation *domain.RESERVATION) error
 	reservation.UPDATED_AT = time.Now()
 	t := repo.db.MustBegin()
 	_, err := t.NamedExec("UPDATE reservation SET room_id = :room_id, user_id = :user_id, start_date = :start_date, end_date = :end_date, status = :status, updated_at = :updated_at WHERE id = :id", reservation)
+	if err != nil {
+		t.Rollback()
+		return err
+	}
+	t.Commit()
+	return nil
+}
+
+func (repo *reservationRepository) UpdateStaff(id int, staffID string) error {
+	t := repo.db.MustBegin()
+	_, err := t.Exec("UPDATE reservation SET staff_id = ? WHERE id = ?", staffID, id)
+	if err != nil {
+		t.Rollback()
+		return err
+	}
+	t.Commit()
+	return nil
+}
+
+func (repo *reservationRepository) UpdateStatus(id int, status domain.RESERVATION_STATUS) error {
+	t := repo.db.MustBegin()
+	_, err := t.Exec("UPDATE reservation SET status = ? WHERE id = ?", status, id)
 	if err != nil {
 		t.Rollback()
 		return err

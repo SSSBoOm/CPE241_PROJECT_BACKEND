@@ -29,7 +29,7 @@ func NewMaintenanceController(validator domain.ValidatorUsecase, maintenanceUsec
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
-// @Router /api/maintenance/all [get]
+// @Router /api/maintenance [get]
 func (c *maintenanceController) GetAll(ctx *fiber.Ctx) error {
 	maintenances, err := c.maintenanceUsecase.GetAll()
 	if err != nil {

@@ -1339,6 +1339,7 @@
                 "paymentInfoId",
                 "price",
                 "roomId",
+                "serviceId",
                 "startDate"
             ],
             "properties": {
@@ -1352,6 +1353,9 @@
                     "type": "number"
                 },
                 "roomId": {
+                    "type": "integer"
+                },
+                "serviceId": {
                     "type": "integer"
                 },
                 "startDate": {

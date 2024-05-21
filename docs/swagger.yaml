@@ -105,6 +105,8 @@ definitions:
         type: number
       roomId:
         type: integer
+      serviceId:
+        type: integer
       startDate:
         type: string
     required:
@@ -112,6 +114,7 @@ definitions:
     - paymentInfoId
     - price
     - roomId
+    - serviceId
     - startDate
     type: object
   payload.CreateRoomType:

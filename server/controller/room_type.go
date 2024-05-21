@@ -28,7 +28,7 @@ func NewRoomTypeController(validator domain.ValidatorUsecase, roomTypeUsecase do
 // @Accept								json
 // @produce								json
 // @Response 200 {object} domain.Response
-// @Router /api/room_type/all	[get]
+// @Router /api/room_type	[get]
 func (c *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 	roomTypeList, err := c.roomTypeUsecase.GetAll()
 	if err != nil {
@@ -84,7 +84,7 @@ func (c *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Param									roomType body payload.CreateRoomType true "Room Type"
 // @Response 200 {object} domain.Response
-// @Router /api/room_type/	[post]
+// @Router /api/room_type	[post]
 func (c *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 	var body payload.CreateRoomType
 	if err := c.validator.ValidateBody(ctx, &body); err != nil {
@@ -131,7 +131,7 @@ func (c *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 // @produce								json
 // @Param									payload body	payload.UpdateRoomType true "Payload"
 // @Response 200 {object} domain.Response
-// @Router /api/room_type/	[put]
+// @Router /api/room_type	[put]
 func (c *RoomTypeController) UpdateRoomType(ctx *fiber.Ctx) error {
 	var body payload.UpdateRoomType
 	if err := c.validator.ValidateBody(ctx, &body); err != nil {
