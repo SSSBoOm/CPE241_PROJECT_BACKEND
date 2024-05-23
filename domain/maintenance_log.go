@@ -9,12 +9,14 @@ const (
 	MAINTENANCE_LOG_STATUS_PENDING   MAINTENANCE_LOG_STATUS = "PENDING"
 	MAINTENANCE_LOG_STATUS_APPROVED  MAINTENANCE_LOG_STATUS = "APPROVED"
 	MAINTENANCE_LOG_STATUS_REJECTED  MAINTENANCE_LOG_STATUS = "REJECTED"
+	MAINTENANCE_LOG_STATUS_DONE      MAINTENANCE_LOG_STATUS = "DONE"
 )
 
 type MAINTENANCE_LOG struct {
 	ID             int                    `json:"id" db:"id"`
-	MAINTENANCE_ID int                    `json:"maintenanceId" db:"maintenance_id"`
+	MAINTENANCE_ID int                    `json:"-" db:"maintenance_id"`
 	STAFF_ID       string                 `json:"staffId" db:"staff_id"`
+	STAFF          *User                  `json:"staff" db:"-"`
 	DESCRIPTION    string                 `json:"description" db:"description"`
 	STATUS         MAINTENANCE_LOG_STATUS `json:"status" db:"status"`
 	UPDATED_AT     time.Time              `json:"updatedAt" db:"updated_at"`

@@ -9,11 +9,14 @@ import (
 type maintenanceUsecase struct {
 	maintenanceRepository domain.MaintenanceRepository
 	maintenanceLogUsecase domain.MaintenanceLogUsecase
+	roomUsecase           domain.RoomUsecase
 }
 
-func NewMaintenanceUsecase(maintenanceRepository domain.MaintenanceRepository, maintenanceLogUsecase domain.MaintenanceLogUsecase) domain.MaintenanceUsecase {
-	return &maintenanceUsecase{maintenanceRepository: maintenanceRepository,
+func NewMaintenanceUsecase(maintenanceRepository domain.MaintenanceRepository, maintenanceLogUsecase domain.MaintenanceLogUsecase, roomUsecase domain.RoomUsecase) domain.MaintenanceUsecase {
+	return &maintenanceUsecase{
+		maintenanceRepository: maintenanceRepository,
 		maintenanceLogUsecase: maintenanceLogUsecase,
+		roomUsecase:           roomUsecase,
 	}
 }
 
@@ -31,7 +34,33 @@ func (u *maintenanceUsecase) GetByID(id int) (*domain.MAINTENANCE, error) {
 }
 
 func (u *maintenanceUsecase) GetAll() (*[]domain.MAINTENANCE, error) {
-	return u.maintenanceRepository.GetAll()
+	maintenance, err := u.maintenanceRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*maintenance))
+	for i, item := range *maintenance {
+		go func(i int, item domain.MAINTENANCE) {
+			defer wg.Done()
+			room, err := u.roomUsecase.GetByID(item.ROOM_ID)
+			if err != nil {
+				return
+			}
+			item.ROOM = room
+
+			maintenanceLogs, err := u.maintenanceLogUsecase.GetByMaintenanceID(item.ID)
+			if err != nil {
+				return
+			}
+			item.MAINTENANCE_LOG = maintenanceLogs
+			(*maintenance)[i] = item
+		}(i, item)
+	}
+	wg.Wait()
+
+	return maintenance, nil
 }
 
 func (u *maintenanceUsecase) Create(maintenance *domain.MAINTENANCE) error {
