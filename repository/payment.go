@@ -44,7 +44,7 @@ func (repo *paymentRepository) GetByUserID(userId string) (*[]domain.Payment, er
 
 func (repo *paymentRepository) Create(payment *domain.Payment) error {
 	t := repo.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO payment (name, payment_name, payment_number, user_id, payment_type_id) VALUES (:name, :payment_name, :payment_number, :user_id, :payment_type_id)", payment)
+	_, err := t.NamedExec("INSERT INTO payment (name, payment_first_name, payment_last_name, payment_number, user_id, payment_type_id) VALUES (:name, :payment_first_name, :payment_last_name, :payment_number, :user_id, :payment_type_id)", payment)
 	if err != nil {
 		t.Rollback()
 		return err
@@ -56,7 +56,7 @@ func (repo *paymentRepository) Create(payment *domain.Payment) error {
 func (repo *paymentRepository) Update(payment *domain.Payment) error {
 	payment.UPDATED_AT = time.Now()
 	t := repo.db.MustBegin()
-	_, err := t.NamedExec("UPDATE payment SET name = :name, payment_name = :payment_name, payment_number = :payment_number, user_id = :user_id, payment_type_id = :payment_type_id, updated_at := updated_at WHERE id = :id", payment)
+	_, err := t.NamedExec("UPDATE payment SET name = :name, payment_first_name = :payment_first_name, payment_last_name = :payment_last_name, payment_number = :payment_number, user_id = :user_id, payment_type_id = :payment_type_id, updated_at := updated_at WHERE id = :id", payment)
 	if err != nil {
 		t.Rollback()
 		return err

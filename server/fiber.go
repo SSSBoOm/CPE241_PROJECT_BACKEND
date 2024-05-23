@@ -68,7 +68,7 @@ func (s *FiberServer) Route() {
 	authController := controller.NewAuthController(s.cfg, s.usecase.AuthUsecase, s.usecase.GoogleUsecase, s.usecase.UserUsecase, s.usecase.SessionUsecase)
 	userController := controller.NewUserController(validator, s.usecase.UserUsecase, s.usecase.PaymentUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
-	paymentController := controller.NewPaymentController(s.usecase.PaymentUsecase)
+	paymentController := controller.NewPaymentController(validator, s.usecase.PaymentUsecase)
 	paymentTypeController := controller.NewPaymentTypeController(s.usecase.PaymentTypeUsecase)
 	roomTypeController := controller.NewRoomTypeController(validator, s.usecase.RoomTypeUsecase)
 	roomController := controller.NewRoomController(validator, s.usecase.RoomUsecase)
