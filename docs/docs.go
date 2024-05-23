@@ -381,8 +381,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/domain.Response"
                         }
@@ -1423,21 +1423,25 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "name",
-                "paymentName",
+                "paymentFirstName",
+                "paymentLastName",
                 "paymentNumber",
-                "payment_type_id"
+                "paymentTypeId"
             ],
             "properties": {
                 "name": {
                     "type": "string"
                 },
-                "paymentName": {
+                "paymentFirstName": {
+                    "type": "string"
+                },
+                "paymentLastName": {
                     "type": "string"
                 },
                 "paymentNumber": {
                     "type": "string"
                 },
-                "payment_type_id": {
+                "paymentTypeId": {
                     "type": "integer"
                 }
             }

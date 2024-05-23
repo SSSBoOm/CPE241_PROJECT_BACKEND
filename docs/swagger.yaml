@@ -129,17 +129,20 @@ definitions:
     properties:
       name:
         type: string
-      payment_type_id:
-        type: integer
-      paymentName:
+      paymentFirstName:
+        type: string
+      paymentLastName:
         type: string
       paymentNumber:
         type: string
+      paymentTypeId:
+        type: integer
     required:
     - name
-    - paymentName
+    - paymentFirstName
+    - paymentLastName
     - paymentNumber
-    - payment_type_id
+    - paymentTypeId
     type: object
   payload.CreateReservationDTO:
     properties:
@@ -653,8 +656,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/domain.Response'
       security:
