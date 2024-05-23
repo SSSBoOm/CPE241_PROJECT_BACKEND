@@ -41,7 +41,21 @@ func (u *RoomUsecase) GetAll() (*[]domain.ROOM, error) {
 }
 
 func (u *RoomUsecase) GetByID(id int) (*domain.ROOM, error) {
-	return u.roomRepository.GetByID(id)
+	room, err := u.roomRepository.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	roomType, err := u.roomTypeUsecase.GetByID(room.ROOM_TYPE_ID)
+	if err != nil || roomType == nil {
+		return room, nil
+	}
+	room.ROOM_TYPE = roomType
+	return room, nil
+}
+
+func (u *RoomUsecase) GetByRoomType(roomTypeID int) (*[]domain.ROOM, error) {
+	return u.roomRepository.GetByRoomType(roomTypeID)
 }
 
 func (u *RoomUsecase) Create(room *domain.ROOM) error {

@@ -94,9 +94,9 @@ func initUsecase(
 	roomUsecase := usecase.NewRoomUsecase(repo.RoomRepository, roomTypeUsecase)
 	maintenanceLogUsecase := usecase.NewMaintenanceLogUsecase(repo.MaintenanceLogRepository)
 	maintenanceUsecase := usecase.NewMaintenanceUsecase(repo.MaintenanceRepository, maintenanceLogUsecase)
-	reservationUsecase := usecase.NewReservationUsecase(repo.ReservationRepository, roomTypeUsecase, roomUsecase)
-	serviceRepository := usecase.NewServiceUsecase(repo.ServiceRepository, repo.ServiceTypeRepository)
+	serviceUsecase := usecase.NewServiceUsecase(repo.ServiceRepository, repo.ServiceTypeRepository)
 	serviceTypeRepository := usecase.NewServiceTypeUsecase(repo.ServiceTypeRepository)
+	reservationUsecase := usecase.NewReservationUsecase(repo.ReservationRepository, roomTypeUsecase, roomUsecase, serviceUsecase, paymentUsecase, userUsecase)
 
 	return &domain.Usecase{
 		AuthUsecase:           authUsecase,
@@ -111,7 +111,7 @@ func initUsecase(
 		MaintenanceUsecase:    maintenanceUsecase,
 		MaintenanceLogUsecase: maintenanceLogUsecase,
 		ReservationUsecase:    reservationUsecase,
-		ServiceUsecase:        serviceRepository,
+		ServiceUsecase:        serviceUsecase,
 		ServiceTypeUsecase:    serviceTypeRepository,
 	}
 }

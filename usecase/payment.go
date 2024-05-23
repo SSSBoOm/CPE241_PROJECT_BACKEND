@@ -24,7 +24,18 @@ func (u *paymentUsecase) GetAll() (*[]domain.Payment, error) {
 }
 
 func (u *paymentUsecase) GetByID(id int) (*domain.Payment, error) {
-	return u.paymentRepo.GetByID(id)
+	payment, err := u.paymentRepo.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	paymentType, err := u.paymentTypeUsecase.GetByID(payment.PAYMENT_TYPE_ID)
+	if err != nil || paymentType == nil {
+		return nil, errors.New("payment type not found")
+	}
+	payment.PAYMENT_TYPE = *paymentType
+
+	return payment, nil
 }
 
 func (u *paymentUsecase) Create(payment *domain.Payment) error {

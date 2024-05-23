@@ -5,6 +5,8 @@ import "time"
 type SERVICE struct {
 	ID              int           `json:"id" db:"id"`
 	NAME            string        `json:"name" db:"name"`
+	DESCRIPTION     string        `json:"description" db:"description"`
+	INFORMATION     string        `json:"information" db:"information"`
 	PRICE           *float32      `json:"price" db:"price"`
 	IS_ACTIVE       bool          `json:"isActive" db:"is_active"`
 	SERVICE_TYPE_ID int           `json:"-" db:"service_type_id"`

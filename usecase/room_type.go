@@ -19,7 +19,26 @@ func NewRoomTypeUsecase(roomTypeRepository domain.RoomTypeRepository, roomReposi
 }
 
 func (u *roomTypeUsecase) GetAll() (*[]domain.RoomType, error) {
-	return u.roomTypeRepository.GetAll()
+	roomType, err := u.roomTypeRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*roomType))
+	for i, item := range *roomType {
+		go func(i int, item domain.RoomType) {
+			defer wg.Done()
+			rooms, err := u.roomRepository.GetByRoomType(item.ID)
+			if err != nil {
+				return
+			}
+			(*roomType)[i].ROOM = rooms
+		}(i, item)
+	}
+	wg.Wait()
+
+	return roomType, nil
 }
 
 func (u *roomTypeUsecase) GetByID(id int) (*domain.RoomType, error) {

@@ -26,6 +26,15 @@ func (r *roomRepository) GetAll() (*[]domain.ROOM, error) {
 	return &room, nil
 }
 
+func (r *roomRepository) GetByRoomType(roomTypeID int) (*[]domain.ROOM, error) {
+	room := make([]domain.ROOM, 0)
+	err := r.db.Select(&room, "SELECT * FROM room WHERE room_type_id = ?", roomTypeID)
+	if err != nil {
+		return nil, err
+	}
+	return &room, nil
+}
+
 func (r *roomRepository) GetByID(id int) (*domain.ROOM, error) {
 	room := domain.ROOM{}
 	err := r.db.Get(&room, "SELECT * FROM room WHERE id = ?", id)

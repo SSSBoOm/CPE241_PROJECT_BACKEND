@@ -11,13 +11,19 @@ type reservationUsecase struct {
 	reservationRepository domain.ReservationRepository
 	roomTypeUsecase       domain.RoomTypeUsecase
 	roomUsecase           domain.RoomUsecase
+	serviceUsecase        domain.ServiceUsecase
+	paymentUsecase        domain.PaymentUsecase
+	userUsecase           domain.UserUsecase
 }
 
-func NewReservationUsecase(reservationRepository domain.ReservationRepository, roomTypeUsecase domain.RoomTypeUsecase, roomUsecase domain.RoomUsecase) domain.ReservationUsecase {
+func NewReservationUsecase(reservationRepository domain.ReservationRepository, roomTypeUsecase domain.RoomTypeUsecase, roomUsecase domain.RoomUsecase, serviceUsecase domain.ServiceUsecase, paymentUsecase domain.PaymentUsecase, userUsecase domain.UserUsecase) domain.ReservationUsecase {
 	return &reservationUsecase{
 		reservationRepository: reservationRepository,
 		roomTypeUsecase:       roomTypeUsecase,
 		roomUsecase:           roomUsecase,
+		serviceUsecase:        serviceUsecase,
+		paymentUsecase:        paymentUsecase,
+		userUsecase:           userUsecase,
 	}
 }
 
@@ -30,7 +36,48 @@ func (u *reservationUsecase) GetByDate(startDate string, endDate string) (*[]dom
 }
 
 func (u *reservationUsecase) GetByUserID(userID string) (*[]domain.RESERVATION, error) {
-	return u.reservationRepository.GetByUserID(userID)
+	reservation, err := u.reservationRepository.GetByUserID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*reservation))
+	for i, item := range *reservation {
+		go func(i int, item domain.RESERVATION) {
+			defer wg.Done()
+			if item.TYPE == domain.RESERVATION_TYPE_ROOM {
+				room, err := u.roomUsecase.GetByID(*item.ROOM_ID)
+				(*reservation)[i].ROOM = room
+				if err != nil {
+					return
+				}
+			} else if item.TYPE == domain.RESERVATION_TYPE_SERVICE {
+				service, err := u.serviceUsecase.GetById(*item.SERVICE_ID)
+				(*reservation)[i].SERVICE = service
+				if err != nil {
+					return
+				}
+			}
+
+			payment, err := u.paymentUsecase.GetByID(item.PAYMENT_INFO_ID)
+			(*reservation)[i].PAYMENT_INFO = payment
+			if err != nil {
+				return
+			}
+
+			if item.STAFF_ID != nil {
+				staff, err := u.userUsecase.FindById(*item.STAFF_ID)
+				(*reservation)[i].STAFF = staff
+				if err != nil {
+					return
+				}
+			}
+		}(i, item)
+	}
+	wg.Wait()
+
+	return reservation, nil
 }
 
 func (u *reservationUsecase) GetByRoomID(roomID int) (*[]domain.RESERVATION, error) {
