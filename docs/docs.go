@@ -1254,13 +1254,15 @@ const docTemplate = `{
                 "CASE_OPEN",
                 "PENDING",
                 "APPROVED",
-                "REJECTED"
+                "REJECTED",
+                "DONE"
             ],
             "x-enum-varnames": [
                 "MAINTENANCE_LOG_STATUS_CASE_OPEN",
                 "MAINTENANCE_LOG_STATUS_PENDING",
                 "MAINTENANCE_LOG_STATUS_APPROVED",
-                "MAINTENANCE_LOG_STATUS_REJECTED"
+                "MAINTENANCE_LOG_STATUS_REJECTED",
+                "MAINTENANCE_LOG_STATUS_DONE"
             ]
         },
         "domain.PrefixType": {
