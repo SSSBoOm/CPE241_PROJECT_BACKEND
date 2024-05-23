@@ -51,6 +51,14 @@ definitions:
       updatedAt:
         type: string
     type: object
+  domain.RESERVATION_TYPE:
+    enum:
+    - ROOM
+    - SERVICE
+    type: string
+    x-enum-varnames:
+    - RESERVATION_TYPE_ROOM
+    - RESERVATION_TYPE_SERVICE
   domain.ROOM:
     properties:
       createdAt:
@@ -158,6 +166,8 @@ definitions:
         type: integer
       startDate:
         type: string
+      type:
+        $ref: '#/definitions/domain.RESERVATION_TYPE'
     required:
     - endDate
     - paymentInfoId

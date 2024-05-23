@@ -1307,6 +1307,17 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.RESERVATION_TYPE": {
+            "type": "string",
+            "enum": [
+                "ROOM",
+                "SERVICE"
+            ],
+            "x-enum-varnames": [
+                "RESERVATION_TYPE_ROOM",
+                "RESERVATION_TYPE_SERVICE"
+            ]
+        },
         "domain.ROOM": {
             "type": "object",
             "properties": {
@@ -1472,6 +1483,9 @@ const docTemplate = `{
                 },
                 "startDate": {
                     "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/domain.RESERVATION_TYPE"
                 }
             }
         },
