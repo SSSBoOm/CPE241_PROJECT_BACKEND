@@ -48,6 +48,25 @@ const docTemplate = `{
             }
         },
         "/api/admin/manage/user": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get all user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manage"
+                ],
+                "summary": "Get all user",
+                "responses": {}
+            },
             "put": {
                 "security": [
                     {
@@ -409,6 +428,103 @@ const docTemplate = `{
                 ],
                 "summary": "GetAll Payment Type",
                 "responses": {}
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update Payment Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PaymentType"
+                ],
+                "summary": "Update Payment Type",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Payment Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payment Type Name",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.PaymentTypeUpdateDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create Payment Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PaymentType"
+                ],
+                "summary": "Create Payment Type",
+                "parameters": [
+                    {
+                        "description": "Payment Type Name",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.PaymentTypeCreateDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/payment_type/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "GetByID Payment Type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PaymentType"
+                ],
+                "summary": "GetByID Payment Type",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Payment Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
             }
         },
         "/api/reservation": {
@@ -607,11 +723,18 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.ROOM"
+                            "$ref": "#/definitions/payload.RoomCreateDTO"
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         },
         "/api/room/active": {
@@ -1586,6 +1709,50 @@ const docTemplate = `{
                 },
                 "status": {
                     "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
+                }
+            }
+        },
+        "payload.PaymentTypeCreateDTO": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.PaymentTypeUpdateDTO": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.RoomCreateDTO": {
+            "type": "object",
+            "required": [
+                "roomNumber",
+                "roomTypeId"
+            ],
+            "properties": {
+                "isActive": {
+                    "type": "boolean"
+                },
+                "roomNumber": {
+                    "type": "string"
+                },
+                "roomTypeId": {
+                    "type": "integer"
                 }
             }
         },
