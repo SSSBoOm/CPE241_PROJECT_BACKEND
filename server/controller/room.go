@@ -88,7 +88,8 @@ func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 // @Tags									room
 // @Accept								json
 // @produce								json
-// @Param									room body domain.ROOM true "Room"
+// @Param									room body payload.RoomCreateDTO true "Room"
+// @Response							201 {string} string "Created"
 // @Router /api/room	[post]
 func (c *roomController) Create(ctx *fiber.Ctx) error {
 	var body payload.RoomCreateDTO

@@ -21,3 +21,11 @@ func (u *paymentTypeUsecase) GetAll() (*[]domain.PaymentType, error) {
 func (u *paymentTypeUsecase) GetByID(id int) (*domain.PaymentType, error) {
 	return u.paymentTypeRepository.GetByID(id)
 }
+
+func (u *paymentTypeUsecase) Create(paymentType *domain.PaymentType) error {
+	return u.paymentTypeRepository.Create(paymentType)
+}
+
+func (u *paymentTypeUsecase) Update(paymentType *domain.PaymentType) error {
+	return u.paymentTypeRepository.Update(paymentType)
+}

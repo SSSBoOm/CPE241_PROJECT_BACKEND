@@ -17,6 +17,15 @@ func NewUserRepository(db *sqlx.DB) domain.UserRepository {
 	return &userRepository{db: db}
 }
 
+func (r *userRepository) GetAll() (*[]domain.User, error) {
+	users := make([]domain.User, 0)
+	err := r.db.Select(&users, "SELECT * FROM user")
+	if err != nil {
+		return nil, fmt.Errorf("cannot query to get users: %w", err)
+	}
+	return &users, nil
+}
+
 func (r *userRepository) FindById(id string) (*domain.User, error) {
 	user := domain.User{}
 	err := r.db.Get(&user, "SELECT * FROM user WHERE id = ? LIMIT 1", id)

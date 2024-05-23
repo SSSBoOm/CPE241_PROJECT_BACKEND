@@ -8,9 +8,13 @@ type PaymentType struct {
 type PaymentTypeRepository interface {
 	GetAll() (*[]PaymentType, error)
 	GetByID(id int) (*PaymentType, error)
+	Create(paymentType *PaymentType) error
+	Update(paymentType *PaymentType) error
 }
 
 type PaymentTypeUsecase interface {
 	GetAll() (*[]PaymentType, error)
 	GetByID(id int) (*PaymentType, error)
+	Create(paymentType *PaymentType) error
+	Update(paymentType *PaymentType) error
 }

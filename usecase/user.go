@@ -44,13 +44,12 @@ func (u *UserUsecase) CreateFromGoogle(name string, email string, picture string
 	return user, nil
 }
 
-func (u *UserUsecase) FindById(id string) (*domain.User, error) {
-	user, err := u.userRepository.FindById(id)
-	if err != nil {
-		return nil, err
-	}
+func (u *UserUsecase) GetAll() (*[]domain.User, error) {
+	return u.userRepository.GetAll()
+}
 
-	return user, nil
+func (u *UserUsecase) FindById(id string) (*domain.User, error) {
+	return u.userRepository.FindById(id)
 }
 
 func (u *UserUsecase) FindByEmail(email string) (*domain.User, error) {

@@ -34,3 +34,19 @@ func (repo *paymentTypeRepository) GetByID(id int) (*domain.PaymentType, error) 
 	}
 	return &paymentType, nil
 }
+
+func (repo *paymentTypeRepository) Create(paymentType *domain.PaymentType) error {
+	_, err := repo.db.NamedExec("INSERT INTO payment_type (payment_type_name) VALUES (:payment_type_name)", paymentType)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *paymentTypeRepository) Update(paymentType *domain.PaymentType) error {
+	_, err := repo.db.NamedExec("UPDATE payment_type SET payment_type_name = :payment_type_name WHERE id = :id", paymentType)
+	if err != nil {
+		return err
+	}
+	return nil
+}

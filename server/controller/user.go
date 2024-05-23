@@ -226,3 +226,27 @@ func (u *UserController) GetPaymentByUserID(ctx *fiber.Ctx) error {
 		DATA:    payments,
 	})
 }
+
+// GetALL	godoc
+// @Summary								Get all user
+// @Description						Get all user
+// @Tags									manage
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Router /api/admin/manage/user	[get]
+func (u *UserController) GetALL(ctx *fiber.Ctx) error {
+	users, err := u.userUsecase.GetAll()
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    users,
+	})
+}

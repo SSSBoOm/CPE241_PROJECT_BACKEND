@@ -69,7 +69,7 @@ func (s *FiberServer) Route() {
 	userController := controller.NewUserController(validator, s.usecase.UserUsecase, s.usecase.PaymentUsecase)
 	roleController := controller.NewRoleController(s.usecase.RoleUsecase)
 	paymentController := controller.NewPaymentController(validator, s.usecase.PaymentUsecase)
-	paymentTypeController := controller.NewPaymentTypeController(s.usecase.PaymentTypeUsecase)
+	paymentTypeController := controller.NewPaymentTypeController(validator, s.usecase.PaymentTypeUsecase)
 	roomTypeController := controller.NewRoomTypeController(validator, s.usecase.RoomTypeUsecase)
 	roomController := controller.NewRoomController(validator, s.usecase.RoomUsecase)
 	maintenanceController := controller.NewMaintenanceController(validator, s.usecase.MaintenanceUsecase)
@@ -101,6 +101,7 @@ func (s *FiberServer) Route() {
 	role.Get("/", middlewareAuth, AdminAuthMiddleware, roleController.GetALL)
 
 	admin := api.Group("/admin")
+	admin.Get("/manage/user", middlewareAuth, StaffAuthMiddleware, userController.GetALL)
 	admin.Get("/manage/user/:id", middlewareAuth, StaffAuthMiddleware, userController.GetByID)
 	admin.Put("/manage/user", middlewareAuth, AdminAuthMiddleware, userController.UpdateByID)
 	admin.Put("/manage/role", middlewareAuth, AdminAuthMiddleware, userController.UpdateRoleByID)
