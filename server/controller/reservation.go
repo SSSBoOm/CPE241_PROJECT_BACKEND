@@ -159,7 +159,6 @@ func (c *reservationController) GetReservationByUserID(ctx *fiber.Ctx) error {
 		MESSAGE: constant.MESSAGE_SUCCESS,
 		DATA:    data,
 	})
-
 }
 
 // getReservationByReservationType godoc

@@ -25,6 +25,12 @@ func (u *maintenanceUsecase) GetByID(id int) (*domain.MAINTENANCE, error) {
 	if err != nil {
 		return nil, err
 	}
+	room, err := u.roomUsecase.GetByID(maintenance.ROOM_ID)
+	if err != nil {
+		return nil, err
+	}
+	maintenance.ROOM = room
+
 	maintenanceLogs, err := u.maintenanceLogUsecase.GetByMaintenanceID(id)
 	if err != nil {
 		return nil, err
@@ -48,14 +54,13 @@ func (u *maintenanceUsecase) GetAll() (*[]domain.MAINTENANCE, error) {
 			if err != nil {
 				return
 			}
-			item.ROOM = room
+			(*maintenance)[i].ROOM = room
 
 			maintenanceLogs, err := u.maintenanceLogUsecase.GetByMaintenanceID(item.ID)
 			if err != nil {
 				return
 			}
-			item.MAINTENANCE_LOG = maintenanceLogs
-			(*maintenance)[i] = item
+			(*maintenance)[i].MAINTENANCE_LOG = maintenanceLogs
 		}(i, item)
 	}
 	wg.Wait()

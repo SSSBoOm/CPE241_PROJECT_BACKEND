@@ -14,6 +14,7 @@ type Repository struct {
 	ReservationTaskRepository ReservationTaskRepository
 	ServiceRepository         ServiceRepository
 	ServiceTypeRepository     ServiceTypeRepository
+	PromotionPriceRepository  PromotionPriceRepository
 }
 
 type Usecase struct {
@@ -32,4 +33,5 @@ type Usecase struct {
 	ReservationTaskUsecase ReservationTaskUsecase
 	ServiceUsecase         ServiceUsecase
 	ServiceTypeUsecase     ServiceTypeUsecase
+	PromotionPriceUsecase  PromotionPriceUsecase
 }

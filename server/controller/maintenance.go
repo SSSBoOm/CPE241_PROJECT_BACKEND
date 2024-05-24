@@ -109,6 +109,7 @@ func (c *maintenanceController) Create(ctx *fiber.Ctx) error {
 	}
 
 	data := &domain.MAINTENANCE{
+		TITLE:           body.TITLE,
 		ROOM_ID:         body.ROOM_ID,
 		STAFF_ID:        userId,
 		MAINTENANCE_LOG: &MAINTENANCE_LOG,

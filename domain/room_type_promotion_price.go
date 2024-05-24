@@ -8,3 +8,21 @@ type ROOM_TYPE_PROMOTION_PRICE struct {
 	CREATED_AT         string `json:"createdAt" db:"created_at"`
 	UPDATED_AT         string `json:"updatedAt" db:"updated_at"`
 }
+
+type RoomTypePromotionPriceRepository interface {
+	GetAll() (*[]ROOM_TYPE_PROMOTION_PRICE, error)
+	GetByID(id int) (*ROOM_TYPE_PROMOTION_PRICE, error)
+	GetByRoomTypeID(roomTypeID int) (*[]ROOM_TYPE_PROMOTION_PRICE, error)
+	GetByPromotionPriceID(promotionPriceID int) (*[]ROOM_TYPE_PROMOTION_PRICE, error)
+	Create(roomTypePromotionPrice *ROOM_TYPE_PROMOTION_PRICE) (*int, error)
+	Update(roomTypePromotionPrice *ROOM_TYPE_PROMOTION_PRICE) error
+}
+
+type RoomTypePromotionPriceUsecase interface {
+	GetAll() (*[]ROOM_TYPE_PROMOTION_PRICE, error)
+	GetByID(id int) (*ROOM_TYPE_PROMOTION_PRICE, error)
+	GetByRoomTypeID(roomTypeID int) (*[]ROOM_TYPE_PROMOTION_PRICE, error)
+	GetByPromotionPriceID(promotionPriceID int) (*[]ROOM_TYPE_PROMOTION_PRICE, error)
+	Create(roomTypePromotionPrice *ROOM_TYPE_PROMOTION_PRICE) (*int, error)
+	Update(roomTypePromotionPrice *ROOM_TYPE_PROMOTION_PRICE) error
+}

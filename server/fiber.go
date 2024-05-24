@@ -111,7 +111,7 @@ func (s *FiberServer) Route() {
 	payment.Post("/", middlewareAuth, paymentController.AddPaymentByUser)
 
 	paymentType := api.Group("/payment_type")
-	paymentType.Get("/", middlewareAuth, paymentTypeController.GetAll)
+	paymentType.Get("/", paymentTypeController.GetAll)
 	paymentType.Get("/:id", middlewareAuth, paymentTypeController.GetByID)
 	paymentType.Post("/", middlewareAuth, AdminAuthMiddleware, paymentTypeController.Create)
 	paymentType.Put("/:id", middlewareAuth, AdminAuthMiddleware, paymentTypeController.Update)
@@ -138,7 +138,7 @@ func (s *FiberServer) Route() {
 	serviceType.Put("/:id", middlewareAuth, AdminAuthMiddleware, serviceTypeController.Update)
 
 	service := api.Group("/service")
-	service.Get("/", middlewareAuth, StaffAuthMiddleware, serviceController.GetAll)
+	service.Get("/", serviceController.GetAll)
 	service.Get("/:id", middlewareAuth, StaffAuthMiddleware, serviceController.GetByID)
 	service.Post("/", middlewareAuth, AdminAuthMiddleware, serviceController.Create)
 	service.Post("/active", middlewareAuth, AdminAuthMiddleware, serviceController.UpdateIsActive)

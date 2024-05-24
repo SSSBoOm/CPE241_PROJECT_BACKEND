@@ -18,6 +18,7 @@ type MAINTENANCE_LOG struct {
 	STAFF_ID       string                 `json:"staffId" db:"staff_id"`
 	STAFF          *User                  `json:"staff" db:"-"`
 	DESCRIPTION    string                 `json:"description" db:"description"`
+	DATE           time.Time              `json:"date" db:"date"`
 	STATUS         MAINTENANCE_LOG_STATUS `json:"status" db:"status"`
 	UPDATED_AT     time.Time              `json:"updatedAt" db:"updated_at"`
 	CREATED_AT     time.Time              `json:"createdAt" db:"created_at"`

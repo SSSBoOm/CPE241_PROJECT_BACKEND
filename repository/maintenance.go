@@ -35,7 +35,7 @@ func (repo *maintenanceRepository) GetAll() (*[]domain.MAINTENANCE, error) {
 
 func (repo *maintenanceRepository) Create(maintenance *domain.MAINTENANCE) (*int, error) {
 	t := repo.db.MustBegin()
-	data, err := t.NamedExec("INSERT INTO maintenance (room_id, staff_id) VALUES (:room_id, :staff_id)", maintenance)
+	data, err := t.NamedExec("INSERT INTO maintenance (title, room_id, staff_id) VALUES (:title, :room_id, :staff_id)", maintenance)
 	if err != nil {
 		t.Rollback()
 		return nil, err
@@ -49,7 +49,7 @@ func (repo *maintenanceRepository) Create(maintenance *domain.MAINTENANCE) (*int
 func (repo *maintenanceRepository) Update(maintenance *domain.MAINTENANCE) error {
 	maintenance.UPDATED_AT = time.Now()
 	t := repo.db.MustBegin()
-	_, err := t.NamedExec("UPDATE maintenance SET room_id = :room_id, staff_id = :staff_id, updated_at := updated_at WHERE id = :id", maintenance)
+	_, err := t.NamedExec("UPDATE maintenance SET title = :title, room_id = :room_id, staff_id = :staff_id, updated_at := updated_at WHERE id = :id", maintenance)
 	if err != nil {
 		t.Rollback()
 		return err
