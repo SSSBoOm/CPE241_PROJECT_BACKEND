@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
@@ -82,11 +84,12 @@ func (c *serviceController) GetByID(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param service body payload.ServiceCreateDTO true "Service"
-// @Response 200 {object} domain.Response
+// @Response 201 {object} domain.Response
 // @Router /api/service [post]
 func (c *serviceController) Create(ctx *fiber.Ctx) error {
 	var body payload.ServiceCreateDTO
 	if err := c.validate.ValidateBody(ctx, &body); err != nil {
+		fmt.Println(err)
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_BAD_REQUEST,
@@ -95,6 +98,8 @@ func (c *serviceController) Create(ctx *fiber.Ctx) error {
 
 	if err := c.serviceUsecase.Create(&domain.SERVICE{
 		NAME:            body.NAME,
+		DESCRIPTION:     body.DESCRIPTION,
+		INFORMATION:     body.INFORMATION,
 		PRICE:           &body.PRICE,
 		IS_ACTIVE:       body.IS_ACTIVE,
 		SERVICE_TYPE_ID: body.SERVICE_TYPE_ID,
@@ -105,7 +110,7 @@ func (c *serviceController) Create(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+	return ctx.Status(fiber.StatusCreated).JSON(domain.Response{
 		SUCCESS: true,
 		MESSAGE: constant.MESSAGE_SUCCESS,
 	})
