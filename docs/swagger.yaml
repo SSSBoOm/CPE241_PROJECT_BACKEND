@@ -220,11 +220,14 @@ definitions:
     type: object
   payload.Maintenance_Log_On_Maintenance_Create:
     properties:
+      date:
+        type: string
       description:
         type: string
       status:
         $ref: '#/definitions/domain.MAINTENANCE_LOG_STATUS'
     required:
+    - date
     - description
     - status
     type: object
@@ -236,11 +239,16 @@ definitions:
         type: array
       roomId:
         type: integer
+      title:
+        type: string
     required:
     - roomId
+    - title
     type: object
   payload.MaintenanceLogCreate:
     properties:
+      date:
+        type: string
       description:
         type: string
       maintenanceId:
@@ -248,6 +256,7 @@ definitions:
       status:
         $ref: '#/definitions/domain.MAINTENANCE_LOG_STATUS'
     required:
+    - date
     - description
     - maintenanceId
     - status
@@ -854,6 +863,40 @@ paths:
       summary: GetByID Payment Type
       tags:
       - PaymentType
+  /api/promotion_price:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get all promotion prices
+      tags:
+      - promotion_price
+  /api/promotion_price/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Promotion Price ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get promotion price by ID
+      tags:
+      - promotion_price
   /api/reservation:
     get:
       consumes:

@@ -527,6 +527,59 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/promotion_price": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "promotion_price"
+                ],
+                "summary": "Get all promotion prices",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/promotion_price/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "promotion_price"
+                ],
+                "summary": "Get promotion price by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Promotion Price ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/reservation": {
             "get": {
                 "description": "Get all reservation",
@@ -1869,7 +1922,8 @@ const docTemplate = `{
         "payload.MaintenanceCreateDTO": {
             "type": "object",
             "required": [
-                "roomId"
+                "roomId",
+                "title"
             ],
             "properties": {
                 "maintenanceLog": {
@@ -1880,17 +1934,24 @@ const docTemplate = `{
                 },
                 "roomId": {
                     "type": "integer"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },
         "payload.MaintenanceLogCreate": {
             "type": "object",
             "required": [
+                "date",
                 "description",
                 "maintenanceId",
                 "status"
             ],
             "properties": {
+                "date": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
@@ -1905,10 +1966,14 @@ const docTemplate = `{
         "payload.Maintenance_Log_On_Maintenance_Create": {
             "type": "object",
             "required": [
+                "date",
                 "description",
                 "status"
             ],
             "properties": {
+                "date": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
