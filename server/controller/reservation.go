@@ -2,6 +2,7 @@ package controller
 
 import (
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
@@ -180,6 +181,18 @@ func (c *reservationController) GetReservationByReservationType(ctx *fiber.Ctx) 
 			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
 		})
 	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*data))
+	for i, item := range *data {
+		go func(i int, item domain.RESERVATION) {
+			defer wg.Done()
+			(*data)[i].USER_ID = ""
+			(*data)[i].USER = nil
+			(*data)[i].PAYMENT_INFO = nil
+		}(i, item)
+	}
+	wg.Wait()
 
 	return ctx.JSON(&domain.Response{
 		SUCCESS: true,
