@@ -218,16 +218,6 @@ definitions:
     - name
     - price
     type: object
-  payload.GetRoomAvailableGroupByRoomTypeDTO:
-    properties:
-      endDate:
-        type: string
-      startDate:
-        type: string
-    required:
-    - endDate
-    - startDate
-    type: object
   payload.Maintenance_Log_On_Maintenance_Create:
     properties:
       description:
@@ -921,28 +911,6 @@ paths:
       summary: Get reservation by id
       tags:
       - reservation
-  /api/reservation/get-room-available:
-    post:
-      consumes:
-      - application/json
-      description: Get room available group by room type
-      parameters:
-      - description: Get room available group by room type
-        in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/payload.GetRoomAvailableGroupByRoomTypeDTO'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/domain.Response'
-      summary: Get room available group by room type
-      tags:
-      - reservation
   /api/reservation/me:
     get:
       consumes:
@@ -1028,6 +996,27 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Update status
+      tags:
+      - reservation
+  /api/reservation/type/{type}:
+    get:
+      consumes:
+      - application/json
+      description: Get reservation by reservation type
+      parameters:
+      - description: Reservation Type
+        in: path
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get reservation by reservation type
       tags:
       - reservation
   /api/reservation_task:

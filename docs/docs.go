@@ -582,40 +582,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/reservation/get-room-available": {
-            "post": {
-                "description": "Get room available group by room type",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "reservation"
-                ],
-                "summary": "Get room available group by room type",
-                "parameters": [
-                    {
-                        "description": "Get room available group by room type",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/payload.GetRoomAvailableGroupByRoomTypeDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/domain.Response"
-                        }
-                    }
-                }
-            }
-        },
         "/api/reservation/me": {
             "get": {
                 "description": "Get reservation by user id",
@@ -738,6 +704,38 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/payload.UpdateReservationStatusDTO"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation/type/{type}": {
+            "get": {
+                "description": "Get reservation by reservation type",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Get reservation by reservation type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Reservation Type",
+                        "name": "type",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1865,21 +1863,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/payload.RoomOnCreateRoomType"
                     }
-                }
-            }
-        },
-        "payload.GetRoomAvailableGroupByRoomTypeDTO": {
-            "type": "object",
-            "required": [
-                "endDate",
-                "startDate"
-            ],
-            "properties": {
-                "endDate": {
-                    "type": "string"
-                },
-                "startDate": {
-                    "type": "string"
                 }
             }
         },
