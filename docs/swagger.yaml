@@ -310,6 +310,10 @@ definitions:
     type: object
   payload.ServiceCreateDTO:
     properties:
+      description:
+        type: string
+      information:
+        type: string
       isActive:
         type: boolean
       name:
@@ -319,6 +323,8 @@ definitions:
       serviceTypeId:
         type: integer
     required:
+    - description
+    - information
     - name
     - price
     - serviceTypeId
@@ -383,8 +389,12 @@ definitions:
     type: object
   payload.ServiceUpdateDTO:
     properties:
+      description:
+        type: string
       id:
         type: integer
+      information:
+        type: string
       isActive:
         type: boolean
       name:
@@ -394,7 +404,9 @@ definitions:
       serviceTypeId:
         type: integer
     required:
+    - description
     - id
+    - information
     - name
     - price
     - serviceTypeId
@@ -1351,8 +1363,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Create service

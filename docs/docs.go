@@ -1306,8 +1306,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/domain.Response"
                         }
@@ -2057,11 +2057,19 @@ const docTemplate = `{
         "payload.ServiceCreateDTO": {
             "type": "object",
             "required": [
+                "description",
+                "information",
                 "name",
                 "price",
                 "serviceTypeId"
             ],
             "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "information": {
+                    "type": "string"
+                },
                 "isActive": {
                     "type": "boolean"
                 },
@@ -2165,14 +2173,22 @@ const docTemplate = `{
         "payload.ServiceUpdateDTO": {
             "type": "object",
             "required": [
+                "description",
                 "id",
+                "information",
                 "name",
                 "price",
                 "serviceTypeId"
             ],
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "information": {
+                    "type": "string"
                 },
                 "isActive": {
                     "type": "boolean"
