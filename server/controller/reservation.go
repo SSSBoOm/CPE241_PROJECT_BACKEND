@@ -126,3 +126,53 @@ func (c *reservationController) GetRoomAvailableGroupByRoomType(ctx *fiber.Ctx) 
 		MESSAGE: constant.MESSAGE_SUCCESS,
 	})
 }
+
+// UpdateStaff godoc
+// @Summary Update staff
+// @Description Update staff
+// @Tags reservation
+// @Accept json
+// @Produce json
+// @Param body body payload.UpdateReservationStaffDTO true "Update staff"
+// @Success 200 {object} domain.Response
+// @Router /api/reservation/staff [patch]
+func (c *reservationController) UpdateStaff(ctx *fiber.Ctx) error {
+	var body payload.UpdateReservationStaffDTO
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+	c.reservationUsecase.UpdateStaff(body.RESERVATION_ID, body.STAFF_ID)
+
+	return ctx.JSON(&domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+	})
+}
+
+// updateStatus godoc
+// @Summary Update status
+// @Description Update status
+// @Tags reservation
+// @Accept json
+// @Produce json
+// @Param body body payload.UpdateReservationStatusDTO true "Update status"
+// @Success 200 {object} domain.Response
+// @Router /api/reservation/status [patch]
+func (c *reservationController) UpdateStatus(ctx *fiber.Ctx) error {
+	var body payload.UpdateReservationStatusDTO
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+	c.reservationUsecase.UpdateStatus(body.RESERVATION_ID, body.STATUS)
+
+	return ctx.JSON(&domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+	})
+}

@@ -20,3 +20,13 @@ type GetRoomAvailableGroupByRoomTypeDTO struct {
 	START_DATE time.Time `json:"startDate" validate:"required"`
 	END_DATE   time.Time `json:"endDate" validate:"required"`
 }
+
+type UpdateReservationStaffDTO struct {
+	RESERVATION_ID int    `json:"reservationId" validate:"required"`
+	STAFF_ID       string `json:"staffId" validate:"required"`
+}
+
+type UpdateReservationStatusDTO struct {
+	RESERVATION_ID int                       `json:"reservationId" validate:"required"`
+	STATUS         domain.RESERVATION_STATUS `json:"status" validate:"required"`
+}

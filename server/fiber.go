@@ -154,4 +154,6 @@ func (s *FiberServer) Route() {
 	reservation := api.Group("/reservation")
 	reservation.Get("/me", middlewareAuth, StaffAuthMiddleware, reservationController.GetReservationByUserID)
 	reservation.Post("/", middlewareAuth, reservationController.CreateReservation)
+	reservation.Patch("/staff", middlewareAuth, StaffAuthMiddleware, reservationController.UpdateStaff)
+	reservation.Patch("/status", middlewareAuth, StaffAuthMiddleware, reservationController.UpdateStatus)
 }
