@@ -1798,6 +1798,9 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isActive": {
                     "type": "boolean"
                 },
@@ -1923,6 +1926,7 @@ const docTemplate = `{
             "required": [
                 "accommodate",
                 "detail",
+                "imageUrl",
                 "name",
                 "price"
             ],
@@ -1931,6 +1935,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "detail": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "isActive": {
@@ -2330,6 +2337,7 @@ const docTemplate = `{
                 "accommodate",
                 "detail",
                 "id",
+                "imageUrl",
                 "name",
                 "price"
             ],
@@ -2342,6 +2350,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "imageUrl": {
+                    "type": "string"
                 },
                 "isActive": {
                     "type": "boolean"

@@ -1796,6 +1796,9 @@
                 "id": {
                     "type": "integer"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
                 "isActive": {
                     "type": "boolean"
                 },
@@ -1921,6 +1924,7 @@
             "required": [
                 "accommodate",
                 "detail",
+                "imageUrl",
                 "name",
                 "price"
             ],
@@ -1929,6 +1933,9 @@
                     "type": "integer"
                 },
                 "detail": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "isActive": {
@@ -2328,6 +2335,7 @@
                 "accommodate",
                 "detail",
                 "id",
+                "imageUrl",
                 "name",
                 "price"
             ],
@@ -2340,6 +2348,9 @@
                 },
                 "id": {
                     "type": "integer"
+                },
+                "imageUrl": {
+                    "type": "string"
                 },
                 "isActive": {
                     "type": "boolean"

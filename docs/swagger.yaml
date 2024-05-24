@@ -115,6 +115,8 @@ definitions:
         type: string
       id:
         type: integer
+      imageUrl:
+        type: string
       isActive:
         type: boolean
       name:
@@ -202,6 +204,8 @@ definitions:
         type: integer
       detail:
         type: string
+      imageUrl:
+        type: string
       isActive:
         type: boolean
       name:
@@ -215,6 +219,7 @@ definitions:
     required:
     - accommodate
     - detail
+    - imageUrl
     - name
     - price
     type: object
@@ -479,6 +484,8 @@ definitions:
         type: string
       id:
         type: integer
+      imageUrl:
+        type: string
       isActive:
         type: boolean
       name:
@@ -489,6 +496,7 @@ definitions:
     - accommodate
     - detail
     - id
+    - imageUrl
     - name
     - price
     type: object
