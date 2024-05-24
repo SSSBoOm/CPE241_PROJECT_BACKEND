@@ -37,7 +37,7 @@ func (r *serviceRepository) GetById(id int) (*domain.SERVICE, error) {
 
 func (r *serviceRepository) Create(service *domain.SERVICE) error {
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO service (name, description, information, is_active, price, service_type_id) VALUES (:name, :description, :information, :price, :is_active, :service_type_id)", service)
+	_, err := t.NamedExec("INSERT INTO service (name, description, information, price, is_active, service_type_id) VALUES (:name, :description, :information, :price, :is_active, :service_type_id)", service)
 	if err != nil {
 		t.Rollback()
 		return err

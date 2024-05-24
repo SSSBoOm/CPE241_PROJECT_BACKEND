@@ -111,6 +111,9 @@ func (s *FiberServer) Route() {
 
 	paymentType := api.Group("/payment_type")
 	paymentType.Get("/", middlewareAuth, paymentTypeController.GetAll)
+	paymentType.Get("/:id", middlewareAuth, paymentTypeController.GetByID)
+	paymentType.Post("/", middlewareAuth, AdminAuthMiddleware, paymentTypeController.Create)
+	paymentType.Put("/:id", middlewareAuth, AdminAuthMiddleware, paymentTypeController.Update)
 
 	room := api.Group("/room")
 	room.Get("/", middlewareAuth, StaffAuthMiddleware, roomController.GetAll)

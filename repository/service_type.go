@@ -35,15 +35,17 @@ func (r *serviceTypeRepository) GetByID(id int) (*domain.SERVICE_TYPE, error) {
 	return &service, nil
 }
 
-func (r *serviceTypeRepository) Create(serviceType *domain.SERVICE_TYPE) error {
+func (r *serviceTypeRepository) Create(serviceType *domain.SERVICE_TYPE) (*int, error) {
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO service_type (name, detail, is_active) VALUES (:name, :detail, :is_active)", serviceType)
+	data, err := t.NamedExec("INSERT INTO service_type (name, detail, is_active) VALUES (:name, :detail, :is_active)", serviceType)
 	if err != nil {
 		t.Rollback()
-		return err
+		return nil, err
 	}
 	t.Commit()
-	return nil
+	rowId, _ := data.LastInsertId()
+	Id := int(rowId)
+	return &Id, nil
 }
 
 func (r *serviceTypeRepository) Update(serviceType *domain.SERVICE_TYPE) error {

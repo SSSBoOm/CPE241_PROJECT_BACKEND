@@ -91,10 +91,22 @@ func (c *serviceTypeController) Create(ctx *fiber.Ctx) error {
 		})
 	}
 
-	if err := c.serviceTypeService.Create(&domain.SERVICE_TYPE{
+	service := make([]domain.SERVICE, 0)
+	for _, item := range *body.SERVICE {
+		service = append(service, domain.SERVICE{
+			NAME:        item.NAME,
+			DESCRIPTION: item.DESCRIPTION,
+			INFORMATION: item.INFORMATION,
+			PRICE:       &item.PRICE,
+			IS_ACTIVE:   item.IS_ACTIVE,
+		})
+	}
+
+	if _, err := c.serviceTypeService.Create(&domain.SERVICE_TYPE{
 		NAME:      body.NAME,
 		DETAIL:    body.DETAIL,
 		IS_ACTIVE: body.IS_ACTIVE,
+		SERVICE:   &service,
 	}); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
