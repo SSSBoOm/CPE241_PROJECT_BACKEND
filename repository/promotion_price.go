@@ -37,27 +37,29 @@ func (r *promotionPriceRepo) GetByID(id int) (*domain.PROMOTION_PRICE, error) {
 	return &promotionPrice, nil
 }
 
-func (r *promotionPriceRepo) Create(promotionPrice *domain.PROMOTION_PRICE) (*domain.PROMOTION_PRICE, error) {
+func (r *promotionPriceRepo) Create(promotionPrice *domain.PROMOTION_PRICE) (*int, error) {
 	t := r.db.MustBegin()
-	data, err := t.NamedExec("INSERT INTO promotion_price (name, price, start_date, end_date) VALUES (:name, :price, :startDate, :endDate)", promotionPrice)
+	data, err := t.NamedExec("INSERT INTO promotion_price (name, price, start_date, end_date) VALUES (:name, :price, :start_date, :end_date)", promotionPrice)
 	if err != nil {
 		t.Rollback()
 		return nil, err
 	}
 	t.Commit()
-	id, _ := data.LastInsertId()
-	promotionPrice.ID = int(id)
-	return promotionPrice, nil
+	row, _ := data.LastInsertId()
+	Id := int(row)
+	return &Id, nil
 }
 
-func (r *promotionPriceRepo) Update(promotionPrice *domain.PROMOTION_PRICE) (*domain.PROMOTION_PRICE, error) {
+func (r *promotionPriceRepo) Update(promotionPrice *domain.PROMOTION_PRICE) (*int, error) {
 	t := r.db.MustBegin()
 	promotionPrice.UPDATED_AT = time.Now()
-	_, err := t.NamedExec("UPDATE promotion_price SET name = :name, price = :price, start_date = :startDate, end_date = :endDate, updated_at = :updated_at WHERE id = :id", promotionPrice)
+	data, err := t.NamedExec("UPDATE promotion_price SET name = :name, price = :price, start_date = :startDate, end_date = :endDate, updated_at = :updated_at WHERE id = :id", promotionPrice)
 	if err != nil {
 		t.Rollback()
 		return nil, err
 	}
 	t.Commit()
-	return promotionPrice, nil
+	row, _ := data.LastInsertId()
+	Id := int(row)
+	return &Id, nil
 }

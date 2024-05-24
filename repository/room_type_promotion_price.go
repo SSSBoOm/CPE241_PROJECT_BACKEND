@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/jmoiron/sqlx"
 )
@@ -53,7 +55,9 @@ func (r *roomTypePromotionPriceRepository) GetByPromotionPriceID(promotionPriceI
 
 func (r *roomTypePromotionPriceRepository) Create(roomTypePromotionPrice *domain.ROOM_TYPE_PROMOTION_PRICE) (*int, error) {
 	t := r.db.MustBegin()
-	row, err := t.NamedExec("INSERT INTO room_type_promotion_price (promotion_price_id, room_type_id, is_active, created_at, updated_at) VALUES (:promotionPriceId, :roomTypeId, :isActive, :createdAt, :updatedAt)", roomTypePromotionPrice)
+	roomTypePromotionPrice.CREATED_AT = time.Now()
+	roomTypePromotionPrice.UPDATED_AT = time.Now()
+	row, err := t.NamedExec("INSERT INTO room_type_promotion_price (promotion_price_id, room_type_id, is_active, created_at, updated_at) VALUES (:promotion_price_id, :room_type_id, :is_active, :created_at, :updated_at)", roomTypePromotionPrice)
 	if err != nil {
 		t.Rollback()
 		return nil, err
@@ -66,7 +70,8 @@ func (r *roomTypePromotionPriceRepository) Create(roomTypePromotionPrice *domain
 
 func (r *roomTypePromotionPriceRepository) Update(roomTypePromotionPrice *domain.ROOM_TYPE_PROMOTION_PRICE) error {
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("UPDATE room_type_promotion_price SET promotion_price_id = :promotionPriceId, room_type_id = :roomTypeId, is_active = :isActive, created_at = :createdAt, updated_at = :updatedAt WHERE id = :id", roomTypePromotionPrice)
+	roomTypePromotionPrice.UPDATED_AT = time.Now()
+	_, err := t.NamedExec("UPDATE room_type_promotion_price SET promotion_price_id = :promotion_price_id, room_type_id = :room_type_id, is_active = :is_active, updated_at = :updated_at WHERE id = :id", roomTypePromotionPrice)
 	if err != nil {
 		t.Rollback()
 		return err

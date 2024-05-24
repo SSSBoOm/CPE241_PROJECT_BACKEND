@@ -78,7 +78,7 @@ func (s *FiberServer) Route() {
 	reservationTaskController := controller.NewReservationTaskController(s.usecase.ReservationTaskUsecase)
 	serviceTypeController := controller.NewServiceTypeController(validator, s.usecase.ServiceTypeUsecase)
 	serviceController := controller.NewServiceController(validator, s.usecase.ServiceUsecase, s.usecase.ServiceTypeUsecase)
-
+	promotionPriceController := controller.NewPromotionPriceController(validator, s.usecase.PromotionPriceUsecase, s.usecase.RoomTypePromotionPriceUsecase)
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
 		FilePath: "./docs/swagger.json",
@@ -165,4 +165,9 @@ func (s *FiberServer) Route() {
 	reservationTask := api.Group("/reservation_task")
 	reservationTask.Get("/:reservation_id", middlewareAuth, StaffAuthMiddleware, reservationTaskController.GetReservationTaskByReservationID)
 	reservationTask.Post("/", middlewareAuth, StaffAuthMiddleware, reservationTaskController.CreateReservationTask)
+
+	promotionPrice := api.Group("/promotion_price")
+	promotionPrice.Get("/", middlewareAuth, StaffAuthMiddleware, promotionPriceController.GetAll)
+	promotionPrice.Get("/:id", middlewareAuth, StaffAuthMiddleware, promotionPriceController.GetByID)
+	promotionPrice.Post("/", middlewareAuth, AdminAuthMiddleware, promotionPriceController.Create)
 }
