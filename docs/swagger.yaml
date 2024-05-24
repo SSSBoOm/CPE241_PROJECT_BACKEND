@@ -304,6 +304,24 @@ definitions:
     - price
     - serviceTypeId
     type: object
+  payload.ServiceOnCreateServiceType:
+    properties:
+      description:
+        type: string
+      information:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: number
+    required:
+    - description
+    - information
+    - name
+    - price
+    type: object
   payload.ServiceTypeCreateDTO:
     properties:
       detail:
@@ -312,9 +330,12 @@ definitions:
         type: boolean
       name:
         type: string
+      service:
+        items:
+          $ref: '#/definitions/payload.ServiceOnCreateServiceType'
+        type: array
     required:
     - detail
-    - isActive
     - name
     type: object
   payload.ServiceTypeUpdateDTO:

@@ -1806,11 +1806,36 @@ const docTemplate = `{
                 }
             }
         },
+        "payload.ServiceOnCreateServiceType": {
+            "type": "object",
+            "required": [
+                "description",
+                "information",
+                "name",
+                "price"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "information": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
         "payload.ServiceTypeCreateDTO": {
             "type": "object",
             "required": [
                 "detail",
-                "isActive",
                 "name"
             ],
             "properties": {
@@ -1822,6 +1847,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "service": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/payload.ServiceOnCreateServiceType"
+                    }
                 }
             }
         },
