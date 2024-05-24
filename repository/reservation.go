@@ -109,3 +109,15 @@ func (repo *reservationRepository) UpdateStatus(id int, status domain.RESERVATIO
 	t.Commit()
 	return nil
 }
+
+func (repo *reservationRepository) UpdatePayment(id int, paymentInfoID int) error {
+	t := repo.db.MustBegin()
+	paymentDate := time.Now()
+	_, err := t.Exec("UPDATE reservation SET payment_info_id = ?, payment_date = ? WHERE id = ?", paymentInfoID, paymentDate, id)
+	if err != nil {
+		t.Rollback()
+		return err
+	}
+	t.Commit()
+	return nil
+}

@@ -32,6 +32,7 @@ type RESERVATION struct {
 	SERVICE_ID      *int               `json:"-" db:"service_id"`
 	SERVICE         *SERVICE           `json:"service" db:"-"`
 	USER_ID         string             `json:"userId" db:"user_id"`
+	USER            *User              `json:"user" db:"-"`
 	START_DATE      time.Time          `json:"startDate" db:"start_date"`
 	END_DATE        time.Time          `json:"endDate" db:"end_date"`
 	PRICE           float64            `json:"price" db:"price"`
@@ -55,6 +56,7 @@ type ReservationUsecase interface {
 	Update(reservation *RESERVATION) error
 	UpdateStaff(id int, staffID string) error
 	UpdateStatus(id int, status RESERVATION_STATUS) error
+	UpdatePayment(id int, paymentInfoID int) error
 }
 
 type ReservationRepository interface {
@@ -67,4 +69,5 @@ type ReservationRepository interface {
 	Update(reservation *RESERVATION) error
 	UpdateStaff(id int, staffID string) error
 	UpdateStatus(id int, status RESERVATION_STATUS) error
+	UpdatePayment(id int, paymentInfoID int) error
 }

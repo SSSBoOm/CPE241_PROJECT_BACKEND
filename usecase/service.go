@@ -40,7 +40,17 @@ func (u *serviceUsecase) GetAll() (*[]domain.SERVICE, error) {
 }
 
 func (u *serviceUsecase) GetById(id int) (*domain.SERVICE, error) {
-	return u.serviceRepo.GetById(id)
+	service, err := u.serviceRepo.GetById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	serviceType, err := u.serviceTypeUsecase.GetByID(service.SERVICE_TYPE_ID)
+	if err != nil || serviceType == nil {
+		return nil, err
+	}
+	service.SERVICE_TYPE = serviceType
+	return service, nil
 }
 
 func (u *serviceUsecase) Create(service *domain.SERVICE) error {

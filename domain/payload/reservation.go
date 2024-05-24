@@ -30,3 +30,8 @@ type UpdateReservationStatusDTO struct {
 	RESERVATION_ID int                       `json:"reservationId" validate:"required"`
 	STATUS         domain.RESERVATION_STATUS `json:"status" validate:"required"`
 }
+
+type UpdateReservationPaymentDTO struct {
+	RESERVATION_ID  int `json:"reservationId" validate:"required"`
+	PAYMENT_INFO_ID int `json:"paymentInfoId" validate:"required"`
+}

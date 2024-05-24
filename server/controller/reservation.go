@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
@@ -23,6 +24,63 @@ func NewReservationController(validator domain.ValidatorUsecase, reservationUsec
 		roomUsecase:        roomUsecase,
 		roomTypeUsecase:    roomTypeUsecase,
 	}
+}
+
+// getAll godoc
+// @Summary Get all reservation
+// @Description Get all reservation
+// @Tags reservation
+// @Accept json
+// @Produce json
+// @Success 200 {object} domain.Response
+// @Router /api/reservation [get]
+func (c *reservationController) GetAll(ctx *fiber.Ctx) error {
+	data, err := c.reservationUsecase.GetAll()
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.JSON(&domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    data,
+	})
+}
+
+// GetByID godoc
+// @Summary Get reservation by id
+// @Description Get reservation by id
+// @Tags reservation
+// @Accept json
+// @Produce json
+// @Param id path string true "Reservation ID"
+// @Success 200 {object} domain.Response
+// @Router /api/reservation/{id} [get]
+func (c *reservationController) GetByID(ctx *fiber.Ctx) error {
+	param := ctx.Params("id")
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		return ctx.Status(fiber.StatusNotFound).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_NOT_FOUND,
+		})
+	}
+	data, err := c.reservationUsecase.GetByID(id)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.JSON(&domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    data,
+	})
 }
 
 // createReservation godoc
@@ -170,6 +228,36 @@ func (c *reservationController) UpdateStatus(ctx *fiber.Ctx) error {
 		})
 	}
 	c.reservationUsecase.UpdateStatus(body.RESERVATION_ID, body.STATUS)
+
+	return ctx.JSON(&domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+	})
+}
+
+// updatePayment godoc
+// @Summary Update payment
+// @Description Update payment
+// @Tags reservation
+// @Accept json
+// @Produce json
+// @Param body body payload.UpdateReservationPaymentDTO true "Update payment"
+// @Success 200 {object} domain.Response
+// @Router /api/reservation/payment [patch]
+func (c *reservationController) UpdatePayment(ctx *fiber.Ctx) error {
+	var body payload.UpdateReservationPaymentDTO
+	if err := c.validator.ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
+		})
+	}
+	if err := c.reservationUsecase.UpdatePayment(body.RESERVATION_ID, body.PAYMENT_INFO_ID); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
 
 	return ctx.JSON(&domain.Response{
 		SUCCESS: true,

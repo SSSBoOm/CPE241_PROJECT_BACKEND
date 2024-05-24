@@ -64,18 +64,19 @@ func initRepository(
 	mysql *sqlx.DB,
 ) *domain.Repository {
 	return &domain.Repository{
-		UserRepository:           repository.NewUserRepository(mysql),
-		SessionRepository:        repository.NewSessionRepository(mysql),
-		RoleRepository:           repository.NewRoleRepository(mysql),
-		RoomRepository:           repository.NewRoomRepository(mysql),
-		RoomTypeRepository:       repository.NewRoomTypeRepository(mysql),
-		PaymentRepository:        repository.NewPaymentRepository(mysql),
-		PaymentTypeRepository:    repository.NewPaymentTypeRepository(mysql),
-		MaintenanceRepository:    repository.NewMaintenanceRepository(mysql),
-		MaintenanceLogRepository: repository.NewMaintenanceLogRepository(mysql),
-		ReservationRepository:    repository.NewReservationRepository(mysql),
-		ServiceRepository:        repository.NewServiceRepository(mysql),
-		ServiceTypeRepository:    repository.NewServiceTypeRepository(mysql),
+		UserRepository:            repository.NewUserRepository(mysql),
+		SessionRepository:         repository.NewSessionRepository(mysql),
+		RoleRepository:            repository.NewRoleRepository(mysql),
+		RoomRepository:            repository.NewRoomRepository(mysql),
+		RoomTypeRepository:        repository.NewRoomTypeRepository(mysql),
+		PaymentRepository:         repository.NewPaymentRepository(mysql),
+		PaymentTypeRepository:     repository.NewPaymentTypeRepository(mysql),
+		MaintenanceRepository:     repository.NewMaintenanceRepository(mysql),
+		MaintenanceLogRepository:  repository.NewMaintenanceLogRepository(mysql),
+		ReservationRepository:     repository.NewReservationRepository(mysql),
+		ReservationTaskRepository: repository.NewReservationTaskRepository(mysql),
+		ServiceRepository:         repository.NewServiceRepository(mysql),
+		ServiceTypeRepository:     repository.NewServiceTypeRepository(mysql),
 	}
 }
 
@@ -97,21 +98,23 @@ func initUsecase(
 	serviceUsecase := usecase.NewServiceUsecase(repo.ServiceRepository, repo.ServiceTypeRepository)
 	serviceTypeRepository := usecase.NewServiceTypeUsecase(repo.ServiceTypeRepository, serviceUsecase)
 	reservationUsecase := usecase.NewReservationUsecase(repo.ReservationRepository, roomTypeUsecase, roomUsecase, serviceUsecase, paymentUsecase, userUsecase)
+	reservationTaskUsecase := usecase.NewReservationTaskUseCase(repo.ReservationTaskRepository)
 
 	return &domain.Usecase{
-		AuthUsecase:           authUsecase,
-		GoogleUsecase:         googleUsecase,
-		UserUsecase:           userUsecase,
-		SessionUsecase:        sessionUsecase,
-		RoleUsecase:           roleUsecase,
-		RoomUsecase:           roomUsecase,
-		RoomTypeUsecase:       roomTypeUsecase,
-		PaymentUsecase:        paymentUsecase,
-		PaymentTypeUsecase:    paymentTypeUsecase,
-		MaintenanceUsecase:    maintenanceUsecase,
-		MaintenanceLogUsecase: maintenanceLogUsecase,
-		ReservationUsecase:    reservationUsecase,
-		ServiceUsecase:        serviceUsecase,
-		ServiceTypeUsecase:    serviceTypeRepository,
+		AuthUsecase:            authUsecase,
+		GoogleUsecase:          googleUsecase,
+		UserUsecase:            userUsecase,
+		SessionUsecase:         sessionUsecase,
+		RoleUsecase:            roleUsecase,
+		RoomUsecase:            roomUsecase,
+		RoomTypeUsecase:        roomTypeUsecase,
+		PaymentUsecase:         paymentUsecase,
+		PaymentTypeUsecase:     paymentTypeUsecase,
+		MaintenanceUsecase:     maintenanceUsecase,
+		MaintenanceLogUsecase:  maintenanceLogUsecase,
+		ReservationUsecase:     reservationUsecase,
+		ReservationTaskUsecase: reservationTaskUsecase,
+		ServiceUsecase:         serviceUsecase,
+		ServiceTypeUsecase:     serviceTypeRepository,
 	}
 }

@@ -75,6 +75,7 @@ func (s *FiberServer) Route() {
 	maintenanceController := controller.NewMaintenanceController(validator, s.usecase.MaintenanceUsecase)
 	maintenanceLogController := controller.NewMaintenanceLogController(validator, s.usecase.MaintenanceUsecase, s.usecase.MaintenanceLogUsecase)
 	reservationController := controller.NewReservationController(validator, s.usecase.ReservationUsecase, s.usecase.RoomUsecase, s.usecase.RoomTypeUsecase)
+	reservationTaskController := controller.NewReservationTaskController(s.usecase.ReservationTaskUsecase)
 	serviceTypeController := controller.NewServiceTypeController(validator, s.usecase.ServiceTypeUsecase)
 	serviceController := controller.NewServiceController(validator, s.usecase.ServiceUsecase, s.usecase.ServiceTypeUsecase)
 
@@ -152,8 +153,15 @@ func (s *FiberServer) Route() {
 	maintenanceLog.Post("/", middlewareAuth, StaffAuthMiddleware, maintenanceLogController.Create)
 
 	reservation := api.Group("/reservation")
+	reservation.Get("/", middlewareAuth, StaffAuthMiddleware, reservationController.GetAll)
+	reservation.Get("/:id", middlewareAuth, StaffAuthMiddleware, reservationController.GetByID)
 	reservation.Get("/me", middlewareAuth, StaffAuthMiddleware, reservationController.GetReservationByUserID)
 	reservation.Post("/", middlewareAuth, reservationController.CreateReservation)
 	reservation.Patch("/staff", middlewareAuth, StaffAuthMiddleware, reservationController.UpdateStaff)
 	reservation.Patch("/status", middlewareAuth, StaffAuthMiddleware, reservationController.UpdateStatus)
+	reservation.Patch("/payment", middlewareAuth, reservationController.UpdatePayment)
+
+	reservationTask := api.Group("/reservation_task")
+	reservationTask.Get("/:reservation_id", middlewareAuth, StaffAuthMiddleware, reservationTaskController.GetReservationTaskByReservationID)
+	reservationTask.Post("/", middlewareAuth, StaffAuthMiddleware, reservationTaskController.CreateReservationTask)
 }
