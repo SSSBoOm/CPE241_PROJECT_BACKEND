@@ -278,6 +278,27 @@ definitions:
     - id
     - name
     type: object
+  payload.PromotionPriceCreateDTO:
+    properties:
+      endDate:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      roomTypeId:
+        items:
+          type: integer
+        type: array
+      startDate:
+        type: string
+    required:
+    - endDate
+    - name
+    - price
+    - roomTypeId
+    - startDate
+    type: object
   payload.RoomCreateDTO:
     properties:
       isActive:
@@ -887,6 +908,26 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Get all promotion prices
+      tags:
+      - promotion_price
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Promotion Price
+        in: body
+        name: promotion_price
+        required: true
+        schema:
+          $ref: '#/definitions/payload.PromotionPriceCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Create promotion price
       tags:
       - promotion_price
   /api/promotion_price/{id}:

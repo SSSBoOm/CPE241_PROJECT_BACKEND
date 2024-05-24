@@ -545,6 +545,37 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "promotion_price"
+                ],
+                "summary": "Create promotion price",
+                "parameters": [
+                    {
+                        "description": "Promotion Price",
+                        "name": "promotion_price",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.PromotionPriceCreateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/promotion_price/{id}": {
@@ -2002,6 +2033,36 @@
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.PromotionPriceCreateDTO": {
+            "type": "object",
+            "required": [
+                "endDate",
+                "name",
+                "price",
+                "roomTypeId",
+                "startDate"
+            ],
+            "properties": {
+                "endDate": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "roomTypeId": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "startDate": {
                     "type": "string"
                 }
             }
