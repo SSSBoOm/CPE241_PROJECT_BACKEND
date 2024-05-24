@@ -161,27 +161,30 @@ func (c *reservationController) GetReservationByUserID(ctx *fiber.Ctx) error {
 
 }
 
-// getRoomAvailableGroupByRoomType godoc
-// @Summary Get room available group by room type
-// @Description Get room available group by room type
+// getReservationByReservationType godoc
+// @Summary Get reservation by reservation type
+// @Description Get reservation by reservation type
 // @Tags reservation
 // @Accept json
 // @Produce json
-// @Param body body payload.GetRoomAvailableGroupByRoomTypeDTO true "Get room available group by room type"
+// @Param type path string true "Reservation Type"
 // @Success 200 {object} domain.Response
-// @Router /api/reservation/get-room-available [post]
-func (c *reservationController) GetRoomAvailableGroupByRoomType(ctx *fiber.Ctx) error {
-	var body payload.GetRoomAvailableGroupByRoomTypeDTO
-	if err := c.validator.ValidateBody(ctx, &body); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+// @Router /api/reservation/type/{type} [get]
+func (c *reservationController) GetReservationByReservationType(ctx *fiber.Ctx) error {
+	param := ctx.Params("type")
+	reservationType := domain.RESERVATION_TYPE(param)
+	data, err := c.reservationUsecase.GetByType(reservationType)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: constant.MESSAGE_INVALID_BODY,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
 		})
 	}
 
 	return ctx.JSON(&domain.Response{
 		SUCCESS: true,
 		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    data,
 	})
 }
 

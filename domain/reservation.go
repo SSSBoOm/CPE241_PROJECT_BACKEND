@@ -25,29 +25,31 @@ const (
 )
 
 type RESERVATION struct {
-	ID              int                `json:"id" db:"id"`
-	TYPE            RESERVATION_TYPE   `json:"type" db:"type"`
-	ROOM_ID         *int               `json:"-" db:"room_id"`
-	ROOM            *ROOM              `json:"room" db:"-"`
-	SERVICE_ID      *int               `json:"-" db:"service_id"`
-	SERVICE         *SERVICE           `json:"service" db:"-"`
-	USER_ID         string             `json:"userId" db:"user_id"`
-	USER            *User              `json:"user" db:"-"`
-	START_DATE      time.Time          `json:"startDate" db:"start_date"`
-	END_DATE        time.Time          `json:"endDate" db:"end_date"`
-	PRICE           float64            `json:"price" db:"price"`
-	STATUS          RESERVATION_STATUS `json:"status" db:"status"`
-	PAYMENT_DATE    time.Time          `json:"paymentDate" db:"payment_date"`
-	PAYMENT_INFO_ID int                `json:"-" db:"payment_info_id"`
-	PAYMENT_INFO    *Payment           `json:"paymentInfo" db:"-"`
-	STAFF_ID        *string            `json:"staffId" db:"staff_id"`
-	STAFF           *User              `json:"staff" db:"-"`
-	CREATED_AT      time.Time          `json:"createdAt" db:"created_at"`
-	UPDATED_AT      time.Time          `json:"updatedAt" db:"updated_at"`
+	ID                int                `json:"id" db:"id"`
+	TYPE              RESERVATION_TYPE   `json:"type" db:"type"`
+	ROOM_ID           *int               `json:"-" db:"room_id"`
+	ROOM              *ROOM              `json:"room" db:"-"`
+	SERVICE_ID        *int               `json:"-" db:"service_id"`
+	SERVICE           *SERVICE           `json:"service" db:"-"`
+	USER_ID           string             `json:"userId" db:"user_id"`
+	USER              *User              `json:"user" db:"-"`
+	START_DATE        time.Time          `json:"startDate" db:"start_date"`
+	END_DATE          time.Time          `json:"endDate" db:"end_date"`
+	PRICE             float64            `json:"price" db:"price"`
+	ROOM_PROMOTION_ID *int               `json:"-" db:"room_promotion_id"`
+	STATUS            RESERVATION_STATUS `json:"status" db:"status"`
+	PAYMENT_DATE      time.Time          `json:"paymentDate" db:"payment_date"`
+	PAYMENT_INFO_ID   int                `json:"-" db:"payment_info_id"`
+	PAYMENT_INFO      *Payment           `json:"paymentInfo" db:"-"`
+	STAFF_ID          *string            `json:"staffId" db:"staff_id"`
+	STAFF             *User              `json:"staff" db:"-"`
+	CREATED_AT        time.Time          `json:"createdAt" db:"created_at"`
+	UPDATED_AT        time.Time          `json:"updatedAt" db:"updated_at"`
 }
 
 type ReservationUsecase interface {
 	GetAll() (*[]RESERVATION, error)
+	GetByType(reservationType RESERVATION_TYPE) (*[]RESERVATION, error)
 	GetByDate(startDate string, endDate string) (*[]RESERVATION, error)
 	GetByUserID(userID string) (*[]RESERVATION, error)
 	GetByRoomID(roomID int) (*[]RESERVATION, error)
@@ -61,6 +63,7 @@ type ReservationUsecase interface {
 
 type ReservationRepository interface {
 	GetAll() (*[]RESERVATION, error)
+	GetByType(reservationType RESERVATION_TYPE) (*[]RESERVATION, error)
 	GetByDate(startDate string, endDate string) (*[]RESERVATION, error)
 	GetByUserID(userID string) (*[]RESERVATION, error)
 	GetByRoomID(roomID int) (*[]RESERVATION, error)

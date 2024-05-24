@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"sync"
-	"time"
 
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 )
@@ -29,6 +28,59 @@ func NewReservationUsecase(reservationRepository domain.ReservationRepository, r
 
 func (u *reservationUsecase) GetAll() (*[]domain.RESERVATION, error) {
 	reservation, err := u.reservationRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*reservation))
+	for i, item := range *reservation {
+		go func(i int, item domain.RESERVATION) {
+			defer wg.Done()
+			if item.TYPE == domain.RESERVATION_TYPE_ROOM {
+				room, err := u.roomUsecase.GetByID(*item.ROOM_ID)
+				(*reservation)[i].ROOM = room
+				if err != nil {
+					return
+				}
+			} else if item.TYPE == domain.RESERVATION_TYPE_SERVICE {
+				service, err := u.serviceUsecase.GetById(*item.SERVICE_ID)
+				(*reservation)[i].SERVICE = service
+				if err != nil {
+					return
+				}
+			}
+
+			payment, err := u.paymentUsecase.GetByID(item.PAYMENT_INFO_ID)
+			(*reservation)[i].PAYMENT_INFO = payment
+			if err != nil {
+				return
+			}
+
+			if item.STAFF_ID != nil {
+				staff, err := u.userUsecase.FindById(*item.STAFF_ID)
+				(*reservation)[i].STAFF = staff
+				if err != nil {
+					return
+				}
+			}
+
+			if item.USER_ID != "" {
+				user, err := u.userUsecase.FindById(item.USER_ID)
+				(*reservation)[i].USER = user
+				if err != nil {
+					return
+				}
+			}
+		}(i, item)
+	}
+
+	wg.Wait()
+	return reservation, nil
+}
+
+func (u *reservationUsecase) GetByType(reservationType domain.RESERVATION_TYPE) (*[]domain.RESERVATION, error) {
+	reservation, err := u.reservationRepository.GetByType(reservationType)
 	if err != nil {
 		return nil, err
 	}
@@ -188,23 +240,6 @@ func (u *reservationUsecase) UpdateStaff(id int, staffID string) error {
 
 func (u *reservationUsecase) UpdateStatus(id int, status domain.RESERVATION_STATUS) error {
 	return u.reservationRepository.UpdateStatus(id, status)
-}
-
-func (u *reservationUsecase) GetRoomAvailableGroupByRoomType(start_date time.Time, end_date time.Time) ([]domain.RoomType, error) {
-	roomType, err := u.roomTypeUsecase.GetAll()
-	if err != nil {
-		return nil, err
-	}
-	var wg sync.WaitGroup
-	wg.Add(len(*roomType))
-	// for _, item := range *roomType {
-	// 	go func(i int, item domain.Payment) {
-	// 		defer wg.Done()
-	// 	}
-	// }
-	// wg.Wait()
-
-	return nil, nil
 }
 
 func (u *reservationUsecase) UpdatePayment(id int, paymentInfoID int) error {

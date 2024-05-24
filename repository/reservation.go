@@ -26,6 +26,15 @@ func (repo *reservationRepository) GetAll() (*[]domain.RESERVATION, error) {
 	return &reservations, nil
 }
 
+func (repo *reservationRepository) GetByType(reservationType domain.RESERVATION_TYPE) (*[]domain.RESERVATION, error) {
+	reservations := make([]domain.RESERVATION, 0)
+	err := repo.db.Select(&reservations, "SELECT * FROM reservation WHERE type = ?", reservationType)
+	if err != nil {
+		return nil, err
+	}
+	return &reservations, nil
+}
+
 func (repo *reservationRepository) GetByDate(startDate string, endDate string) (*[]domain.RESERVATION, error) {
 	reservations := make([]domain.RESERVATION, 0)
 	err := repo.db.Select(&reservations, "SELECT * FROM reservation WHERE start_date >= ? AND end_date <= ?", startDate, endDate)
