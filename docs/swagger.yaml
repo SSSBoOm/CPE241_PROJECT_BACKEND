@@ -34,6 +34,26 @@ definitions:
     - MRS
     - MS
     - DEFAULT
+  domain.RESERVATION_STATUS:
+    enum:
+    - WAITING_APPROVE_PAYMENT
+    - REJECTED_PAYMENT
+    - APPROVED_PAYMENT
+    - WAITING_CHECKIN
+    - CHECKED_IN
+    - WAITING_CHECKED_OUT
+    - SUCCESS
+    - CANCELED
+    type: string
+    x-enum-varnames:
+    - RESERVATION_STATUS_WAITING_APPROVE_PAYMENT
+    - RESERVATION_STATUS_REJECTED_PAYMENT
+    - RESERVATION_STATUS_APPROVED_PAYMENT
+    - RESERVATION_STATUS_WAITING_CHECKIN
+    - RESERVATION_STATUS_CHECKED_IN
+    - RESERVATION_STATUS_WAITING_CHECKED_OUT
+    - RESERVATION_STATUS_SUCCESS
+    - RESERVATION_STATUS_CANCELED
   domain.RESERVATION_TASK:
     properties:
       createdAt:
@@ -388,6 +408,26 @@ definitions:
         type: boolean
     required:
     - id
+    type: object
+  payload.UpdateReservationStaffDTO:
+    properties:
+      reservationId:
+        type: integer
+      staffId:
+        type: string
+    required:
+    - reservationId
+    - staffId
+    type: object
+  payload.UpdateReservationStatusDTO:
+    properties:
+      reservationId:
+        type: integer
+      status:
+        $ref: '#/definitions/domain.RESERVATION_STATUS'
+    required:
+    - reservationId
+    - status
     type: object
   payload.UpdateRoomType:
     properties:
@@ -877,6 +917,50 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Get reservation by user id
+      tags:
+      - reservation
+  /api/reservation/staff:
+    patch:
+      consumes:
+      - application/json
+      description: Update staff
+      parameters:
+      - description: Update staff
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.UpdateReservationStaffDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Update staff
+      tags:
+      - reservation
+  /api/reservation/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update status
+      parameters:
+      - description: Update status
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.UpdateReservationStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Update status
       tags:
       - reservation
   /api/reservation_task:

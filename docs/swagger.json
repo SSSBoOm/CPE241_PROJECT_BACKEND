@@ -625,6 +625,74 @@
                 }
             }
         },
+        "/api/reservation/staff": {
+            "patch": {
+                "description": "Update staff",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Update staff",
+                "parameters": [
+                    {
+                        "description": "Update staff",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateReservationStaffDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation/status": {
+            "patch": {
+                "description": "Update status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Update status",
+                "parameters": [
+                    {
+                        "description": "Update status",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateReservationStatusDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/reservation_task": {
             "post": {
                 "security": [
@@ -1401,6 +1469,29 @@
                 "DEFAULT"
             ]
         },
+        "domain.RESERVATION_STATUS": {
+            "type": "string",
+            "enum": [
+                "WAITING_APPROVE_PAYMENT",
+                "REJECTED_PAYMENT",
+                "APPROVED_PAYMENT",
+                "WAITING_CHECKIN",
+                "CHECKED_IN",
+                "WAITING_CHECKED_OUT",
+                "SUCCESS",
+                "CANCELED"
+            ],
+            "x-enum-varnames": [
+                "RESERVATION_STATUS_WAITING_APPROVE_PAYMENT",
+                "RESERVATION_STATUS_REJECTED_PAYMENT",
+                "RESERVATION_STATUS_APPROVED_PAYMENT",
+                "RESERVATION_STATUS_WAITING_CHECKIN",
+                "RESERVATION_STATUS_CHECKED_IN",
+                "RESERVATION_STATUS_WAITING_CHECKED_OUT",
+                "RESERVATION_STATUS_SUCCESS",
+                "RESERVATION_STATUS_CANCELED"
+            ]
+        },
         "domain.RESERVATION_TASK": {
             "type": "object",
             "properties": {
@@ -1927,6 +2018,36 @@
                 },
                 "isActive": {
                     "type": "boolean"
+                }
+            }
+        },
+        "payload.UpdateReservationStaffDTO": {
+            "type": "object",
+            "required": [
+                "reservationId",
+                "staffId"
+            ],
+            "properties": {
+                "reservationId": {
+                    "type": "integer"
+                },
+                "staffId": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.UpdateReservationStatusDTO": {
+            "type": "object",
+            "required": [
+                "reservationId",
+                "status"
+            ],
+            "properties": {
+                "reservationId": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/domain.RESERVATION_STATUS"
                 }
             }
         },
