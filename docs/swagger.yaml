@@ -409,6 +409,16 @@ definitions:
     required:
     - id
     type: object
+  payload.UpdateReservationPaymentDTO:
+    properties:
+      paymentInfoId:
+        type: integer
+      reservationId:
+        type: integer
+    required:
+    - paymentInfoId
+    - reservationId
+    type: object
   payload.UpdateReservationStaffDTO:
     properties:
       reservationId:
@@ -855,6 +865,20 @@ paths:
       tags:
       - PaymentType
   /api/reservation:
+    get:
+      consumes:
+      - application/json
+      description: Get all reservation
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get all reservation
+      tags:
+      - reservation
     post:
       consumes:
       - application/json
@@ -874,6 +898,27 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Create reservation
+      tags:
+      - reservation
+  /api/reservation/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get reservation by id
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get reservation by id
       tags:
       - reservation
   /api/reservation/get-room-available:
@@ -917,6 +962,28 @@ paths:
           schema:
             $ref: '#/definitions/domain.Response'
       summary: Get reservation by user id
+      tags:
+      - reservation
+  /api/reservation/payment:
+    patch:
+      consumes:
+      - application/json
+      description: Update payment
+      parameters:
+      - description: Update payment
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.UpdateReservationPaymentDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Update payment
       tags:
       - reservation
   /api/reservation/staff:
@@ -990,6 +1057,34 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Create reservation task
+      tags:
+      - reservation_task
+  /api/reservation_task/{reservation_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get reservation task by reservation id
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      - description: Reservation ID
+        in: path
+        name: reservation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get reservation task by reservation id
       tags:
       - reservation_task
   /api/role:

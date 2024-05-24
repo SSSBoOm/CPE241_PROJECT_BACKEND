@@ -528,6 +528,27 @@ const docTemplate = `{
             }
         },
         "/api/reservation": {
+            "get": {
+                "description": "Get all reservation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Get all reservation",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create reservation",
                 "consumes": [
@@ -627,6 +648,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/reservation/payment": {
+            "patch": {
+                "description": "Update payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Update payment",
+                "parameters": [
+                    {
+                        "description": "Update payment",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.UpdateReservationPaymentDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/reservation/staff": {
             "patch": {
                 "description": "Update staff",
@@ -695,6 +750,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/reservation/{id}": {
+            "get": {
+                "description": "Get reservation by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation"
+                ],
+                "summary": "Get reservation by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Reservation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/reservation_task": {
             "post": {
                 "security": [
@@ -729,6 +816,50 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/domain.RESERVATION_TASK"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation_task/{reservation_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get reservation task by reservation id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation_task"
+                ],
+                "summary": "Get reservation task by reservation id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Reservation ID",
+                        "name": "reservation_id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2020,6 +2151,21 @@ const docTemplate = `{
                 },
                 "isActive": {
                     "type": "boolean"
+                }
+            }
+        },
+        "payload.UpdateReservationPaymentDTO": {
+            "type": "object",
+            "required": [
+                "paymentInfoId",
+                "reservationId"
+            ],
+            "properties": {
+                "paymentInfoId": {
+                    "type": "integer"
+                },
+                "reservationId": {
+                    "type": "integer"
                 }
             }
         },
