@@ -16,6 +16,7 @@ type MAINTENANCE_LOG struct {
 	ID             int                    `json:"id" db:"id"`
 	MAINTENANCE_ID int                    `json:"-" db:"maintenance_id"`
 	STAFF_ID       string                 `json:"staffId" db:"staff_id"`
+	IMAGE_URL      string                 `json:"imageUrl" db:"imageURL"`
 	STAFF          *User                  `json:"staff" db:"-"`
 	DESCRIPTION    string                 `json:"description" db:"description"`
 	DATE           time.Time              `json:"date" db:"date"`

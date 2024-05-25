@@ -53,6 +53,7 @@ func (c *maintenanceLogController) Create(ctx *fiber.Ctx) error {
 		MAINTENANCE_ID: body.MAINTENANCE_ID,
 		DESCRIPTION:    body.DESCRIPTION,
 		STATUS:         body.STATUS,
+		IMAGE_URL:      body.IMAGE_URL,
 		STAFF_ID:       userId,
 	}
 

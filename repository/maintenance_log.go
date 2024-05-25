@@ -44,7 +44,7 @@ func (repo *maintenanceLogRepository) GetByMaintenanceID(maintenance_id int) (*[
 
 func (repo *maintenanceLogRepository) Create(maintenanceLog *domain.MAINTENANCE_LOG) error {
 	t := repo.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO maintenance_log (maintenance_id, staff_id, description, status) VALUES (:maintenance_id, :staff_id, :description, :status)", maintenanceLog)
+	_, err := t.NamedExec("INSERT INTO maintenance_log (maintenance_id, staff_id, description, status, imageURL) VALUES (:maintenance_id, :staff_id, :description, :status, :imageURL)", maintenanceLog)
 	if err != nil {
 		t.Rollback()
 		return err
@@ -56,7 +56,7 @@ func (repo *maintenanceLogRepository) Create(maintenanceLog *domain.MAINTENANCE_
 func (repo *maintenanceLogRepository) Update(maintenanceLog *domain.MAINTENANCE_LOG) error {
 	maintenanceLog.UPDATED_AT = time.Now()
 	t := repo.db.MustBegin()
-	_, err := t.NamedExec("UPDATE maintenance_log SET maintenance_id = :maintenance_id, staff_id = :staff_id, description = :description, status = :status, updated_at := updated_at WHERE id = :id", maintenanceLog)
+	_, err := t.NamedExec("UPDATE maintenance_log SET maintenance_id = :maintenance_id, staff_id = :staff_id, description = :description, status = :status, imageURL = :imageURL, updated_at := updated_at WHERE id = :id", maintenanceLog)
 	if err != nil {
 		t.Rollback()
 		return err

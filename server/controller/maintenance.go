@@ -104,6 +104,7 @@ func (c *maintenanceController) Create(ctx *fiber.Ctx) error {
 	for _, item := range *body.MAINTENANCE_LOG {
 		MAINTENANCE_LOG = append(MAINTENANCE_LOG, domain.MAINTENANCE_LOG{
 			DESCRIPTION: item.DESCRIPTION,
+			IMAGE_URL:   item.IMAGE_URL,
 			STATUS:      item.STATUS,
 		})
 	}
