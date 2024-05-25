@@ -113,16 +113,17 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 	}
 
 	if _, err := c.reservationUsecase.Create(&domain.RESERVATION{
-		TYPE:            body.TYPE,
-		ROOM_ID:         body.ROOM_ID,
-		SERVICE_ID:      body.SERVICE_ID,
-		USER_ID:         userID,
-		START_DATE:      body.START_DATE,
-		END_DATE:        body.END_DATE,
-		PRICE:           *body.PRICE,
-		STATUS:          domain.RESERVATION_STATUS_WAITING_APPROVE_PAYMENT,
-		PAYMENT_DATE:    time.Now(),
-		PAYMENT_INFO_ID: body.PAYMENT_INFO_ID,
+		TYPE:              body.TYPE,
+		ROOM_ID:           body.ROOM_ID,
+		SERVICE_ID:        body.SERVICE_ID,
+		USER_ID:           userID,
+		START_DATE:        body.START_DATE,
+		END_DATE:          body.END_DATE,
+		PRICE:             *body.PRICE,
+		ROOM_PROMOTION_ID: body.ROOM_PROMOTION_ID,
+		STATUS:            domain.RESERVATION_STATUS_WAITING_APPROVE_PAYMENT,
+		PAYMENT_DATE:      time.Now(),
+		PAYMENT_INFO_ID:   body.PAYMENT_INFO_ID,
 	}); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,

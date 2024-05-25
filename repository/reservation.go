@@ -74,7 +74,7 @@ func (repo *reservationRepository) GetByID(id int) (*domain.RESERVATION, error) 
 func (repo *reservationRepository) Create(reservation *domain.RESERVATION) (id *int, err error) {
 	t := repo.db.MustBegin()
 	reservation.STATUS = domain.RESERVATION_STATUS_WAITING_APPROVE_PAYMENT
-	result, err := t.NamedExec("INSERT INTO reservation (type, room_id, service_id, user_id, start_date, end_date, price, status, payment_date, payment_info_id) VALUES (:type, :room_id, :service_id, :user_id, :start_date, :end_date, :price, :status, :payment_date, :payment_info_id)", reservation)
+	result, err := t.NamedExec("INSERT INTO reservation (type, room_id, service_id, user_id, start_date, end_date, price, status, payment_date, payment_info_id, room_promotion_id) VALUES (:type, :room_id, :service_id, :user_id, :start_date, :end_date, :price, :status, :payment_date, :payment_info_id, :room_promotion_id)", reservation)
 	if err != nil {
 		t.Rollback()
 		return nil, err

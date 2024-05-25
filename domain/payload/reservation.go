@@ -7,13 +7,14 @@ import (
 )
 
 type CreateReservationDTO struct {
-	TYPE            domain.RESERVATION_TYPE `json:"type" db:"type"`
-	ROOM_ID         *int                    `json:"roomId"`
-	SERVICE_ID      *int                    `json:"serviceId"`
-	START_DATE      time.Time               `json:"startDate" validate:"required"`
-	END_DATE        time.Time               `json:"endDate" validate:"required"`
-	PRICE           *float64                `json:"price" validate:"required"`
-	PAYMENT_INFO_ID int                     `json:"paymentInfoId" validate:"required"`
+	TYPE              domain.RESERVATION_TYPE `json:"type" db:"type"`
+	ROOM_ID           *int                    `json:"roomId"`
+	SERVICE_ID        *int                    `json:"serviceId"`
+	START_DATE        time.Time               `json:"startDate" validate:"required"`
+	ROOM_PROMOTION_ID *int                    `json:"roomPromotionId"`
+	END_DATE          time.Time               `json:"endDate" validate:"required"`
+	PRICE             *float64                `json:"price" validate:"required"`
+	PAYMENT_INFO_ID   int                     `json:"paymentInfoId" validate:"required"`
 }
 
 type GetRoomAvailableGroupByRoomTypeDTO struct {
