@@ -183,6 +183,9 @@ func (s *FiberServer) Route() {
 
 	dashboard := api.Group("/dashboard")
 	dashboard.Post("/reservation/room_type", dashboardController.GetDashboardRoomTypeReservation)
+	dashboard.Post("/reservation/room_type_by_booking", dashboardController.GetRoomTypeReservationCountByBooking)
 	dashboard.Post("/reservation/service_type", dashboardController.GetDashboardServiceTypeReservation)
+	dashboard.Post("/reservation/service_type_by_booking", dashboardController.GetServiceTypeReservationCountByBooking)
 	dashboard.Post("/reservation/payment_type", dashboardController.GetDashboardReservationByPaymentType)
+	dashboard.Post("/reservation/maintenance", dashboardController.GetTotalMaintenanceByRoomType)
 }

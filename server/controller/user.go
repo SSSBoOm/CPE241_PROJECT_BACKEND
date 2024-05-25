@@ -40,14 +40,14 @@ func (u *UserController) Me(ctx *fiber.Ctx) error {
 	} else if user == nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: "User not found",
+			MESSAGE: constant.MESSAGE_NOT_FOUND,
 		})
 	}
 	user.ID = ""
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "OK",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 		DATA:    user,
 	})
 }
