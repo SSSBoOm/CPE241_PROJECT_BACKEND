@@ -19,7 +19,7 @@ func NewDashboardController(validate domain.ValidatorUsecase, dashboardUsecase d
 	}
 }
 
-func (c *DashboardController) GetDashboardReservation(ctx *fiber.Ctx) error {
+func (c *DashboardController) GetDashboardRoomTypeReservation(ctx *fiber.Ctx) error {
 	var body payload.GetDashboardReservationDTO
 	if err := c.validate.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
@@ -28,7 +28,55 @@ func (c *DashboardController) GetDashboardReservation(ctx *fiber.Ctx) error {
 		})
 	}
 
-	dashboard, err := c.dashboardUsecase.GetDashboardReservation(body.START_DATE, body.END_DATE)
+	dashboard, err := c.dashboardUsecase.GetDashboardRoomTypeReservation(body.START_DATE, body.END_DATE)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    dashboard,
+	})
+}
+
+func (c *DashboardController) GetDashboardServiceTypeReservation(ctx *fiber.Ctx) error {
+	var body payload.GetDashboardReservationDTO
+	if err := c.validate.ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_BAD_REQUEST,
+		})
+	}
+
+	dashboard, err := c.dashboardUsecase.GetDashboardServiceTypeReservation(body.START_DATE, body.END_DATE)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    dashboard,
+	})
+}
+
+func (c *DashboardController) GetDashboardReservationByPaymentType(ctx *fiber.Ctx) error {
+	var body payload.GetDashboardReservationDTO
+	if err := c.validate.ValidateBody(ctx, &body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_BAD_REQUEST,
+		})
+	}
+
+	dashboard, err := c.dashboardUsecase.GetDashboardReservationByPaymentType(body.START_DATE, body.END_DATE)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,

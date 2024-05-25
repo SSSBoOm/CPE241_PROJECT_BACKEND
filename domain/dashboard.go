@@ -8,13 +8,22 @@ type DashboardReservation struct {
 	TOTAL int    `json:"total" db:"total"`
 }
 
+type DashboardReservation2 struct {
+	NAME  string `json:"name" db:"name"`
+	TOTAL int    `json:"total" db:"total"`
+}
+
 type DashboardService struct {
 }
 
 type DashboardUsecase interface {
-	GetDashboardReservation(startDate time.Time, endDate time.Time) (*[]DashboardReservation, error)
+	GetDashboardRoomTypeReservation(startDate time.Time, endDate time.Time) (*[]DashboardReservation, error)
+	GetDashboardServiceTypeReservation(startDate time.Time, endDate time.Time) (*[]DashboardReservation, error)
+	GetDashboardReservationByPaymentType(startDate time.Time, endDate time.Time) (*[]DashboardReservation2, error)
 }
 
 type DashboardRepository interface {
-	GetDashboardReservation(startDate time.Time, endDate time.Time) (*[]DashboardReservation, error)
+	GetDashboardRoomTypeReservation(startDate time.Time, endDate time.Time) (*[]DashboardReservation, error)
+	GetDashboardServiceTypeReservation(startDate time.Time, endDate time.Time) (*[]DashboardReservation, error)
+	GetDashboardReservationByPaymentType(startDate time.Time, endDate time.Time) (*[]DashboardReservation2, error)
 }

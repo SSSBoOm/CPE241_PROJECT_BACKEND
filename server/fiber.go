@@ -167,6 +167,7 @@ func (s *FiberServer) Route() {
 	reservation.Patch("/payment", middlewareAuth, reservationController.UpdatePayment)
 
 	reservationTask := api.Group("/reservation_task")
+	reservationTask.Get("/", middlewareAuth, StaffAuthMiddleware, reservationTaskController.GetAllReservationTask)
 	reservationTask.Get("/:reservation_id", middlewareAuth, StaffAuthMiddleware, reservationTaskController.GetReservationTaskByReservationID)
 	reservationTask.Post("/", middlewareAuth, StaffAuthMiddleware, reservationTaskController.CreateReservationTask)
 	reservationTask.Patch("/staff", middlewareAuth, StaffAuthMiddleware, reservationTaskController.UpdateReservationTaskStaff)
@@ -181,5 +182,7 @@ func (s *FiberServer) Route() {
 	room_type_promotion_price.Get("/room_type/:room_type_id", roomTypePromotionPriceController.GetByRoomTypeID)
 
 	dashboard := api.Group("/dashboard")
-	dashboard.Get("/reservation", dashboardController.GetDashboardReservation)
+	dashboard.Post("/reservation/room_type", dashboardController.GetDashboardRoomTypeReservation)
+	dashboard.Post("/reservation/service_type", dashboardController.GetDashboardServiceTypeReservation)
+	dashboard.Post("/reservation/payment_type", dashboardController.GetDashboardReservationByPaymentType)
 }

@@ -8,8 +8,7 @@ type ReservationTaskCreateDTO struct {
 }
 
 type ReservationTaskUpdateStaffDTO struct {
-	ID    int    `json:"id" validate:"required"`
-	STAFF string `json:"staff" validate:"required"`
+	ID int `json:"id" validate:"required"`
 }
 
 type ReservationTaskUpdateStatusDTO struct {

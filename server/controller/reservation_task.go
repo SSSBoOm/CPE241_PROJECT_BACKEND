@@ -132,6 +132,7 @@ func (r *ReservationTaskController) GetReservationTaskByReservationID(ctx *fiber
 // @Success 200 {object} domain.Response
 // @Router /api/reservation_task/staff [Patch]
 func (r *ReservationTaskController) UpdateReservationTaskStaff(ctx *fiber.Ctx) error {
+	staffId := ctx.Locals(constant.CTX_USER_ID).(string)
 	var task payload.ReservationTaskUpdateStaffDTO
 	if err := r.validator.ValidateBody(ctx, &task); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
@@ -140,7 +141,7 @@ func (r *ReservationTaskController) UpdateReservationTaskStaff(ctx *fiber.Ctx) e
 		})
 	}
 
-	err := r.reservationTaskUseCase.UpdateStaff(task.ID, task.STAFF)
+	err := r.reservationTaskUseCase.UpdateStaff(task.ID, staffId)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,

@@ -16,6 +16,14 @@ func NewDashboardUsecase(dashboardRepository domain.DashboardRepository) domain.
 	}
 }
 
-func (u *dashboardUsecase) GetDashboardReservation(startDate time.Time, endDate time.Time) (*[]domain.DashboardReservation, error) {
-	return u.dashboardRepository.GetDashboardReservation(startDate, endDate)
+func (u *dashboardUsecase) GetDashboardRoomTypeReservation(startDate time.Time, endDate time.Time) (*[]domain.DashboardReservation, error) {
+	return u.dashboardRepository.GetDashboardRoomTypeReservation(startDate, endDate)
+}
+
+func (u *dashboardUsecase) GetDashboardServiceTypeReservation(startDate time.Time, endDate time.Time) (*[]domain.DashboardReservation, error) {
+	return u.dashboardRepository.GetDashboardServiceTypeReservation(startDate, endDate)
+}
+
+func (u *dashboardUsecase) GetDashboardReservationByPaymentType(startDate time.Time, endDate time.Time) (*[]domain.DashboardReservation2, error) {
+	return u.dashboardRepository.GetDashboardReservationByPaymentType(startDate, endDate)
 }

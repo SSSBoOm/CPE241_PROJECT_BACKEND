@@ -31,11 +31,13 @@ func (u *reservationTaskUseCase) GetAll() (*[]domain.RESERVATION_TASK, error) {
 	for i := range *task {
 		go func(i int) {
 			defer wg.Done()
-			staff, err := u.userUsecase.FindById(*(*task)[i].STAFF_ID)
-			if err != nil {
-				return
+			if (*task)[i].STAFF_ID != nil {
+				staff, err := u.userUsecase.FindById(*(*task)[i].STAFF_ID)
+				if err != nil {
+					return
+				}
+				(*task)[i].STAFF = staff
 			}
-			(*task)[i].STAFF = staff
 
 			reservation, err := u.reservationUsecase.GetByID((*task)[i].RESERVATION_ID)
 			if err != nil {
