@@ -2071,6 +2071,9 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
                 "maintenanceId": {
                     "type": "integer"
                 },
@@ -2084,6 +2087,7 @@ const docTemplate = `{
             "required": [
                 "date",
                 "description",
+                "imageUrl",
                 "status"
             ],
             "properties": {
@@ -2091,6 +2095,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "status": {

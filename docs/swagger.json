@@ -2069,6 +2069,9 @@
                 "description": {
                     "type": "string"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
                 "maintenanceId": {
                     "type": "integer"
                 },
@@ -2082,6 +2085,7 @@
             "required": [
                 "date",
                 "description",
+                "imageUrl",
                 "status"
             ],
             "properties": {
@@ -2089,6 +2093,9 @@
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "status": {

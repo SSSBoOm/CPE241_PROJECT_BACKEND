@@ -183,11 +183,14 @@ definitions:
         type: string
       description:
         type: string
+      imageUrl:
+        type: string
       status:
         $ref: '#/definitions/domain.MAINTENANCE_LOG_STATUS'
     required:
     - date
     - description
+    - imageUrl
     - status
     type: object
   payload.MaintenanceCreateDTO:
@@ -209,6 +212,8 @@ definitions:
       date:
         type: string
       description:
+        type: string
+      imageUrl:
         type: string
       maintenanceId:
         type: integer
