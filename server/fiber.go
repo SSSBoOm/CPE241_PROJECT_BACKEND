@@ -167,7 +167,7 @@ func (s *FiberServer) Route() {
 	reservation.Patch("/payment", middlewareAuth, reservationController.UpdatePayment)
 
 	reservationTask := api.Group("/reservation_task")
-	reservationTask.Get("/", middlewareAuth, StaffAuthMiddleware, reservationTaskController.GetAllReservationTask)
+	reservationTask.Get("/", middlewareAuth, reservationTaskController.GetAllReservationTask)
 	reservationTask.Get("/:reservation_id", middlewareAuth, StaffAuthMiddleware, reservationTaskController.GetReservationTaskByReservationID)
 	reservationTask.Post("/", middlewareAuth, StaffAuthMiddleware, reservationTaskController.CreateReservationTask)
 	reservationTask.Patch("/staff", middlewareAuth, StaffAuthMiddleware, reservationTaskController.UpdateReservationTaskStaff)
