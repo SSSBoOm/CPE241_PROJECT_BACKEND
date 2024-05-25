@@ -14,7 +14,7 @@ func NewReservationTaskRepository(db *sqlx.DB) domain.ReservationTaskRepository 
 }
 
 func (r *reservationTaskRepository) GetAll() (*[]domain.RESERVATION_TASK, error) {
-	var tasks []domain.RESERVATION_TASK
+	tasks := make([]domain.RESERVATION_TASK, 0)
 	err := r.db.Select(&tasks, "SELECT * FROM reservation_task")
 	if err != nil {
 		return nil, err
