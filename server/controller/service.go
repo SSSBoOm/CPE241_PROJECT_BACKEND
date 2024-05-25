@@ -102,6 +102,7 @@ func (c *serviceController) Create(ctx *fiber.Ctx) error {
 		INFORMATION:     body.INFORMATION,
 		PRICE:           &body.PRICE,
 		IS_ACTIVE:       body.IS_ACTIVE,
+		IMAGE_URL:       body.IMAGE_URL,
 		SERVICE_TYPE_ID: body.SERVICE_TYPE_ID,
 	}); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
@@ -136,8 +137,11 @@ func (c *serviceController) Update(ctx *fiber.Ctx) error {
 	if err := c.serviceUsecase.Update(&domain.SERVICE{
 		ID:              body.ID,
 		NAME:            body.NAME,
+		DESCRIPTION:     body.DESCRIPTION,
+		INFORMATION:     body.INFORMATION,
 		PRICE:           &body.PRICE,
 		IS_ACTIVE:       body.IS_ACTIVE,
+		IMAGE_URL:       body.IMAGE_URL,
 		SERVICE_TYPE_ID: body.SERVICE_TYPE_ID,
 	}); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{

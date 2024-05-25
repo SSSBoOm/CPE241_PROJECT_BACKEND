@@ -8,6 +8,7 @@ type SERVICE struct {
 	DESCRIPTION     string        `json:"description" db:"description"`
 	INFORMATION     string        `json:"information" db:"information"`
 	PRICE           *float32      `json:"price" db:"price"`
+	IMAGE_URL       string        `json:"imageUrl" db:"imageURL"`
 	IS_ACTIVE       bool          `json:"isActive" db:"is_active"`
 	SERVICE_TYPE_ID int           `json:"-" db:"service_type_id"`
 	SERVICE_TYPE    *SERVICE_TYPE `json:"serviceType,omitempty" db:"-"`
