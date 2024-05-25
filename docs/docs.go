@@ -2029,7 +2029,7 @@ const docTemplate = `{
                     }
                 },
                 "size": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updateAt": {
                     "type": "string"
@@ -2084,6 +2084,9 @@ const docTemplate = `{
                 "roomId": {
                     "type": "integer"
                 },
+                "roomPromotionId": {
+                    "type": "integer"
+                },
                 "serviceId": {
                     "type": "integer"
                 },
@@ -2135,7 +2138,7 @@ const docTemplate = `{
                     }
                 },
                 "size": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -2614,7 +2617,7 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "size": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },

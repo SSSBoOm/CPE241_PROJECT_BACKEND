@@ -2027,7 +2027,7 @@
                     }
                 },
                 "size": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "updateAt": {
                     "type": "string"
@@ -2082,6 +2082,9 @@
                 "roomId": {
                     "type": "integer"
                 },
+                "roomPromotionId": {
+                    "type": "integer"
+                },
                 "serviceId": {
                     "type": "integer"
                 },
@@ -2133,7 +2136,7 @@
                     }
                 },
                 "size": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
@@ -2612,7 +2615,7 @@
                     "type": "number"
                 },
                 "size": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
