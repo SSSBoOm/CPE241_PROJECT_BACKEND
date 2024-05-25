@@ -19,7 +19,26 @@ func NewServiceTypeUsecase(serviceTypeRepo domain.ServiceTypeRepository, service
 }
 
 func (u *serviceTypeUsecase) GetAll() (*[]domain.SERVICE_TYPE, error) {
-	return u.serviceTypeRepo.GetAll()
+	serviceType, err := u.serviceTypeRepo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*serviceType))
+	for i, item := range *serviceType {
+		go func(i int, item domain.SERVICE_TYPE) {
+			defer wg.Done()
+			service, err := u.serviceUsecase.GetByServiceTypeId(item.ID)
+			if err != nil {
+				return
+			}
+			(*serviceType)[i].SERVICE = service
+		}(i, item)
+	}
+	wg.Wait()
+
+	return serviceType, nil
 }
 
 func (u *serviceTypeUsecase) GetByID(id int) (*domain.SERVICE_TYPE, error) {

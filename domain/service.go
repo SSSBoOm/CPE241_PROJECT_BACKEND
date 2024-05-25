@@ -19,6 +19,7 @@ type SERVICE struct {
 type ServiceRepository interface {
 	GetAll() (*[]SERVICE, error)
 	GetById(id int) (*SERVICE, error)
+	GetByServiceTypeId(serviceTypeId int) (*[]SERVICE, error)
 	Create(service *SERVICE) error
 	Update(service *SERVICE) error
 	UpdateIsActive(id int, isActive bool) error
@@ -27,6 +28,7 @@ type ServiceRepository interface {
 type ServiceUsecase interface {
 	GetAll() (*[]SERVICE, error)
 	GetById(id int) (*SERVICE, error)
+	GetByServiceTypeId(serviceTypeId int) (*[]SERVICE, error)
 	Create(service *SERVICE) error
 	Update(service *SERVICE) error
 	UpdateIsActive(id int, isActive bool) error

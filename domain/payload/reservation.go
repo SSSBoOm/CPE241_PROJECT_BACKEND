@@ -12,7 +12,7 @@ type CreateReservationDTO struct {
 	SERVICE_ID      *int                    `json:"serviceId"`
 	START_DATE      time.Time               `json:"startDate" validate:"required"`
 	END_DATE        time.Time               `json:"endDate" validate:"required"`
-	PRICE           float64                 `json:"price" validate:"required"`
+	PRICE           *float64                `json:"price" validate:"required"`
 	PAYMENT_INFO_ID int                     `json:"paymentInfoId" validate:"required"`
 }
 

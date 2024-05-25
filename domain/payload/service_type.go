@@ -12,6 +12,7 @@ type ServiceOnCreateServiceType struct {
 	DESCRIPTION string  `json:"description" validate:"required"`
 	INFORMATION string  `json:"information" validate:"required"`
 	PRICE       float32 `json:"price" validate:"required"`
+	IMAGE_URL   string  `json:"imageUrl" validate:"required"`
 	IS_ACTIVE   bool    `json:"isActive" validate:"boolean"`
 }
 

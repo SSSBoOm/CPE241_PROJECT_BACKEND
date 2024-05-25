@@ -35,6 +35,16 @@ func (r *serviceRepository) GetById(id int) (*domain.SERVICE, error) {
 	return &service, nil
 }
 
+func (r *serviceRepository) GetByServiceTypeId(serviceTypeId int) (*[]domain.SERVICE, error) {
+	services := make([]domain.SERVICE, 0)
+	err := r.db.Select(&services, "SELECT * FROM service WHERE service_type_id = ?", serviceTypeId)
+	if err != nil {
+		return nil, err
+	}
+
+	return &services, nil
+}
+
 func (r *serviceRepository) Create(service *domain.SERVICE) error {
 	t := r.db.MustBegin()
 	_, err := t.NamedExec("INSERT INTO service (name, description, information, price, is_active, imageURL, service_type_id) VALUES (:name, :description, :information, :price, :is_active, :imageURL, :service_type_id)", service)

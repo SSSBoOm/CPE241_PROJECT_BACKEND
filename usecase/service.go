@@ -53,6 +53,13 @@ func (u *serviceUsecase) GetById(id int) (*domain.SERVICE, error) {
 	return service, nil
 }
 
+func (u *serviceUsecase) GetByServiceTypeId(serviceTypeId int) (*[]domain.SERVICE, error) {
+	service, err := u.serviceRepo.GetByServiceTypeId(serviceTypeId)
+	if err != nil {
+		return nil, err
+	}
+	return service, nil
+}
 func (u *serviceUsecase) Create(service *domain.SERVICE) error {
 	return u.serviceRepo.Create(service)
 }

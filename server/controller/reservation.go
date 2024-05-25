@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"strconv"
 	"sync"
 	"time"
@@ -97,6 +98,7 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 	userID := ctx.Locals(constant.CTX_USER_ID).(string)
 	var body payload.CreateReservationDTO
 	if err := c.validator.ValidateBody(ctx, &body); err != nil {
+		fmt.Println(err)
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
 			MESSAGE: constant.MESSAGE_INVALID_BODY,
@@ -117,7 +119,7 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 		USER_ID:         userID,
 		START_DATE:      body.START_DATE,
 		END_DATE:        body.END_DATE,
-		PRICE:           body.PRICE,
+		PRICE:           *body.PRICE,
 		STATUS:          domain.RESERVATION_STATUS_WAITING_APPROVE_PAYMENT,
 		PAYMENT_DATE:    time.Now(),
 		PAYMENT_INFO_ID: body.PAYMENT_INFO_ID,

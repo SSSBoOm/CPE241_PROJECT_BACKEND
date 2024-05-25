@@ -97,6 +97,7 @@ func (c *serviceTypeController) Create(ctx *fiber.Ctx) error {
 			NAME:        item.NAME,
 			DESCRIPTION: item.DESCRIPTION,
 			INFORMATION: item.INFORMATION,
+			IMAGE_URL:   item.IMAGE_URL,
 			PRICE:       &item.PRICE,
 			IS_ACTIVE:   item.IS_ACTIVE,
 		})
