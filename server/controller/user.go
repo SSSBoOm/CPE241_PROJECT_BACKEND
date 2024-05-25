@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"sync"
+
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
 	"github.com/SSSBoOm/CPE241_Project_Backend/domain/payload"
 	"github.com/SSSBoOm/CPE241_Project_Backend/internal/constant"
@@ -8,16 +10,18 @@ import (
 )
 
 type UserController struct {
-	validator      domain.ValidatorUsecase
-	userUsecase    domain.UserUsecase
-	paymentUsecase domain.PaymentUsecase
+	validator          domain.ValidatorUsecase
+	userUsecase        domain.UserUsecase
+	paymentUsecase     domain.PaymentUsecase
+	reservationUsecase domain.ReservationUsecase
 }
 
-func NewUserController(validator domain.ValidatorUsecase, userUsecase domain.UserUsecase, paymentUsecase domain.PaymentUsecase) *UserController {
+func NewUserController(validator domain.ValidatorUsecase, userUsecase domain.UserUsecase, paymentUsecase domain.PaymentUsecase, reservationUsecase domain.ReservationUsecase) *UserController {
 	return &UserController{
-		validator:      validator,
-		userUsecase:    userUsecase,
-		paymentUsecase: paymentUsecase,
+		validator:          validator,
+		userUsecase:        userUsecase,
+		paymentUsecase:     paymentUsecase,
+		reservationUsecase: reservationUsecase,
 	}
 }
 
@@ -243,6 +247,20 @@ func (u *UserController) GetALL(ctx *fiber.Ctx) error {
 			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
 		})
 	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*users))
+	for i := range *users {
+		go func(i int) {
+			defer wg.Done()
+			reservation, err := u.reservationUsecase.GetByUserID((*users)[i].ID)
+			if err != nil {
+				return
+			}
+			(*users)[i].RESERVATIONS = reservation
+		}(i)
+	}
+	wg.Wait()
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,

@@ -16,7 +16,10 @@ type UserUsecase struct {
 }
 
 func NewUserUsecase(userRepository domain.UserRepository, roleRepository domain.RoleRepository) domain.UserUsecase {
-	return &UserUsecase{userRepository: userRepository, roleRepository: roleRepository}
+	return &UserUsecase{
+		userRepository: userRepository,
+		roleRepository: roleRepository,
+	}
 }
 
 func (u *UserUsecase) CreateFromGoogle(name string, email string, picture string) (*domain.User, error) {

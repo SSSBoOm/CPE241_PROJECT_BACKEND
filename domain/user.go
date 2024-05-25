@@ -21,19 +21,20 @@ const (
 )
 
 type User struct {
-	ID          string     `json:"id,omitempty" db:"id"`
-	EMAIL       string     `json:"email" db:"email"`
-	PREFIX      PrefixType `json:"prefix" db:"prefix"`
-	FIRST_NAME  string     `json:"firstName" db:"first_name"`
-	LAST_NAME   string     `json:"lastName" db:"last_name"`
-	DOB         *time.Time `json:"dob" db:"dob"`
-	PHONE       string     `json:"phone" db:"phone"`
-	GENDER      GenderType `json:"gender" db:"gender"`
-	ADDRESS     string     `json:"address" db:"address"`
-	PROFILE_URL string     `json:"profileUrl" db:"profile_url"`
-	ROLE_ID     int        `json:"-" db:"role_id"`
-	UPDATED_AT  time.Time  `json:"updateAt" db:"updated_at"`
-	CREATED_AT  time.Time  `json:"createdAt" db:"created_at"`
+	ID           string         `json:"id,omitempty" db:"id"`
+	EMAIL        string         `json:"email" db:"email"`
+	PREFIX       PrefixType     `json:"prefix" db:"prefix"`
+	FIRST_NAME   string         `json:"firstName" db:"first_name"`
+	LAST_NAME    string         `json:"lastName" db:"last_name"`
+	DOB          *time.Time     `json:"dob" db:"dob"`
+	PHONE        string         `json:"phone" db:"phone"`
+	GENDER       GenderType     `json:"gender" db:"gender"`
+	ADDRESS      string         `json:"address" db:"address"`
+	PROFILE_URL  string         `json:"profileUrl" db:"profile_url"`
+	ROLE_ID      int            `json:"-" db:"role_id"`
+	RESERVATIONS *[]RESERVATION `json:"reservation,omitempty"`
+	UPDATED_AT   time.Time      `json:"updateAt" db:"updated_at"`
+	CREATED_AT   time.Time      `json:"createdAt" db:"created_at"`
 }
 
 type UserRepository interface {
