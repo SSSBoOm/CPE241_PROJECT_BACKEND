@@ -2286,15 +2286,11 @@ const docTemplate = `{
         "payload.ReservationTaskUpdateStaffDTO": {
             "type": "object",
             "required": [
-                "id",
-                "staff"
+                "id"
             ],
             "properties": {
                 "id": {
                     "type": "integer"
-                },
-                "staff": {
-                    "type": "string"
                 }
             }
         },

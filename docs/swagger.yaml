@@ -325,11 +325,8 @@ definitions:
     properties:
       id:
         type: integer
-      staff:
-        type: string
     required:
     - id
-    - staff
     type: object
   payload.ReservationTaskUpdateStatusDTO:
     properties:
