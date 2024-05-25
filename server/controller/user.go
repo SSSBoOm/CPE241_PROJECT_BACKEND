@@ -250,3 +250,27 @@ func (u *UserController) GetALL(ctx *fiber.Ctx) error {
 		DATA:    users,
 	})
 }
+
+// GetAllStaff	godoc
+// @Summary								Get all staff
+// @Description						Get all staff
+// @Tags									manage
+// @Accept								json
+// @produce								json
+// @Security							ApiKeyAuth
+// @Router /api/admin/manage/staff	[get]
+func (u *UserController) GetAllStaff(ctx *fiber.Ctx) error {
+	users, err := u.userUsecase.GetAllByRoleId(2)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
+			SUCCESS: false,
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
+		SUCCESS: true,
+		MESSAGE: constant.MESSAGE_SUCCESS,
+		DATA:    users,
+	})
+}

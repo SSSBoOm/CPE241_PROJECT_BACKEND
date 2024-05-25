@@ -1,15 +1,52 @@
 package usecase
 
-import "github.com/SSSBoOm/CPE241_Project_Backend/domain"
+import (
+	"sync"
+
+	"github.com/SSSBoOm/CPE241_Project_Backend/domain"
+)
 
 type reservationTaskUseCase struct {
 	reservationTaskRepository domain.ReservationTaskRepository
+	reservationUsecase        domain.ReservationUsecase
+	userUsecase               domain.UserUsecase
 }
 
-func NewReservationTaskUseCase(reservationTaskRepository domain.ReservationTaskRepository) domain.ReservationTaskUsecase {
+func NewReservationTaskUseCase(reservationTaskRepository domain.ReservationTaskRepository, reservationUsecase domain.ReservationUsecase, userUsecase domain.UserUsecase) domain.ReservationTaskUsecase {
 	return &reservationTaskUseCase{
 		reservationTaskRepository: reservationTaskRepository,
+		reservationUsecase:        reservationUsecase,
+		userUsecase:               userUsecase,
 	}
+}
+
+func (u *reservationTaskUseCase) GetAll() (*[]domain.RESERVATION_TASK, error) {
+	task, err := u.reservationTaskRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*task))
+	for i := range *task {
+		go func(i int) {
+			defer wg.Done()
+			staff, err := u.userUsecase.FindById(*(*task)[i].STAFF_ID)
+			if err != nil {
+				return
+			}
+			(*task)[i].STAFF = staff
+
+			reservation, err := u.reservationUsecase.GetByID((*task)[i].RESERVATION_ID)
+			if err != nil {
+				return
+			}
+			(*task)[i].RESERVATION = reservation
+		}(i)
+	}
+	wg.Wait()
+
+	return task, nil
 }
 
 func (u *reservationTaskUseCase) Create(task *domain.RESERVATION_TASK) error {

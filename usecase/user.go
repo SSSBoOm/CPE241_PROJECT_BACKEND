@@ -48,6 +48,10 @@ func (u *UserUsecase) GetAll() (*[]domain.User, error) {
 	return u.userRepository.GetAll()
 }
 
+func (u *UserUsecase) GetAllByRoleId(roleId int) (*[]domain.User, error) {
+	return u.userRepository.GetAllByRoleId(roleId)
+}
+
 func (u *UserUsecase) FindById(id string) (*domain.User, error) {
 	return u.userRepository.FindById(id)
 }

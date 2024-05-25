@@ -38,6 +38,7 @@ type User struct {
 
 type UserRepository interface {
 	GetAll() (*[]User, error)
+	GetAllByRoleId(roleId int) (*[]User, error)
 	FindById(id string) (*User, error)
 	FindByEmail(email string) (*User, error)
 	Create(user *User) error
@@ -48,6 +49,7 @@ type UserRepository interface {
 
 type UserUsecase interface {
 	GetAll() (*[]User, error)
+	GetAllByRoleId(roleId int) (*[]User, error)
 	CreateFromGoogle(name string, email string, picture string) (*User, error)
 	FindById(id string) (*User, error)
 	FindByEmail(email string) (*User, error)

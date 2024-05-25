@@ -13,9 +13,18 @@ func NewReservationTaskRepository(db *sqlx.DB) domain.ReservationTaskRepository 
 	return &reservationTaskRepository{db: db}
 }
 
+func (r *reservationTaskRepository) GetAll() (*[]domain.RESERVATION_TASK, error) {
+	var tasks []domain.RESERVATION_TASK
+	err := r.db.Select(&tasks, "SELECT * FROM reservation_task")
+	if err != nil {
+		return nil, err
+	}
+	return &tasks, nil
+}
+
 func (r *reservationTaskRepository) Create(task *domain.RESERVATION_TASK) error {
 	t := r.db.MustBegin()
-	_, err := t.NamedExec("INSERT INTO reservation_task (reservation_id, staff_id, status, date) VALUES (:reservation_id, :staff_id, :status, :date)", task)
+	_, err := t.NamedExec("INSERT INTO reservation_task (reservation_id, status, date) VALUES (:reservation_id, :status, :date)", task)
 	if err != nil {
 		t.Rollback()
 		return err
