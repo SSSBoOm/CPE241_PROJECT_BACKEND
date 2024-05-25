@@ -5,7 +5,7 @@ type CreateRoomType struct {
 	DETAIL      string                  `json:"detail" validate:"required"`
 	ACCOMMODATE int                     `json:"accommodate" validate:"required"`
 	PRICE       float32                 `json:"price" validate:"required"`
-	SIZE        string                  `json:"size" validate:"required"`
+	SIZE        int                     `json:"size" validate:"required"`
 	BED         string                  `json:"bed" validate:"required"`
 	IMAGE_URL   string                  `json:"imageUrl" validate:"required"`
 	IS_ACTIVE   bool                    `json:"isActive" validate:"boolean"`
@@ -22,7 +22,7 @@ type UpdateRoomType struct {
 	NAME        string  `json:"name" validate:"required"`
 	DETAIL      string  `json:"detail" validate:"required"`
 	ACCOMMODATE int     `json:"accommodate" validate:"required"`
-	SIZE        string  `json:"size" validate:"required"`
+	SIZE        int  `json:"size" validate:"required"`
 	BED         string  `json:"bed" validate:"required"`
 	PRICE       float32 `json:"price" validate:"required"`
 	IMAGE_URL   string  `json:"imageUrl" validate:"required"`

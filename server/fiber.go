@@ -80,6 +80,7 @@ func (s *FiberServer) Route() {
 	serviceController := controller.NewServiceController(validator, s.usecase.ServiceUsecase, s.usecase.ServiceTypeUsecase)
 	promotionPriceController := controller.NewPromotionPriceController(validator, s.usecase.PromotionPriceUsecase, s.usecase.RoomTypePromotionPriceUsecase)
 	roomTypePromotionPriceController := controller.NewRoomTypePromotionPriceController(validator, s.usecase.RoomTypePromotionPriceUsecase)
+	dashboardController := controller.NewDashboardController(validator, s.usecase.DashboardUsecase)
 
 	s.app.Use(swagger.New(swagger.Config{
 		BasePath: "/",
@@ -178,4 +179,7 @@ func (s *FiberServer) Route() {
 
 	room_type_promotion_price := api.Group("/room_type_promotion_price")
 	room_type_promotion_price.Get("/room_type/:room_type_id", roomTypePromotionPriceController.GetByRoomTypeID)
+
+	dashboard := api.Group("/dashboard")
+	dashboard.Get("/reservation", dashboardController.GetDashboardReservation)
 }

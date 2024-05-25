@@ -79,6 +79,7 @@ func initRepository(
 		ServiceTypeRepository:            repository.NewServiceTypeRepository(mysql),
 		PromotionPriceRepository:         repository.NewPromotionPriceRepository(mysql),
 		RoomTypePromotionPriceRepository: repository.NewRoomTypePromotionPriceRepository(mysql),
+		DashboardRepository:              repository.NewDashboardRepository(mysql),
 	}
 }
 
@@ -103,6 +104,7 @@ func initUsecase(
 	reservationTaskUsecase := usecase.NewReservationTaskUseCase(repo.ReservationTaskRepository, reservationUsecase, userUsecase)
 	roomTypePromotionPriceUsecase := usecase.NewRoomTypePromotionPriceUsecase(repo.RoomTypePromotionPriceRepository, repo.PromotionPriceRepository, roomTypeUsecase)
 	promotionPriceUsecase := usecase.NewPromotionPriceUsecase(repo.PromotionPriceRepository, roomTypePromotionPriceUsecase)
+	dashboardUsecase := usecase.NewDashboardUsecase(repo.DashboardRepository)
 
 	return &domain.Usecase{
 		AuthUsecase:                   authUsecase,
@@ -122,5 +124,6 @@ func initUsecase(
 		ServiceTypeUsecase:            serviceTypeRepository,
 		RoomTypePromotionPriceUsecase: roomTypePromotionPriceUsecase,
 		PromotionPriceUsecase:         promotionPriceUsecase,
+		DashboardUsecase:              dashboardUsecase,
 	}
 }

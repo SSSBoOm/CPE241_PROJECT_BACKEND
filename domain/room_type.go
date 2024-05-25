@@ -9,7 +9,7 @@ type RoomType struct {
 	PRICE       *float32  `json:"price" db:"price"`
 	ROOM        *[]ROOM   `json:"room,omitempty" db:"-"`
 	ACCOMMODATE int       `json:"accommodate" db:"accommodate"`
-	SIZE        string    `json:"size" db:"size"`
+	SIZE        int       `json:"size" db:"size"`
 	BED         string    `json:"bed" db:"bed"`
 	IMAGE_URL   string    `json:"imageUrl" db:"imageURL"`
 	IS_ACTIVE   bool      `json:"isActive" db:"is_active"`
