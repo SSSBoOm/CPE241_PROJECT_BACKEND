@@ -106,6 +106,8 @@ func (c *RoomTypeController) CreateRoomType(ctx *fiber.Ctx) error {
 		NAME:        body.NAME,
 		DETAIL:      body.DETAIL,
 		ACCOMMODATE: body.ACCOMMODATE,
+		SIZE:        body.SIZE,
+		BED:         body.BED,
 		PRICE:       &body.PRICE,
 		IS_ACTIVE:   body.IS_ACTIVE,
 		IMAGE_URL:   body.IMAGE_URL,
