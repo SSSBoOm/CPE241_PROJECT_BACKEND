@@ -22,6 +22,27 @@ definitions:
     - MAINTENANCE_LOG_STATUS_APPROVED
     - MAINTENANCE_LOG_STATUS_REJECTED
     - MAINTENANCE_LOG_STATUS_DONE
+  domain.PROMOTION_PRICE:
+    properties:
+      createdAt:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      roomTypePromotionPrice:
+        items:
+          $ref: '#/definitions/domain.ROOM_TYPE_PROMOTION_PRICE'
+        type: array
+      startDate:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   domain.PrefixType:
     enum:
     - MR
@@ -75,6 +96,21 @@ definitions:
       roomType:
         $ref: '#/definitions/domain.RoomType'
       updateAt:
+        type: string
+    type: object
+  domain.ROOM_TYPE_PROMOTION_PRICE:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      promotionPrice:
+        $ref: '#/definitions/domain.PROMOTION_PRICE'
+      roomType:
+        $ref: '#/definitions/domain.RoomType'
+      updatedAt:
         type: string
     type: object
   domain.Response:
@@ -1491,6 +1527,29 @@ paths:
       summary: Update room type is active
       tags:
       - room_type
+  /api/room_type_promotion_price/room_type/{room_type_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get room type promotion price by room type id
+      parameters:
+      - description: Room Type ID
+        in: path
+        name: room_type_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.ROOM_TYPE_PROMOTION_PRICE'
+            type: array
+      summary: Get room type promotion price by room type id
+      tags:
+      - room_type_promotion_price
   /api/service:
     get:
       consumes:

@@ -1408,6 +1408,41 @@
                 }
             }
         },
+        "/api/room_type_promotion_price/room_type/{room_type_id}": {
+            "get": {
+                "description": "Get room type promotion price by room type id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "room_type_promotion_price"
+                ],
+                "summary": "Get room type promotion price by room type id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Room Type ID",
+                        "name": "room_type_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.ROOM_TYPE_PROMOTION_PRICE"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/service": {
             "get": {
                 "consumes": [
@@ -1815,6 +1850,38 @@
                 "MAINTENANCE_LOG_STATUS_DONE"
             ]
         },
+        "domain.PROMOTION_PRICE": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "roomTypePromotionPrice": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.ROOM_TYPE_PROMOTION_PRICE"
+                    }
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.PrefixType": {
             "type": "string",
             "enum": [
@@ -1883,6 +1950,29 @@
                     "$ref": "#/definitions/domain.RoomType"
                 },
                 "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.ROOM_TYPE_PROMOTION_PRICE": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "promotionPrice": {
+                    "$ref": "#/definitions/domain.PROMOTION_PRICE"
+                },
+                "roomType": {
+                    "$ref": "#/definitions/domain.RoomType"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
