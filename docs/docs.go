@@ -47,6 +47,27 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/admin/manage/staff": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get all staff",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manage"
+                ],
+                "summary": "Get all staff",
+                "responses": {}
+            }
+        },
         "/api/admin/manage/user": {
             "get": {
                 "security": [
@@ -865,6 +886,41 @@ const docTemplate = `{
             }
         },
         "/api/reservation_task": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get all reservation task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation_task"
+                ],
+                "summary": "Get all reservation task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -896,7 +952,99 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.RESERVATION_TASK"
+                            "$ref": "#/definitions/payload.ReservationTaskCreateDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation_task/staff": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update reservation task staff",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation_task"
+                ],
+                "summary": "Update reservation task staff",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Update reservation task staff",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.ReservationTaskUpdateStaffDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reservation_task/status": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update reservation task status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reservation_task"
+                ],
+                "summary": "Update reservation task status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session ID",
+                        "name": "ssid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Update reservation task status",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/payload.ReservationTaskUpdateStatusDTO"
                         }
                     }
                 ],
@@ -1707,35 +1855,6 @@ const docTemplate = `{
                 "RESERVATION_STATUS_CANCELED"
             ]
         },
-        "domain.RESERVATION_TASK": {
-            "type": "object",
-            "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "reservation": {
-                    "type": "integer"
-                },
-                "staff": {
-                    "$ref": "#/definitions/domain.User"
-                },
-                "staffId": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "boolean"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
         "domain.RESERVATION_TYPE": {
             "type": "string",
             "enum": [
@@ -1815,47 +1934,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/domain.ROOM"
                     }
-                },
-                "updateAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "domain.User": {
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "dob": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "firstName": {
-                    "type": "string"
-                },
-                "gender": {
-                    "$ref": "#/definitions/domain.GenderType"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "prefix": {
-                    "$ref": "#/definitions/domain.PrefixType"
-                },
-                "profileUrl": {
-                    "type": "string"
                 },
                 "updateAt": {
                     "type": "string"
@@ -2073,6 +2151,50 @@ const docTemplate = `{
                 },
                 "startDate": {
                     "type": "string"
+                }
+            }
+        },
+        "payload.ReservationTaskCreateDTO": {
+            "type": "object",
+            "required": [
+                "date",
+                "reservationId"
+            ],
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "reservationId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "payload.ReservationTaskUpdateStaffDTO": {
+            "type": "object",
+            "required": [
+                "id",
+                "staff"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "staff": {
+                    "type": "string"
+                }
+            }
+        },
+        "payload.ReservationTaskUpdateStatusDTO": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
                 }
             }
         },

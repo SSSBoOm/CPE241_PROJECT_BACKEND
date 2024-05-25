@@ -54,25 +54,6 @@ definitions:
     - RESERVATION_STATUS_WAITING_CHECKED_OUT
     - RESERVATION_STATUS_SUCCESS
     - RESERVATION_STATUS_CANCELED
-  domain.RESERVATION_TASK:
-    properties:
-      createdAt:
-        type: string
-      date:
-        type: string
-      id:
-        type: integer
-      reservation:
-        type: integer
-      staff:
-        $ref: '#/definitions/domain.User'
-      staffId:
-        type: string
-      status:
-        type: boolean
-      updatedAt:
-        type: string
-    type: object
   domain.RESERVATION_TYPE:
     enum:
     - ROOM
@@ -127,33 +108,6 @@ definitions:
         items:
           $ref: '#/definitions/domain.ROOM'
         type: array
-      updateAt:
-        type: string
-    type: object
-  domain.User:
-    properties:
-      address:
-        type: string
-      createdAt:
-        type: string
-      dob:
-        type: string
-      email:
-        type: string
-      firstName:
-        type: string
-      gender:
-        $ref: '#/definitions/domain.GenderType'
-      id:
-        type: string
-      lastName:
-        type: string
-      phone:
-        type: string
-      prefix:
-        $ref: '#/definitions/domain.PrefixType'
-      profileUrl:
-        type: string
       updateAt:
         type: string
     type: object
@@ -303,6 +257,35 @@ definitions:
     - price
     - roomTypeId
     - startDate
+    type: object
+  payload.ReservationTaskCreateDTO:
+    properties:
+      date:
+        type: string
+      reservationId:
+        type: integer
+    required:
+    - date
+    - reservationId
+    type: object
+  payload.ReservationTaskUpdateStaffDTO:
+    properties:
+      id:
+        type: integer
+      staff:
+        type: string
+    required:
+    - id
+    - staff
+    type: object
+  payload.ReservationTaskUpdateStatusDTO:
+    properties:
+      id:
+        type: integer
+      status:
+        type: boolean
+    required:
+    - id
     type: object
   payload.RoomCreateDTO:
     properties:
@@ -606,6 +589,19 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update role by user id
+      tags:
+      - manage
+  /api/admin/manage/staff:
+    get:
+      consumes:
+      - application/json
+      description: Get all staff
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Get all staff
       tags:
       - manage
   /api/admin/manage/user:
@@ -1133,6 +1129,28 @@ paths:
       tags:
       - reservation
   /api/reservation_task:
+    get:
+      consumes:
+      - application/json
+      description: Get all reservation task
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all reservation task
+      tags:
+      - reservation_task
     post:
       consumes:
       - application/json
@@ -1148,12 +1166,12 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/domain.RESERVATION_TASK'
+          $ref: '#/definitions/payload.ReservationTaskCreateDTO'
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/domain.Response'
       security:
@@ -1187,6 +1205,64 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get reservation task by reservation id
+      tags:
+      - reservation_task
+  /api/reservation_task/staff:
+    patch:
+      consumes:
+      - application/json
+      description: Update reservation task staff
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      - description: Update reservation task staff
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ReservationTaskUpdateStaffDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update reservation task staff
+      tags:
+      - reservation_task
+  /api/reservation_task/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update reservation task status
+      parameters:
+      - description: Session ID
+        in: header
+        name: ssid
+        required: true
+        type: string
+      - description: Update reservation task status
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/payload.ReservationTaskUpdateStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update reservation task status
       tags:
       - reservation_task
   /api/role:
