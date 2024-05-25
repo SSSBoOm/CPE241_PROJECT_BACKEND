@@ -8,12 +8,14 @@ import (
 
 type RoomTypePromotionPriceUsecase struct {
 	RoomTypePromotionPriceRepository domain.RoomTypePromotionPriceRepository
+	PromotionPriceRepository         domain.PromotionPriceRepository
 	roomTypeUsecase                  domain.RoomTypeUsecase
 }
 
-func NewRoomTypePromotionPriceUsecase(RoomTypePromotionPriceRepository domain.RoomTypePromotionPriceRepository, roomTypeUsecase domain.RoomTypeUsecase) domain.RoomTypePromotionPriceUsecase {
+func NewRoomTypePromotionPriceUsecase(RoomTypePromotionPriceRepository domain.RoomTypePromotionPriceRepository, PromotionPriceRepository domain.PromotionPriceRepository, roomTypeUsecase domain.RoomTypeUsecase) domain.RoomTypePromotionPriceUsecase {
 	return &RoomTypePromotionPriceUsecase{
 		RoomTypePromotionPriceRepository: RoomTypePromotionPriceRepository,
+		PromotionPriceRepository:         PromotionPriceRepository,
 		roomTypeUsecase:                  roomTypeUsecase,
 	}
 }
@@ -27,7 +29,32 @@ func (uc *RoomTypePromotionPriceUsecase) GetByID(id int) (*domain.ROOM_TYPE_PROM
 }
 
 func (uc *RoomTypePromotionPriceUsecase) GetByRoomTypeID(roomTypeID int) (*[]domain.ROOM_TYPE_PROMOTION_PRICE, error) {
-	return uc.RoomTypePromotionPriceRepository.GetByRoomTypeID(roomTypeID)
+	data, err := uc.RoomTypePromotionPriceRepository.GetByRoomTypeID(roomTypeID)
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(len(*data))
+	for i, roomTypePromotionPrice := range *data {
+		go func(i int, roomTypePromotionPrice domain.ROOM_TYPE_PROMOTION_PRICE) {
+			defer wg.Done()
+			promotion, err := uc.PromotionPriceRepository.GetByID(roomTypePromotionPrice.PROMOTION_PRICE_ID)
+			if err != nil {
+				return
+			}
+
+			roomType, err := uc.roomTypeUsecase.GetByID(roomTypePromotionPrice.ROOM_TYPE_ID)
+			if err != nil {
+				return
+			}
+			(*data)[i].ROOM_TYPE = roomType
+			(*data)[i].PROMOTION_PRICE = promotion
+		}(i, roomTypePromotionPrice)
+	}
+	wg.Wait()
+
+	return data, nil
 }
 
 func (uc *RoomTypePromotionPriceUsecase) GetByPromotionPriceID(promotionPriceID int) (*[]domain.ROOM_TYPE_PROMOTION_PRICE, error) {

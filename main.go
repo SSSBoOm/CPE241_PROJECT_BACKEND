@@ -101,7 +101,7 @@ func initUsecase(
 	serviceTypeRepository := usecase.NewServiceTypeUsecase(repo.ServiceTypeRepository, serviceUsecase)
 	reservationUsecase := usecase.NewReservationUsecase(repo.ReservationRepository, roomTypeUsecase, roomUsecase, serviceUsecase, paymentUsecase, userUsecase)
 	reservationTaskUsecase := usecase.NewReservationTaskUseCase(repo.ReservationTaskRepository, reservationUsecase, userUsecase)
-	roomTypePromotionPriceUsecase := usecase.NewRoomTypePromotionPriceUsecase(repo.RoomTypePromotionPriceRepository, roomTypeUsecase)
+	roomTypePromotionPriceUsecase := usecase.NewRoomTypePromotionPriceUsecase(repo.RoomTypePromotionPriceRepository, repo.PromotionPriceRepository, roomTypeUsecase)
 	promotionPriceUsecase := usecase.NewPromotionPriceUsecase(repo.PromotionPriceRepository, roomTypePromotionPriceUsecase)
 
 	return &domain.Usecase{
