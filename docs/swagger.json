@@ -1906,6 +1906,9 @@
                 "accommodate": {
                     "type": "integer"
                 },
+                "bed": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -1932,6 +1935,9 @@
                     "items": {
                         "$ref": "#/definitions/domain.ROOM"
                     }
+                },
+                "size": {
+                    "type": "string"
                 },
                 "updateAt": {
                     "type": "string"
@@ -2001,14 +2007,19 @@
             "type": "object",
             "required": [
                 "accommodate",
+                "bed",
                 "detail",
                 "imageUrl",
                 "name",
-                "price"
+                "price",
+                "size"
             ],
             "properties": {
                 "accommodate": {
                     "type": "integer"
+                },
+                "bed": {
+                    "type": "string"
                 },
                 "detail": {
                     "type": "string"
@@ -2030,6 +2041,9 @@
                     "items": {
                         "$ref": "#/definitions/payload.RoomOnCreateRoomType"
                     }
+                },
+                "size": {
+                    "type": "string"
                 }
             }
         },
@@ -2474,15 +2488,20 @@
             "type": "object",
             "required": [
                 "accommodate",
+                "bed",
                 "detail",
                 "id",
                 "imageUrl",
                 "name",
-                "price"
+                "price",
+                "size"
             ],
             "properties": {
                 "accommodate": {
                     "type": "integer"
+                },
+                "bed": {
+                    "type": "string"
                 },
                 "detail": {
                     "type": "string"
@@ -2501,6 +2520,9 @@
                 },
                 "price": {
                     "type": "number"
+                },
+                "size": {
+                    "type": "string"
                 }
             }
         },

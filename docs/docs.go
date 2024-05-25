@@ -1908,6 +1908,9 @@ const docTemplate = `{
                 "accommodate": {
                     "type": "integer"
                 },
+                "bed": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },
@@ -1934,6 +1937,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/domain.ROOM"
                     }
+                },
+                "size": {
+                    "type": "string"
                 },
                 "updateAt": {
                     "type": "string"
@@ -2003,14 +2009,19 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "accommodate",
+                "bed",
                 "detail",
                 "imageUrl",
                 "name",
-                "price"
+                "price",
+                "size"
             ],
             "properties": {
                 "accommodate": {
                     "type": "integer"
+                },
+                "bed": {
+                    "type": "string"
                 },
                 "detail": {
                     "type": "string"
@@ -2032,6 +2043,9 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/payload.RoomOnCreateRoomType"
                     }
+                },
+                "size": {
+                    "type": "string"
                 }
             }
         },
@@ -2476,15 +2490,20 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "accommodate",
+                "bed",
                 "detail",
                 "id",
                 "imageUrl",
                 "name",
-                "price"
+                "price",
+                "size"
             ],
             "properties": {
                 "accommodate": {
                     "type": "integer"
+                },
+                "bed": {
+                    "type": "string"
                 },
                 "detail": {
                     "type": "string"
@@ -2503,6 +2522,9 @@ const docTemplate = `{
                 },
                 "price": {
                     "type": "number"
+                },
+                "size": {
+                    "type": "string"
                 }
             }
         },

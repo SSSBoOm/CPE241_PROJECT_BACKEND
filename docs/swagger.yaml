@@ -90,6 +90,8 @@ definitions:
     properties:
       accommodate:
         type: integer
+      bed:
+        type: string
       createdAt:
         type: string
       detail:
@@ -108,6 +110,8 @@ definitions:
         items:
           $ref: '#/definitions/domain.ROOM'
         type: array
+      size:
+        type: string
       updateAt:
         type: string
     type: object
@@ -156,6 +160,8 @@ definitions:
     properties:
       accommodate:
         type: integer
+      bed:
+        type: string
       detail:
         type: string
       imageUrl:
@@ -170,12 +176,16 @@ definitions:
         items:
           $ref: '#/definitions/payload.RoomOnCreateRoomType'
         type: array
+      size:
+        type: string
     required:
     - accommodate
+    - bed
     - detail
     - imageUrl
     - name
     - price
+    - size
     type: object
   payload.Maintenance_Log_On_Maintenance_Create:
     properties:
@@ -477,6 +487,8 @@ definitions:
     properties:
       accommodate:
         type: integer
+      bed:
+        type: string
       detail:
         type: string
       id:
@@ -489,13 +501,17 @@ definitions:
         type: string
       price:
         type: number
+      size:
+        type: string
     required:
     - accommodate
+    - bed
     - detail
     - id
     - imageUrl
     - name
     - price
+    - size
     type: object
   payload.UpdateRoomTypeIsActiveDTO:
     properties:
