@@ -2126,6 +2126,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "description",
+                "imageUrl",
                 "information",
                 "name",
                 "price",
@@ -2133,6 +2134,9 @@ const docTemplate = `{
             ],
             "properties": {
                 "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "information": {
@@ -2156,12 +2160,16 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "description",
+                "imageUrl",
                 "information",
                 "name",
                 "price"
             ],
             "properties": {
                 "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "information": {
@@ -2243,6 +2251,7 @@ const docTemplate = `{
             "required": [
                 "description",
                 "id",
+                "imageUrl",
                 "information",
                 "name",
                 "price",
@@ -2254,6 +2263,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "imageUrl": {
+                    "type": "string"
                 },
                 "information": {
                     "type": "string"

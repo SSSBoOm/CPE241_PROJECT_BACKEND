@@ -338,6 +338,8 @@ definitions:
     properties:
       description:
         type: string
+      imageUrl:
+        type: string
       information:
         type: string
       isActive:
@@ -350,6 +352,7 @@ definitions:
         type: integer
     required:
     - description
+    - imageUrl
     - information
     - name
     - price
@@ -358,6 +361,8 @@ definitions:
   payload.ServiceOnCreateServiceType:
     properties:
       description:
+        type: string
+      imageUrl:
         type: string
       information:
         type: string
@@ -369,6 +374,7 @@ definitions:
         type: number
     required:
     - description
+    - imageUrl
     - information
     - name
     - price
@@ -419,6 +425,8 @@ definitions:
         type: string
       id:
         type: integer
+      imageUrl:
+        type: string
       information:
         type: string
       isActive:
@@ -432,6 +440,7 @@ definitions:
     required:
     - description
     - id
+    - imageUrl
     - information
     - name
     - price

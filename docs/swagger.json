@@ -2124,6 +2124,7 @@
             "type": "object",
             "required": [
                 "description",
+                "imageUrl",
                 "information",
                 "name",
                 "price",
@@ -2131,6 +2132,9 @@
             ],
             "properties": {
                 "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "information": {
@@ -2154,12 +2158,16 @@
             "type": "object",
             "required": [
                 "description",
+                "imageUrl",
                 "information",
                 "name",
                 "price"
             ],
             "properties": {
                 "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
                     "type": "string"
                 },
                 "information": {
@@ -2241,6 +2249,7 @@
             "required": [
                 "description",
                 "id",
+                "imageUrl",
                 "information",
                 "name",
                 "price",
@@ -2252,6 +2261,9 @@
                 },
                 "id": {
                     "type": "integer"
+                },
+                "imageUrl": {
+                    "type": "string"
                 },
                 "information": {
                     "type": "string"
