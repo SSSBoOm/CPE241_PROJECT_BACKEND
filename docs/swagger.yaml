@@ -8,6 +8,46 @@ definitions:
     x-enum-varnames:
     - MALE
     - FEMALE
+  domain.MAINTENANCE:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      maintenanceLog:
+        items:
+          $ref: '#/definitions/domain.MAINTENANCE_LOG'
+        type: array
+      room:
+        $ref: '#/definitions/domain.ROOM'
+      staffId:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  domain.MAINTENANCE_LOG:
+    properties:
+      createdAt:
+        type: string
+      date:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      staff:
+        $ref: '#/definitions/domain.User'
+      staffId:
+        type: string
+      status:
+        $ref: '#/definitions/domain.MAINTENANCE_LOG_STATUS'
+      updatedAt:
+        type: string
+    type: object
   domain.MAINTENANCE_LOG_STATUS:
     enum:
     - CASE_OPEN
@@ -43,6 +83,34 @@ definitions:
       updatedAt:
         type: string
     type: object
+  domain.Payment:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      paymentFirstName:
+        type: string
+      paymentLastName:
+        type: string
+      paymentNumber:
+        type: string
+      paymentType:
+        $ref: '#/definitions/domain.PaymentType'
+      updatedAt:
+        type: string
+      userId:
+        type: string
+    type: object
+  domain.PaymentType:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   domain.PrefixType:
     enum:
     - MR
@@ -55,6 +123,41 @@ definitions:
     - MRS
     - MS
     - DEFAULT
+  domain.RESERVATION:
+    properties:
+      createdAt:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      paymentDate:
+        type: string
+      paymentInfo:
+        $ref: '#/definitions/domain.Payment'
+      price:
+        type: number
+      room:
+        $ref: '#/definitions/domain.ROOM'
+      service:
+        $ref: '#/definitions/domain.SERVICE'
+      staff:
+        $ref: '#/definitions/domain.User'
+      staffId:
+        type: string
+      startDate:
+        type: string
+      status:
+        $ref: '#/definitions/domain.RESERVATION_STATUS'
+      type:
+        $ref: '#/definitions/domain.RESERVATION_TYPE'
+      updatedAt:
+        type: string
+      user:
+        $ref: '#/definitions/domain.User'
+      userId:
+        type: string
+    type: object
   domain.RESERVATION_STATUS:
     enum:
     - WAITING_APPROVE_PAYMENT
@@ -75,6 +178,25 @@ definitions:
     - RESERVATION_STATUS_WAITING_CHECKED_OUT
     - RESERVATION_STATUS_SUCCESS
     - RESERVATION_STATUS_CANCELED
+  domain.RESERVATION_TASK:
+    properties:
+      createdAt:
+        type: string
+      date:
+        type: string
+      id:
+        type: integer
+      reservation:
+        $ref: '#/definitions/domain.RESERVATION'
+      staff:
+        $ref: '#/definitions/domain.User'
+      staffId:
+        type: string
+      status:
+        type: boolean
+      updatedAt:
+        type: string
+    type: object
   domain.RESERVATION_TYPE:
     enum:
     - ROOM
@@ -122,6 +244,13 @@ definitions:
       success:
         type: boolean
     type: object
+  domain.Role:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   domain.RoomType:
     properties:
       accommodate:
@@ -148,6 +277,79 @@ definitions:
         type: array
       size:
         type: integer
+      updateAt:
+        type: string
+    type: object
+  domain.SERVICE:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      information:
+        type: string
+      isActive:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: number
+      serviceType:
+        $ref: '#/definitions/domain.SERVICE_TYPE'
+      updateAt:
+        type: string
+    type: object
+  domain.SERVICE_TYPE:
+    properties:
+      createdAt:
+        type: string
+      detail:
+        type: string
+      id:
+        type: integer
+      isActive:
+        type: boolean
+      name:
+        type: string
+      service:
+        items:
+          $ref: '#/definitions/domain.SERVICE'
+        type: array
+      updateAt:
+        type: string
+    type: object
+  domain.User:
+    properties:
+      address:
+        type: string
+      createdAt:
+        type: string
+      dob:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      gender:
+        $ref: '#/definitions/domain.GenderType'
+      id:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      prefix:
+        $ref: '#/definitions/domain.PrefixType'
+      profileUrl:
+        type: string
+      reservation:
+        items:
+          $ref: '#/definitions/domain.RESERVATION'
+        type: array
       updateAt:
         type: string
     type: object
@@ -641,7 +843,11 @@ paths:
           $ref: '#/definitions/payload.UpdateUserRoleDTO'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       security:
       - ApiKeyAuth: []
       summary: Update role by user id
@@ -654,7 +860,13 @@ paths:
       description: Get all staff
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.User'
+            type: array
       security:
       - ApiKeyAuth: []
       summary: Get all staff
@@ -667,7 +879,13 @@ paths:
       description: Get all user
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.User'
+            type: array
       security:
       - ApiKeyAuth: []
       summary: Get all user
@@ -686,7 +904,11 @@ paths:
           $ref: '#/definitions/payload.UpdateUserDTO'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       security:
       - ApiKeyAuth: []
       summary: Update user by id
@@ -705,7 +927,11 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.User'
       security:
       - ApiKeyAuth: []
       summary: Get user by id
@@ -775,7 +1001,13 @@ paths:
       description: GetAll Maintenance
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.MAINTENANCE'
+            type: array
       security:
       - ApiKeyAuth: []
       summary: GetAll Maintenance
@@ -826,7 +1058,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.MAINTENANCE'
       security:
       - ApiKeyAuth: []
       summary: GetByID Maintenance
@@ -897,7 +1129,13 @@ paths:
       description: GetAll Payment Type
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.PaymentType'
+            type: array
       security:
       - ApiKeyAuth: []
       summary: GetAll Payment Type
@@ -916,7 +1154,11 @@ paths:
           $ref: '#/definitions/payload.PaymentTypeCreateDTO'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       security:
       - ApiKeyAuth: []
       summary: Create Payment Type
@@ -940,7 +1182,11 @@ paths:
           $ref: '#/definitions/payload.PaymentTypeUpdateDTO'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       security:
       - ApiKeyAuth: []
       summary: Update Payment Type
@@ -959,7 +1205,11 @@ paths:
         type: integer
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.PaymentType'
       security:
       - ApiKeyAuth: []
       summary: GetByID Payment Type
@@ -975,7 +1225,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.PROMOTION_PRICE'
+            type: array
       summary: Get all promotion prices
       tags:
       - promotion_price
@@ -995,7 +1247,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.PROMOTION_PRICE'
       summary: Create promotion price
       tags:
       - promotion_price
@@ -1015,7 +1267,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.PROMOTION_PRICE'
       summary: Get promotion price by ID
       tags:
       - promotion_price
@@ -1030,7 +1282,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.RESERVATION'
+            type: array
       summary: Get all reservation
       tags:
       - reservation
@@ -1072,7 +1326,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.RESERVATION'
       summary: Get reservation by id
       tags:
       - reservation
@@ -1093,7 +1347,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.RESERVATION'
+            type: array
       summary: Get reservation by user id
       tags:
       - reservation
@@ -1180,7 +1436,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.RESERVATION'
+            type: array
       summary: Get reservation by reservation type
       tags:
       - reservation
@@ -1201,7 +1459,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.RESERVATION_TASK'
+            type: array
       security:
       - ApiKeyAuth: []
       summary: Get all reservation task
@@ -1257,7 +1517,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.RESERVATION_TASK'
       security:
       - ApiKeyAuth: []
       summary: Get reservation task by reservation id
@@ -1328,7 +1588,15 @@ paths:
       description: Get all roles
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Role'
+            type: array
+      security:
+      - ApiKeyAuth: []
       summary: Get all roles
       tags:
       - role
@@ -1339,7 +1607,13 @@ paths:
       description: Get all rooms
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.ROOM'
+            type: array
       summary: Get all rooms
       tags:
       - room
@@ -1360,7 +1634,7 @@ paths:
         "201":
           description: Created
           schema:
-            type: string
+            $ref: '#/definitions/domain.Response'
       summary: Create room
       tags:
       - room
@@ -1377,7 +1651,11 @@ paths:
         type: integer
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.ROOM'
       summary: Get room by id
       tags:
       - room
@@ -1399,7 +1677,11 @@ paths:
           $ref: '#/definitions/domain.ROOM'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       summary: Update room
       tags:
       - room
@@ -1422,7 +1704,11 @@ paths:
           $ref: '#/definitions/payload.RoomUpdateRoomIsActiveDTO'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       summary: Update room is active
       tags:
       - room
@@ -1437,7 +1723,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.RoomType'
+            type: array
       summary: Get all room types
       tags:
       - room_type
@@ -1500,7 +1788,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.RoomType'
       summary: Get room type by id
       tags:
       - room_type
@@ -1559,7 +1847,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.SERVICE'
+            type: array
       summary: Get all services
       tags:
       - service
@@ -1619,7 +1909,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.SERVICE'
       summary: Get service by ID
       tags:
       - service
@@ -1654,7 +1944,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            items:
+              $ref: '#/definitions/domain.SERVICE_TYPE'
+            type: array
       summary: Get all service types
       tags:
       - service_type
@@ -1719,7 +2011,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/domain.SERVICE_TYPE'
       summary: Get service type by ID
       tags:
       - service_type
@@ -1758,7 +2050,11 @@ paths:
           $ref: '#/definitions/payload.UpdateUserInformationDTO'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Response'
       security:
       - ApiKeyAuth: []
       summary: Update user information
@@ -1771,7 +2067,11 @@ paths:
       description: Get user information
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.User'
       security:
       - ApiKeyAuth: []
       summary: Get user information
@@ -1784,7 +2084,13 @@ paths:
       description: Get payment by user id
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Payment'
+            type: array
       security:
       - ApiKeyAuth: []
       summary: Get payment by user id

@@ -44,7 +44,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/admin/manage/staff": {
@@ -65,7 +72,17 @@ const docTemplate = `{
                     "manage"
                 ],
                 "summary": "Get all staff",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.User"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/admin/manage/user": {
@@ -86,7 +103,17 @@ const docTemplate = `{
                     "manage"
                 ],
                 "summary": "Get all user",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.User"
+                            }
+                        }
+                    }
+                }
             },
             "put": {
                 "security": [
@@ -116,7 +143,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/admin/manage/user/{id}": {
@@ -146,7 +180,14 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.User"
+                        }
+                    }
+                }
             }
         },
         "/api/auth/google": {
@@ -254,7 +295,17 @@ const docTemplate = `{
                     "Maintenance"
                 ],
                 "summary": "GetAll Maintenance",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.MAINTENANCE"
+                            }
+                        }
+                    }
+                }
             },
             "post": {
                 "security": [
@@ -332,7 +383,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.MAINTENANCE"
                         }
                     }
                 }
@@ -448,7 +499,17 @@ const docTemplate = `{
                     "PaymentType"
                 ],
                 "summary": "GetAll Payment Type",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.PaymentType"
+                            }
+                        }
+                    }
+                }
             },
             "put": {
                 "security": [
@@ -485,7 +546,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             },
             "post": {
                 "security": [
@@ -515,7 +583,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/payment_type/{id}": {
@@ -545,7 +620,14 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.PaymentType"
+                        }
+                    }
+                }
             }
         },
         "/api/promotion_price": {
@@ -564,7 +646,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.PROMOTION_PRICE"
+                            }
                         }
                     }
                 }
@@ -595,7 +680,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.PROMOTION_PRICE"
                         }
                     }
                 }
@@ -626,7 +711,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.PROMOTION_PRICE"
                         }
                     }
                 }
@@ -649,7 +734,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.RESERVATION"
+                            }
                         }
                     }
                 }
@@ -713,7 +801,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.RESERVATION"
+                            }
                         }
                     }
                 }
@@ -847,7 +938,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.RESERVATION"
+                            }
                         }
                     }
                 }
@@ -879,7 +973,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.RESERVATION"
                         }
                     }
                 }
@@ -916,7 +1010,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.RESERVATION_TASK"
+                            }
                         }
                     }
                 }
@@ -1096,7 +1193,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.RESERVATION_TASK"
                         }
                     }
                 }
@@ -1104,6 +1201,11 @@ const docTemplate = `{
         },
         "/api/role": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get all roles",
                 "consumes": [
                     "application/json"
@@ -1115,7 +1217,17 @@ const docTemplate = `{
                     "role"
                 ],
                 "summary": "Get all roles",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Role"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/room": {
@@ -1131,7 +1243,17 @@ const docTemplate = `{
                     "room"
                 ],
                 "summary": "Get all rooms",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.ROOM"
+                            }
+                        }
+                    }
+                }
             },
             "post": {
                 "description": "Create room",
@@ -1160,7 +1282,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/domain.Response"
                         }
                     }
                 }
@@ -1197,7 +1319,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/room/{id}": {
@@ -1222,7 +1351,14 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ROOM"
+                        }
+                    }
+                }
             },
             "put": {
                 "description": "Update room",
@@ -1254,7 +1390,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/room_type": {
@@ -1274,7 +1417,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.RoomType"
+                            }
                         }
                     }
                 }
@@ -1404,7 +1550,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.RoomType"
                         }
                     }
                 }
@@ -1461,7 +1607,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.SERVICE"
+                            }
                         }
                     }
                 }
@@ -1587,7 +1736,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.SERVICE"
                         }
                     }
                 }
@@ -1609,7 +1758,10 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.SERVICE_TYPE"
+                            }
                         }
                     }
                 }
@@ -1742,7 +1894,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Response"
+                            "$ref": "#/definitions/domain.SERVICE_TYPE"
                         }
                     }
                 }
@@ -1777,7 +1929,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/user/me": {
@@ -1798,7 +1957,14 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Get user information",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.User"
+                        }
+                    }
+                }
             }
         },
         "/api/user/payment": {
@@ -1819,7 +1985,17 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "Get payment by user id",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.Payment"
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -1834,6 +2010,67 @@ const docTemplate = `{
                 "MALE",
                 "FEMALE"
             ]
+        },
+        "domain.MAINTENANCE": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "maintenanceLog": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.MAINTENANCE_LOG"
+                    }
+                },
+                "room": {
+                    "$ref": "#/definitions/domain.ROOM"
+                },
+                "staffId": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.MAINTENANCE_LOG": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "staff": {
+                    "$ref": "#/definitions/domain.User"
+                },
+                "staffId": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/domain.MAINTENANCE_LOG_STATUS"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
         },
         "domain.MAINTENANCE_LOG_STATUS": {
             "type": "string",
@@ -1884,6 +2121,49 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.Payment": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "paymentFirstName": {
+                    "type": "string"
+                },
+                "paymentLastName": {
+                    "type": "string"
+                },
+                "paymentNumber": {
+                    "type": "string"
+                },
+                "paymentType": {
+                    "$ref": "#/definitions/domain.PaymentType"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.PaymentType": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.PrefixType": {
             "type": "string",
             "enum": [
@@ -1898,6 +2178,59 @@ const docTemplate = `{
                 "MS",
                 "DEFAULT"
             ]
+        },
+        "domain.RESERVATION": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "endDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "paymentDate": {
+                    "type": "string"
+                },
+                "paymentInfo": {
+                    "$ref": "#/definitions/domain.Payment"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "room": {
+                    "$ref": "#/definitions/domain.ROOM"
+                },
+                "service": {
+                    "$ref": "#/definitions/domain.SERVICE"
+                },
+                "staff": {
+                    "$ref": "#/definitions/domain.User"
+                },
+                "staffId": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/domain.RESERVATION_STATUS"
+                },
+                "type": {
+                    "$ref": "#/definitions/domain.RESERVATION_TYPE"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/domain.User"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
         },
         "domain.RESERVATION_STATUS": {
             "type": "string",
@@ -1921,6 +2254,35 @@ const docTemplate = `{
                 "RESERVATION_STATUS_SUCCESS",
                 "RESERVATION_STATUS_CANCELED"
             ]
+        },
+        "domain.RESERVATION_TASK": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "reservation": {
+                    "$ref": "#/definitions/domain.RESERVATION"
+                },
+                "staff": {
+                    "$ref": "#/definitions/domain.User"
+                },
+                "staffId": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
         },
         "domain.RESERVATION_TYPE": {
             "type": "string",
@@ -1992,6 +2354,17 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.Role": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.RoomType": {
             "type": "object",
             "properties": {
@@ -2030,6 +2403,117 @@ const docTemplate = `{
                 },
                 "size": {
                     "type": "integer"
+                },
+                "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.SERVICE": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "information": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "serviceType": {
+                    "$ref": "#/definitions/domain.SERVICE_TYPE"
+                },
+                "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.SERVICE_TYPE": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "detail": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isActive": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.SERVICE"
+                    }
+                },
+                "updateAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.User": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "gender": {
+                    "$ref": "#/definitions/domain.GenderType"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "prefix": {
+                    "$ref": "#/definitions/domain.PrefixType"
+                },
+                "profileUrl": {
+                    "type": "string"
+                },
+                "reservation": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.RESERVATION"
+                    }
                 },
                 "updateAt": {
                     "type": "string"
