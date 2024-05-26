@@ -28,7 +28,7 @@ func NewPromotionPriceController(validate domain.ValidatorUsecase, promotionPric
 // @Tags promotion_price
 // @Accept json
 // @Produce json
-// @Response 200 {object} domain.Response
+// @Response 200 {object} []domain.PROMOTION_PRICE
 // @Router /api/promotion_price [get]
 func (c *promotionPriceController) GetAll(ctx *fiber.Ctx) error {
 	promotionPrices, err := c.promotionPriceUsecase.GetAll()
@@ -52,7 +52,7 @@ func (c *promotionPriceController) GetAll(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Promotion Price ID"
-// @Response 200 {object} domain.Response
+// @Response 200 {object} domain.PROMOTION_PRICE
 // @Router /api/promotion_price/{id} [get]
 func (c *promotionPriceController) GetByID(ctx *fiber.Ctx) error {
 	id, err := ctx.ParamsInt("id")
@@ -84,7 +84,7 @@ func (c *promotionPriceController) GetByID(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param promotion_price body payload.PromotionPriceCreateDTO true "Promotion Price"
-// @Response 201 {object} domain.Response
+// @Response 201 {object} domain.PROMOTION_PRICE
 // @Router /api/promotion_price [post]
 func (c *promotionPriceController) Create(ctx *fiber.Ctx) error {
 	var body payload.PromotionPriceCreateDTO

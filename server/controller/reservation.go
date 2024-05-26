@@ -34,7 +34,7 @@ func NewReservationController(validator domain.ValidatorUsecase, reservationUsec
 // @Tags reservation
 // @Accept json
 // @Produce json
-// @Success 200 {object} domain.Response
+// @Success 200 {object} []domain.RESERVATION
 // @Router /api/reservation [get]
 func (c *reservationController) GetAll(ctx *fiber.Ctx) error {
 	data, err := c.reservationUsecase.GetAll()
@@ -59,7 +59,7 @@ func (c *reservationController) GetAll(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path string true "Reservation ID"
-// @Success 200 {object} domain.Response
+// @Success 200 {object} domain.RESERVATION
 // @Router /api/reservation/{id} [get]
 func (c *reservationController) GetByID(ctx *fiber.Ctx) error {
 	param := ctx.Params("id")
@@ -144,7 +144,7 @@ func (c *reservationController) CreateReservation(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param user_id path string true "User ID"
-// @Success 200 {object} domain.Response
+// @Success 200 {object} []domain.RESERVATION
 // @Router /api/reservation/me [get]
 func (c *reservationController) GetReservationByUserID(ctx *fiber.Ctx) error {
 	userID := ctx.Locals(constant.CTX_USER_ID).(string)
@@ -171,7 +171,7 @@ func (c *reservationController) GetReservationByUserID(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param type path string true "Reservation Type"
-// @Success 200 {object} domain.Response
+// @Success 200 {object} []domain.RESERVATION
 // @Router /api/reservation/type/{type} [get]
 func (c *reservationController) GetReservationByReservationType(ctx *fiber.Ctx) error {
 	param := ctx.Params("type")

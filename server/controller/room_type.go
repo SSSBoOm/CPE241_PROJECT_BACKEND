@@ -27,7 +27,7 @@ func NewRoomTypeController(validator domain.ValidatorUsecase, roomTypeUsecase do
 // @Tags									room_type
 // @Accept								json
 // @produce								json
-// @Response 200 {object} domain.Response
+// @Response 200 {object} []domain.RoomType
 // @Router /api/room_type	[get]
 func (c *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 	roomTypeList, err := c.roomTypeUsecase.GetAll()
@@ -51,7 +51,7 @@ func (c *RoomTypeController) GetRoomTypeList(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									id path int true "Room Type ID"
-// @Response 200 {object} domain.Response
+// @Response 200 {object} domain.RoomType
 // @Router /api/room_type/{id}	[get]
 func (c *RoomTypeController) GetRoomTypeByID(ctx *fiber.Ctx) error {
 	roomTypeID, err := strconv.Atoi(ctx.Params("id"))

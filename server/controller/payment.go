@@ -38,7 +38,7 @@ func (c *PaymentController) AddPaymentByUser(ctx *fiber.Ctx) error {
 	if err := c.validator.ValidateBody(ctx, &body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: "Invalid request",
+			MESSAGE: constant.MESSAGE_INVALID_BODY,
 		})
 	}
 
@@ -56,12 +56,12 @@ func (c *PaymentController) AddPaymentByUser(ctx *fiber.Ctx) error {
 		fmt.Println(err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: "Internal server error",
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
 		})
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "OK",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 	})
 }

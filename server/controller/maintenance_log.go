@@ -60,7 +60,7 @@ func (c *maintenanceLogController) Create(ctx *fiber.Ctx) error {
 	if err := c.maintenanceLogUsecase.Create(data); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(domain.Response{
 			SUCCESS: false,
-			MESSAGE: err.Error(),
+			MESSAGE: constant.MESSAGE_INTERNAL_SERVER_ERROR,
 		})
 	}
 

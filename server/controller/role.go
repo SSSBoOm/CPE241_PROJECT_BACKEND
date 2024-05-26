@@ -22,6 +22,8 @@ func NewRoleController(roleUsecase domain.RoleUsecase) *RoleController {
 // @Tags									role
 // @Accept								json
 // @produce								json
+// @Security							ApiKeyAuth
+// @Response							200 {object} []domain.Role
 // @Router /api/role			[get]
 func (role *RoleController) GetALL(c *fiber.Ctx) error {
 	roles, err := role.roleUsecase.GetAll()

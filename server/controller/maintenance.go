@@ -29,6 +29,7 @@ func NewMaintenanceController(validator domain.ValidatorUsecase, maintenanceUsec
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
+// @Response 200 {object} []domain.MAINTENANCE
 // @Router /api/maintenance [get]
 func (c *maintenanceController) GetAll(ctx *fiber.Ctx) error {
 	maintenances, err := c.maintenanceUsecase.GetAll()
@@ -54,7 +55,7 @@ func (c *maintenanceController) GetAll(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									id path string true "ID"
-// @Response 200 {object} domain.Response
+// @Response 200 {object} domain.MAINTENANCE
 // @Router /api/maintenance/{id} [get]
 func (c *maintenanceController) GetByID(ctx *fiber.Ctx) error {
 	id, err := strconv.Atoi(ctx.Params("id"))

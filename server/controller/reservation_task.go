@@ -29,7 +29,7 @@ func NewReservationTaskController(validator domain.ValidatorUsecase, reservation
 // @Produce json
 // @Security ApiKeyAuth
 // @Param ssid header string true "Session ID"
-// @Success 200 {object} domain.Response
+// @Success 200 {object} []domain.RESERVATION_TASK
 // @Router /api/reservation_task [get]
 func (r *ReservationTaskController) GetAllReservationTask(ctx *fiber.Ctx) error {
 	data, err := r.reservationTaskUseCase.GetAll()
@@ -93,7 +93,7 @@ func (r *ReservationTaskController) CreateReservationTask(ctx *fiber.Ctx) error 
 // @Security ApiKeyAuth
 // @Param ssid header string true "Session ID"
 // @Param reservation_id path string true "Reservation ID"
-// @Success 200 {object} domain.Response
+// @Success 200 {object} domain.RESERVATION_TASK
 // @Router /api/reservation_task/{reservation_id} [get]
 func (r *ReservationTaskController) GetReservationTaskByReservationID(ctx *fiber.Ctx) error {
 	param := ctx.Params("reservation_id")

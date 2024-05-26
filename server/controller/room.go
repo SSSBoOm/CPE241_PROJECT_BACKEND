@@ -28,6 +28,7 @@ func NewRoomController(validator domain.ValidatorUsecase, roomUsecase domain.Roo
 // @Tags									room
 // @Accept								json
 // @produce								json
+// @Response							200 {object} []domain.ROOM
 // @Router /api/room	[get]
 func (c *roomController) GetAll(ctx *fiber.Ctx) error {
 	rooms, err := c.roomUsecase.GetAll()
@@ -53,6 +54,7 @@ func (c *roomController) GetAll(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									id path int true "Room ID"
+// @Response							200 {object} domain.ROOM
 // @Router /api/room/{id}	[get]
 func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 	id, err := strconv.Atoi(ctx.Params("id"))
@@ -89,7 +91,7 @@ func (c *roomController) GetByID(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Param									room body payload.RoomCreateDTO true "Room"
-// @Response							201 {string} string "Created"
+// @Response							201 {object} domain.Response
 // @Router /api/room	[post]
 func (c *roomController) Create(ctx *fiber.Ctx) error {
 	var body payload.RoomCreateDTO
@@ -127,6 +129,7 @@ func (c *roomController) Create(ctx *fiber.Ctx) error {
 // @produce								json
 // @Param									id path int true "Room ID"
 // @Param									room body domain.ROOM true "Room"
+// @Response							200 {object} domain.Response
 // @Router /api/room/{id}	[put]
 func (c *roomController) Update(ctx *fiber.Ctx) error {
 	id, err := strconv.Atoi(ctx.Params("id"))
@@ -173,6 +176,7 @@ func (c *roomController) Update(ctx *fiber.Ctx) error {
 // @produce								json
 // @Param									id path int true "Room ID"
 // @Param									isActive body payload.RoomUpdateRoomIsActiveDTO true "Is Active"
+// @Response							200 {object} domain.Response
 // @Router /api/room/active [post]
 func (c *roomController) UpdateIsActive(ctx *fiber.Ctx) error {
 	var body payload.RoomUpdateRoomIsActiveDTO

@@ -29,6 +29,7 @@ func NewPaymentTypeController(validator domain.ValidatorUsecase, paymentTypeUsec
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
+// @Response							200 {object} []domain.PaymentType
 // @Router /api/payment_type [get]
 func (p *PaymentTypeController) GetAll(ctx *fiber.Ctx) error {
 	paymentTypes, err := p.paymentTypeUsecase.GetAll()
@@ -54,6 +55,7 @@ func (p *PaymentTypeController) GetAll(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									id path int true "Payment Type ID"
+// @Response							200 {object} domain.PaymentType
 // @Router /api/payment_type/{id} [get]
 func (p *PaymentTypeController) GetByID(ctx *fiber.Ctx) error {
 	param := ctx.Params("id")
@@ -87,6 +89,7 @@ func (p *PaymentTypeController) GetByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									name body payload.PaymentTypeCreateDTO true "Payment Type Name"
+// @Response							200 {object} domain.Response
 // @Router /api/payment_type [post]
 func (c *PaymentTypeController) Create(ctx *fiber.Ctx) error {
 	var body payload.PaymentTypeCreateDTO
@@ -123,6 +126,7 @@ func (c *PaymentTypeController) Create(ctx *fiber.Ctx) error {
 // @Security							ApiKeyAuth
 // @Param									id path int true "Payment Type ID"
 // @Param									name body payload.PaymentTypeUpdateDTO true "Payment Type Name"
+// @Response							200 {object} domain.Response
 // @Router /api/payment_type [put]
 func (c *PaymentTypeController) Update(ctx *fiber.Ctx) error {
 	var body payload.PaymentTypeUpdateDTO

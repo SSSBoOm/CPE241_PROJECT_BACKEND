@@ -28,7 +28,7 @@ func NewServiceController(validate domain.ValidatorUsecase, serviceUsecase domai
 // @Tags service
 // @Accept json
 // @Produce json
-// @Response 200 {object} domain.Response
+// @Response 200 {object} []domain.SERVICE
 // @Router /api/service [get]
 func (c *serviceController) GetAll(ctx *fiber.Ctx) error {
 	services, err := c.serviceUsecase.GetAll()
@@ -52,7 +52,7 @@ func (c *serviceController) GetAll(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Service ID"
-// @Response 200 {object} domain.Response
+// @Response 200 {object} domain.SERVICE
 // @Router /api/service/{id} [get]
 func (c *serviceController) GetByID(ctx *fiber.Ctx) error {
 	id, err := ctx.ParamsInt("id")

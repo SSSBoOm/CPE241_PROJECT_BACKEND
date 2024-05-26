@@ -32,6 +32,7 @@ func NewUserController(validator domain.ValidatorUsecase, userUsecase domain.Use
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
+// @Response 200 {object} domain.User
 // @Router /api/user/me	[get]
 func (u *UserController) Me(ctx *fiber.Ctx) error {
 	id := ctx.Locals(constant.CTX_USER_ID).(string)
@@ -64,6 +65,7 @@ func (u *UserController) Me(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									id path	string true	"User ID"
+// @Response 200 {object} domain.User
 // @Router /api/admin/manage/user/{id}	[get]
 func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 	id := ctx.Params("id")
@@ -82,7 +84,7 @@ func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "OK",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 		DATA:    user,
 	})
 }
@@ -95,6 +97,7 @@ func (u *UserController) GetByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									payload body	payload.UpdateUserDTO true "Payload"
+// @Response 200 {object} domain.Response
 // @Router /api/admin/manage/user	[put]
 func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserDTO
@@ -127,7 +130,7 @@ func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "OK",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 	})
 }
 
@@ -139,6 +142,7 @@ func (u *UserController) UpdateByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									payload body	payload.UpdateUserRoleDTO true "Payload"
+// @Response 200 {object} domain.Response
 // @Router /api/admin/manage/role	[put]
 func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserRoleDTO
@@ -160,7 +164,7 @@ func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "OK",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 	})
 }
 
@@ -172,6 +176,7 @@ func (u *UserController) UpdateRoleByID(ctx *fiber.Ctx) error {
 // @produce								json
 // @Security							ApiKeyAuth
 // @Param									payload body	payload.UpdateUserInformationDTO true "Payload"
+// @Response 200 {object} domain.Response
 // @Router /api/user/			[patch]
 func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 	var body payload.UpdateUserInformationDTO
@@ -202,7 +207,7 @@ func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "OK",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 	})
 }
 
@@ -213,6 +218,7 @@ func (u *UserController) UpdateInfomationByID(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
+// @Response 200 {object} []domain.Payment
 // @Router /api/user/payment	[get]
 func (u *UserController) GetPaymentByUserID(ctx *fiber.Ctx) error {
 	id := ctx.Locals(constant.CTX_USER_ID).(string)
@@ -226,7 +232,7 @@ func (u *UserController) GetPaymentByUserID(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(domain.Response{
 		SUCCESS: true,
-		MESSAGE: "OK",
+		MESSAGE: constant.MESSAGE_SUCCESS,
 		DATA:    payments,
 	})
 }
@@ -238,6 +244,7 @@ func (u *UserController) GetPaymentByUserID(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
+// @Response 200 {object} []domain.User
 // @Router /api/admin/manage/user	[get]
 func (u *UserController) GetALL(ctx *fiber.Ctx) error {
 	users, err := u.userUsecase.GetAll()
@@ -276,6 +283,7 @@ func (u *UserController) GetALL(ctx *fiber.Ctx) error {
 // @Accept								json
 // @produce								json
 // @Security							ApiKeyAuth
+// @Response 200 {object} []domain.User
 // @Router /api/admin/manage/staff	[get]
 func (u *UserController) GetAllStaff(ctx *fiber.Ctx) error {
 	users, err := u.userUsecase.GetAllByRoleId(2)

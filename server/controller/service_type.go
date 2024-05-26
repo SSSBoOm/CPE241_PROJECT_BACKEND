@@ -24,7 +24,7 @@ func NewServiceTypeController(validate domain.ValidatorUsecase, serviceTypeServi
 // @Tags service_type
 // @Accept json
 // @Produce json
-// @Response 200 {object} domain.Response
+// @Response 200 {object} []domain.SERVICE_TYPE
 // @Router /api/service_type [get]
 func (c *serviceTypeController) GetAll(ctx *fiber.Ctx) error {
 	services, err := c.serviceTypeService.GetAll()
@@ -48,7 +48,7 @@ func (c *serviceTypeController) GetAll(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Service Type ID"
-// @Response 200 {object} domain.Response
+// @Response 200 {object} domain.SERVICE_TYPE
 // @Router /api/service_type/{id} [get]
 func (c *serviceTypeController) GetByID(ctx *fiber.Ctx) error {
 	id, err := ctx.ParamsInt("id")
